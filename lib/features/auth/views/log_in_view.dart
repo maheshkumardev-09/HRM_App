@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
+import 'package:hrm_app/features/auth/controllers/auth_controllr.dart';
+import 'package:hrm_app/routes/app_routes.dart';
 
 class LogInView extends StatelessWidget {
   LogInView({super.key});
-  final TextEditingController emailControllr = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final _authController = Get.find<AuthControllr>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +21,9 @@ class LogInView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 60.h),
-              Image.asset(
-                'assets/logo/app_logo.png',
-                width: 120.w,
-                height: 160.h,
-              ),
-              SizedBox(height: 60.h),
+              AppSpacing.vertical60,
+              Image.asset(AppImages.logo, width: 120.w, height: 160.h),
+              AppSpacing.vertical60,
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(16.w),
@@ -39,34 +38,81 @@ class LogInView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'WelCome Back',
+                      'Welcome Back',
                       style: TextStyle(
                         fontSize: 28.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 16.h),
+                    AppSpacing.vertical10,
                     Text(
-                      'Please in to Sign your account',
+                      'Please Sign in to your account',
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: Colors.grey.shade500,
                       ),
                     ),
-                    SizedBox(height: 30.h),
-                    CustomTextFiled('Email', controller: emailControllr, obscureText: false,),
-                    AppSpacing.mani,
+                    AppSpacing.vertical30,
                     CustomTextFiled(
-                      'passwod',
-                      controller: passwordController,
-                      obscureText:true,
-                      suffixIcon: Icon(Icons.visibility),
+                      label: 'Email',
+                      controller: _authController.emailController,
                     ),
-                    AppSpacing.mani,
+                    AppSpacing.vertical20,
+                    Obx(
+                      () => CustomTextFiled(
+                        hidepassword: _authController.isPassword.value,
+                        label: 'passwod',
+                        controller: _authController.passwordController,
+                        suffixIcon: IconButton(
+                          onPressed: () => _authController.passwordToggle(),
+                          icon: _authController.isPassword.value
+                              ? Icon(Icons.visibility)
+                              : Icon(Icons.visibility_off),
+                        ),
+                      ),
+                    ),
+                    AppSpacing.vertical10,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        child: Text(
+                          'Forgot Password',
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    AppSpacing.vertical20,
                     SizedBox(
                       width: 350.w,
                       height: 40.h,
-                      child: CustomButton(title: 'LogIn', onTap: () {}),
+                      child: CustomButton(
+                        title: 'Login',
+                        onTap: () => _authController.logIn(),
+                      ),
+                    ),
+                    AppSpacing.vertical30,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('I don\'t have a account? '),
+                        GestureDetector(
+                          onTap: () => Get.toNamed(AppRoutes.signupview),
+                          child: Text(
+                            'Signup',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primaryColor,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppColors.primaryColor,
+                              decorationThickness: 2,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

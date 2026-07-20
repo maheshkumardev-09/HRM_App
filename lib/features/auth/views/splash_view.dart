@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/routes/app_routes.dart';
 
@@ -17,7 +18,7 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
-      Get.offAllNamed(AppRoutes.loginview);
+      Get.offAllNamed(AppRoutes.navbar);
     });
   }
 
@@ -27,7 +28,7 @@ class _SplashViewState extends State<SplashView> {
       backgroundColor: AppColors.white,
       body: Center(
         child: Image.asset(
-          'assets/logo/app_logo.png',
+          AppImages.logo,
           width: double.infinity,
           height: double.infinity,
         ),
