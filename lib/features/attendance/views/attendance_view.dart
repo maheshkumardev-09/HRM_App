@@ -23,7 +23,7 @@ class AttendanceView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomTitel(title: 'Attendace'),
+              CustomTitel(title: 'Attendace', ontap: () {}),
               AppSpacing.vertical20,
               Container(
                 padding: EdgeInsets.all(8.0.w),
@@ -35,10 +35,12 @@ class AttendanceView extends StatelessWidget {
                   border: Border.all(color: Colors.grey.shade400),
                 ),
                 child: Custom(
+                  onTap1: () {},
                   title: 'Select Region',
                   icon: Icons.keyboard_arrow_down,
                   title2: 'Select Sub-region',
                   icon2: Icons.keyboard_arrow_down,
+                  onTap2: () {},
                 ),
               ),
               AppSpacing.vertical20,
@@ -151,13 +153,14 @@ class AttendanceView extends StatelessWidget {
                   'My Attendance History',
                   style: TextStyle(
                     fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
               AppSpacing.vertical20,
               ListView.builder(
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: attendaceController.attendanceHistory.length,
                 itemBuilder: (context, index) {
                   final history = attendaceController.attendanceHistory[index];

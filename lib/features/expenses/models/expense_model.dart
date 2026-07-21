@@ -1,15 +1,15 @@
-class ExpensesModel {
+class ExpenseModel {
   final double amount;
-  final String title;
+  final String description;
   final String date;
   final String paidBy;
   final String status;
 
-  ExpensesModel({
+  ExpenseModel({
     required this.amount,
-    required this.title,
     required this.date,
     required this.paidBy,
     required this.status,
+    required this.description,
   });
 }

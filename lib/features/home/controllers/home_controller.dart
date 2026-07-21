@@ -39,12 +39,12 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'My Tasks',
       icon: 'assets/icon/icon6.png',
-      route: '/task',
+      route: AppRoutes.task,
     ),
     QuickActionModel(
       title: 'Projects',
       icon: 'assets/icon/icon7.png',
-      route: '/timesheet',
+      route: AppRoutes.projectview,
     ),
     QuickActionModel(
       title: 'Time off',
@@ -64,7 +64,7 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'tasks',
       icon: 'assets/icon/icon6.png',
-      route: '/document',
+      route: AppRoutes.task,
     ),
     QuickActionModel(
       title: 'Weekly Schedule',

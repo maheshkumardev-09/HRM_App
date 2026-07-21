@@ -8,6 +8,8 @@ import 'package:hrm_app/features/employees/views/employees_view.dart';
 import 'package:hrm_app/features/expenses/views/expenses_view.dart';
 import 'package:hrm_app/features/home/views/home_view.dart';
 import 'package:hrm_app/features/home/views/quick_action_view.dart';
+import 'package:hrm_app/features/projects/views/projects_views.dart';
+import 'package:hrm_app/features/projects/views/task_view.dart';
 
 class AppPages {
   static final page = [
@@ -20,5 +22,7 @@ class AppPages {
     GetPage(name: '/attendance', page: () => AttendanceView()),
     GetPage(name: '/empolyees', page: () => EmployeesView()),
     GetPage(name: '/expanses', page: () => ExpensesView()),
+    GetPage(name: '/project', page: () => ProjectsView()),
+    GetPage(name: '/task', page: () => TaskView()),
   ];
 }

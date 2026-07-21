@@ -7,6 +7,8 @@ class Custom extends StatelessWidget {
   final IconData icon;
   final String title2;
   final IconData icon2;
+  final VoidCallback? onTap1;
+  final VoidCallback? onTap2;
 
   const Custom({
     super.key,
@@ -14,6 +16,8 @@ class Custom extends StatelessWidget {
     required this.icon,
     required this.title2,
     required this.icon2,
+    required this.onTap1,
+    required this.onTap2,
   });
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class Custom extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(title, style: TextStyle(fontSize: 12.sp)),
-                GestureDetector(child: Icon(icon)),
+                GestureDetector(onTap: onTap2, child: Icon(icon)),
               ],
             ),
           ),
@@ -51,7 +55,7 @@ class Custom extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(title2, style: TextStyle(fontSize: 12.sp)),
-                GestureDetector(child: Icon(icon2)),
+                GestureDetector(onTap: onTap1, child: Icon(icon2)),
               ],
             ),
           ),

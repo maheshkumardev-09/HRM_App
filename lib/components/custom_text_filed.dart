@@ -7,6 +7,7 @@ class CustomTextFiled extends StatelessWidget {
   final TextEditingController controller;
   final bool hidepassword;
   final Widget? suffixIcon;
+  final Widget? prefixicon;
 
   const CustomTextFiled({
     super.key,
@@ -14,6 +15,7 @@ class CustomTextFiled extends StatelessWidget {
     required this.controller,
     this.hidepassword = false,
     this.suffixIcon,
+    this.prefixicon,
   });
 
   @override
@@ -25,12 +27,16 @@ class CustomTextFiled extends StatelessWidget {
         label: Text(label),
         filled: true,
         fillColor: Colors.grey.shade200,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(color: Colors.grey.shade100),
+        ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(color: AppColors.primaryColor),
         ),
         suffixIcon: suffixIcon,
+        prefixIcon: prefixicon,
       ),
     );
   }

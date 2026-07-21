@@ -21,67 +21,71 @@ class EmployeesView extends StatelessWidget {
       appBar: CustomAppBar(showMenu: false),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            CustomTitel(title: 'Employee Directory'),
-            Container(
-              padding: EdgeInsets.all(15.w),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade400),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/icon/empolyee-icon.png',
-                        width: 50.w,
-                        height: 50.h,
-                      ),
-                      AppSpacing.horizontal8,
-                      Expanded(
-                        child: Text(
-                          'Totol Employees',
-                          style: TextStyle(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w400,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomTitel(title: 'Employee Directory', ontap: () {}),
+              AppSpacing.vertical20,
+              Container(
+                padding: EdgeInsets.all(15.w),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade400),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/icon/empolyee-icon.png',
+                          width: 50.w,
+                          height: 50.h,
+                        ),
+                        AppSpacing.horizontal8,
+                        Expanded(
+                          child: Text(
+                            'Totol Employees',
+                            style: TextStyle(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        '71',
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          '71',
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  AppSpacing.vertical15,
-                  CustomTextFiled(
-                    label: 'Search',
-                    controller: searchController,
-                  ),
-                  AppSpacing.vertical15,
-                  Custom(
-                    title: 'All Departments',
-                    icon: Icons.keyboard_arrow_down,
-                    title2: 'All Job Positions',
-                    icon2: Icons.keyboard_arrow_down,
-                  ),
-                ],
+                      ],
+                    ),
+                    AppSpacing.vertical15,
+                    CustomTextFiled(
+                      label: 'Search',
+                      controller: searchController,
+                    ),
+                    AppSpacing.vertical15,
+                    Custom(
+                      onTap1: () {},
+                      title: 'All Departments',
+                      icon: Icons.keyboard_arrow_down,
+                      title2: 'All Job Positions',
+                      onTap2: () {},
+                      icon2: Icons.keyboard_arrow_down,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            AppSpacing.vertical20,
-            Obx(
-              () => Expanded(
-                child: ListView.builder(
+              AppSpacing.vertical20,
+              Obx(
+                () => ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: employeeController.employList.length,
-                  shrinkWrap: false,
                   itemBuilder: (context, index) {
                     final data = employeeController.employList[index];
                     return Padding(
@@ -145,8 +149,8 @@ class EmployeesView extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

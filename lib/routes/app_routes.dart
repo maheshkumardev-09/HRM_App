@@ -8,4 +8,6 @@ abstract class AppRoutes {
   static const attendanceview = '/attendance';
   static const empolyeesview = '/empolyees';
   static const expansesview = '/expanses';
+  static const projectview = '/project';
+  static const task = '/task';
 }
