@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hrm_app/features/attendance/controllers/attendace_controller.dart';
@@ -7,17 +8,23 @@ import 'package:hrm_app/features/employees/controllers/employees_controller.dart
 import 'package:hrm_app/features/expenses/controllers/expenses_controller.dart';
 import 'package:hrm_app/features/home/controllers/home_controller.dart';
 import 'package:hrm_app/features/projects/controllers/project_controller.dart';
+import 'package:hrm_app/features/projects/controllers/task_controller.dart';
+import 'package:hrm_app/features/time_sheets/controllers/time_sheet_controller.dart';
 import 'package:hrm_app/routes/app_pages.dart';
 import 'package:hrm_app/routes/app_routes.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Get.put(AuthControllr());
   Get.put(HomeController());
   Get.put(AttendanceController());
   Get.put(EmployeesController());
   Get.put(ExpensesController());
   Get.put(ProjectController());
+  Get.put(TaskController());
+  Get.put(TimeSheetController());
+
   runApp(const MyApp());
 }
 

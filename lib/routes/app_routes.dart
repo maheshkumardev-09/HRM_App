@@ -7,7 +7,12 @@ abstract class AppRoutes {
   static const actions = '/actions';
   static const attendanceview = '/attendance';
   static const empolyeesview = '/empolyees';
-  static const expansesview = '/expanses';
+  static const empolyeesprofileview = '/empolyeesprofile';
+
+  static const expensesview = '/expanses';
+  static const addexpensesview = '/addexpenses';
   static const projectview = '/project';
-  static const task = '/task';
+  static const taskview = '/task';
+  static const taskdetailview = '/taskdetail';
+  static const timesheetview = '/timesheet';
 }

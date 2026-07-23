@@ -6,15 +6,17 @@ import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
-import 'package:hrm_app/features/projects/controllers/project_controller.dart';
+import 'package:hrm_app/features/projects/controllers/task_controller.dart';
+import 'package:hrm_app/routes/app_routes.dart';
 
 class TaskView extends StatelessWidget {
-  final projectController = Get.find<ProjectController>();
-  final searchControlle = TextEditingController();
   TaskView({super.key});
-
+  final taskController = Get.find<TaskController>();
+  final searchControlle = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final String? projectId = Get.arguments;
+
     return Scaffold(
       appBar: CustomAppBar(showMenu: false),
       body: Padding(
@@ -152,181 +154,222 @@ class TaskView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: projectController.taskList.length,
-                itemBuilder: (context, index) {
-                  final data = projectController.taskList[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 10.h),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: Colors.grey.shade400),
-                      ),
+              Obx(() {
+                final filteredTasks = projectId != null
+                    ? taskController.getTasksByProject(projectId)
+                    : taskController.taskList;
+
+                if (filteredTasks.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 100.h),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: AppColors.primaryColor,
-                                ),
-                                width: 50.w,
-                                height: 40.h,
-                                child: Icon(
-                                  Icons.calendar_month_outlined,
-                                  size: 24.w,
-                                  color: AppColors.white,
-                                ),
-                              ),
-                              AppSpacing.horizontal10,
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '#00${data.id}',
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        AppSpacing.horizontal2,
-                                        Row(
-                                          children: List.generate(
-                                            data.priority,
-                                            (index) => Container(
-                                              margin: EdgeInsets.only(right: 4),
-                                              height: 6,
-                                              width: 6,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.primaryColor,
-                                                shape: BoxShape.circle,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    AppSpacing.vertical8,
-                                    Text(
-                                      data.title,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      maxLines: 1,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // Spacer(),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12.w,
-                                  vertical: 8.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                    color: AppColors.primaryColor,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    data.taskType,
-                                    style: TextStyle(
-                                      color: AppColors.primaryColor,
-                                      fontSize: 10.sp,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          Icon(
+                            Icons.task_outlined,
+                            size: 60.sp,
+                            color: Colors.grey.shade400,
                           ),
-                          AppSpacing.vertical10,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Assignees',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  AppSpacing.vertical8,
-                                  Text(
-                                    data.assignee,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'Total Time',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.black54,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    AppSpacing.vertical8,
-                                    Text(
-                                      data.totalTime,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    'Time Spent',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  AppSpacing.vertical8,
-                                  Text(
-                                    data.timeSpent,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          SizedBox(height: 12.h),
+                          Text(
+                            'No tasks found for this project',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.grey.shade600,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   );
-                },
-              ),
+                }
+                return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: filteredTasks.length,
+                  itemBuilder: (context, index) {
+                    final data = filteredTasks[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.taskdetailview,
+                          arguments: data.id,
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 10.h),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: Colors.grey.shade400),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: AppColors.primaryColor,
+                                    ),
+                                    width: 50.w,
+                                    height: 40.h,
+                                    child: Icon(
+                                      Icons.calendar_month_outlined,
+                                      size: 24.w,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                  AppSpacing.horizontal10,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '#00${data.id}',
+                                              style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            AppSpacing.horizontal2,
+                                            Row(
+                                              children: List.generate(
+                                                data.priority,
+                                                (index) => Container(
+                                                  margin: EdgeInsets.only(
+                                                    right: 4,
+                                                  ),
+                                                  height: 6,
+                                                  width: 6,
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        AppSpacing.vertical8,
+                                        Text(
+                                          data.title,
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          maxLines: 1,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // Spacer(),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12.w,
+                                      vertical: 8.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      data.taskType,
+                                      style: TextStyle(
+                                        color: AppColors.primaryColor,
+                                        fontSize: 10.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              AppSpacing.vertical10,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Assignees',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      AppSpacing.vertical8,
+                                      Text(
+                                        data.assignee,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Total Time',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        AppSpacing.vertical8,
+                                        Text(
+                                          data.totalTime,
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'Time Spent',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      AppSpacing.vertical8,
+                                      Text(
+                                        data.timeSpent,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }),
             ],
           ),
         ),

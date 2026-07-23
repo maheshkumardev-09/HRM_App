@@ -9,6 +9,7 @@ import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/employees/controllers/employees_controller.dart';
+import 'package:hrm_app/routes/app_routes.dart';
 
 class EmployeesView extends StatelessWidget {
   EmployeesView({super.key});
@@ -85,64 +86,72 @@ class EmployeesView extends StatelessWidget {
                 () => ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: employeeController.employList.length,
+                  itemCount: employeeController.employeeList.length,
                   itemBuilder: (context, index) {
-                    final data = employeeController.employList[index];
+                    final data = employeeController.employeeList[index];
                     return Padding(
                       padding: EdgeInsets.only(bottom: 10.h),
-                      child: Container(
-                        padding: EdgeInsets.all(10.w),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey.shade400),
-                        ),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              AppImages.profileImage,
-                              height: 60.h,
-                              width: 60.w,
-                            ),
-                            AppSpacing.horizontal10,
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data.name,
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 8.h),
-                                  padding: EdgeInsets.all(5.w),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: AppColors.primaryColor,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.empolyeesprofileview,
+                            arguments: data.id,
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10.w),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.grey.shade400),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                AppImages.profileImage,
+                                height: 60.h,
+                                width: 60.w,
+                              ),
+                              AppSpacing.horizontal10,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    data.name,
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  // width: 144,
-                                  // height: 26.h,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.business_center_outlined,
-                                        size: 20.w,
+                                  Container(
+                                    margin: EdgeInsets.only(top: 8.h),
+                                    padding: EdgeInsets.all(5.w),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: AppColors.primaryColor,
                                       ),
-                                      AppSpacing.horizontal2,
-                                      Text(
-                                        data.category,
-                                        style: TextStyle(fontSize: 12.sp),
-                                      ),
-                                    ],
+                                    ),
+                                    // width: 144,
+                                    // height: 26.h,
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.business_center_outlined,
+                                          size: 20.w,
+                                        ),
+                                        AppSpacing.horizontal2,
+                                        Text(
+                                          data.category,
+                                          style: TextStyle(fontSize: 12.sp),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

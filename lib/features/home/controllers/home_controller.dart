@@ -24,7 +24,7 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'Submit Expense',
       icon: 'assets/icon/icon3.png',
-      route: AppRoutes.expansesview,
+      route: AppRoutes.expensesview,
     ),
     QuickActionModel(
       title: 'New Request',
@@ -39,7 +39,7 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'My Tasks',
       icon: 'assets/icon/icon6.png',
-      route: AppRoutes.task,
+      route: AppRoutes.taskview,
     ),
     QuickActionModel(
       title: 'Projects',
@@ -54,17 +54,17 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'Expenses',
       icon: 'assets/icon/icon3.png',
-      route: AppRoutes.expansesview,
+      route: AppRoutes.expensesview,
     ),
     QuickActionModel(
       title: 'Time Sheets',
       icon: 'assets/icon/icon10.png',
-      route: '/violation',
+      route: AppRoutes.timesheetview,
     ),
     QuickActionModel(
       title: 'tasks',
       icon: 'assets/icon/icon6.png',
-      route: AppRoutes.task,
+      route: AppRoutes.taskview,
     ),
     QuickActionModel(
       title: 'Weekly Schedule',
