@@ -15,6 +15,8 @@ import 'package:hrm_app/features/payroll/views/payroll_view.dart';
 import 'package:hrm_app/features/projects/views/projects_views.dart';
 import 'package:hrm_app/features/projects/views/task_details_view.dart';
 import 'package:hrm_app/features/projects/views/task_view.dart';
+import 'package:hrm_app/features/sales/views/quotation_detail_view.dart';
+import 'package:hrm_app/features/sales/views/edit_quotation_view.dart';
 import 'package:hrm_app/features/sales/views/new_quotation_view.dart';
 import 'package:hrm_app/features/time_sheets/views/time_sheet_view.dart';
 
@@ -32,12 +34,13 @@ class AppPages {
     GetPage(name: '/expanses', page: () => ExpensesView()),
     GetPage(name: '/newexpenses', page: () => NewExpensesView()),
     GetPage(name: '/editexpanses', page: () => EditExpensesView()),
-
     GetPage(name: '/project', page: () => ProjectsView()),
     GetPage(name: '/task', page: () => TaskView()),
     GetPage(name: '/taskdetail', page: () => TaskDetailsView()),
     GetPage(name: '/timesheet', page: () => TimeSheetView()),
     GetPage(name: '/payroll', page: () => PayrollView()),
     GetPage(name: '/newquotation', page: () => NewQuotationView()),
+    GetPage(name: '/editquotation', page: () => EditQuotationView()),
+    GetPage(name: '/quotationdetailview', page: () => QuotationDetailView()),
   ];
 }

@@ -8,7 +8,8 @@ class CustomTextFiled extends StatelessWidget {
   final bool hidepassword;
   final Widget? suffixIcon;
   final Widget? prefixicon;
-
+  final bool readonly;
+  final ValueChanged<String>? onChanged;
   const CustomTextFiled({
     super.key,
     required this.label,
@@ -16,6 +17,8 @@ class CustomTextFiled extends StatelessWidget {
     this.hidepassword = false,
     this.suffixIcon,
     this.prefixicon,
+    this.readonly = false,
+    this.onChanged,
   });
 
   @override
@@ -23,6 +26,8 @@ class CustomTextFiled extends StatelessWidget {
     return TextField(
       obscureText: hidepassword,
       controller: controller,
+      readOnly: readonly,
+      onChanged: onChanged,
       decoration: InputDecoration(
         label: Text(label),
         filled: true,

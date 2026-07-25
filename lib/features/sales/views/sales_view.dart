@@ -58,13 +58,24 @@ class SalesView extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 14.w),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade400),
-                            color: index == 0
+                            color:
+                                salescontroller.statusList[index] ==
+                                    salescontroller.selectedStatus.value
                                 ? AppColors.primaryColor
                                 : Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Center(
-                            child: Text(salescontroller.statusList[index]),
+                            child: Text(
+                              salescontroller.statusList[index],
+                              style: TextStyle(
+                                color:
+                                    salescontroller.statusList[index] ==
+                                        salescontroller.selectedStatus.value
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
                           ),
                         ),
                       );
@@ -74,15 +85,17 @@ class SalesView extends StatelessWidget {
               ), //
               AppSpacing.vertical20,
               ListView.builder(
-                itemCount: salescontroller.salesList.length,
+                itemCount: salescontroller.filteredSalesList.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  final data = salescontroller.salesList[index];
+                  final data = salescontroller.filteredSalesList[index];
                   return Padding(
                     padding: EdgeInsets.only(bottom: 10.h),
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoutes.quotationdetailview);
+                      },
                       child: Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 10.w,
@@ -193,7 +206,9 @@ class SalesView extends StatelessWidget {
                                 SizedBox(
                                   height: 25.h,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Get.toNamed(AppRoutes.editquotationview);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColors.primaryColor,
                                     ),

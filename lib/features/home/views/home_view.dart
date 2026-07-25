@@ -74,7 +74,6 @@ class HomeView extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(16.w),
                     width: double.infinity,
-                    height: 150.h,
                     child: Column(
                       children: [
                         ListTile(

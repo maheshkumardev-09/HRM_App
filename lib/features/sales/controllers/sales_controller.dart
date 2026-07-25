@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_app/features/sales/models/product_line_model.dart';
 import 'package:hrm_app/features/sales/models/sales_model.dart';
 
 class SalesController extends GetxController {
@@ -8,48 +9,67 @@ class SalesController extends GetxController {
       clientName: "Ahmed Ali",
       status: 'Salels Order',
       date: DateTime(2026, 7, 20),
-      amount: 25000,
+      products: [
+        ProductLineModel(
+          productName: 'Product A',
+          quantity: 5,
+          unitPrice: 5000,
+          taxes: 0,
+          availableQty: 10,
+        ),
+      ],
     ),
     SalesModel(
       clientName: "Sara Khan",
       status: 'Quotation Sent',
       date: DateTime(2026, 7, 18),
-      amount: 18000,
+      products: [],
     ),
     SalesModel(
       clientName: "Usman Sheikh",
       status: 'Quotation',
       date: DateTime(2026, 7, 15),
-      amount: 32000,
+      products: [],
     ),
     SalesModel(
       clientName: "Fatima Noor",
-      status: 'Salels Order',
+      status: 'Sales Order',
       date: DateTime(2026, 7, 10),
-      amount: 15000,
+      products: [],
     ),
     SalesModel(
       clientName: "Bilal Ahmed",
-      status: "Cancelled",
+      status: 'Cancelled',
       date: DateTime(2026, 7, 5),
-      amount: 28000,
+      products: [],
     ),
   ].obs;
   final List<String> statusList = [
     'All States',
     'Quotation',
     'Quotation Sent',
-    'Salels Order',
-    'Concelled',
-  ].obs;
+    'Sales Order',
+    'Cancelled',
+  ];
   final selectedStatus = 'All States'.obs;
+  void changeStatus(String value) {
+    selectedStatus.value = value;
+  }
+
+  List<SalesModel> get filteredSalesList {
+    if (selectedStatus.value == 'All States') return salesList;
+    return salesList
+        .where((sale) => sale.status == selectedStatus.value)
+        .toList();
+  }
+
   Color getStatusColor(String status) {
     switch (status) {
       case 'Quotation':
         return Colors.purple;
       case 'Quotation Sent':
         return Colors.orange;
-      case 'Salels Order':
+      case 'Sales Order':
         return Colors.purple;
       case 'Cancelled':
         return Colors.red;
@@ -58,7 +78,11 @@ class SalesController extends GetxController {
     }
   }
 
-  void changeStatus(String value) {
-    selectedStatus.value = value;
+  void addQuotation(SalesModel sale) {
+    salesList.add(sale);
+  }
+
+  void updateQuotation(int index, SalesModel updatedSale) {
+    salesList[index] = updatedSale;
   }
 }
