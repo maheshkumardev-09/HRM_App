@@ -7,8 +7,10 @@ import 'package:hrm_app/features/auth/controllers/auth_controllr.dart';
 import 'package:hrm_app/features/employees/controllers/employees_controller.dart';
 import 'package:hrm_app/features/expenses/controllers/expenses_controller.dart';
 import 'package:hrm_app/features/home/controllers/home_controller.dart';
+import 'package:hrm_app/features/payroll/controllers/payroll_controller.dart';
 import 'package:hrm_app/features/projects/controllers/project_controller.dart';
 import 'package:hrm_app/features/projects/controllers/task_controller.dart';
+import 'package:hrm_app/features/sales/controllers/sales_controller.dart';
 import 'package:hrm_app/features/time_sheets/controllers/time_sheet_controller.dart';
 import 'package:hrm_app/routes/app_pages.dart';
 import 'package:hrm_app/routes/app_routes.dart';
@@ -24,7 +26,8 @@ void main() async {
   Get.put(ProjectController());
   Get.put(TaskController());
   Get.put(TimeSheetController());
-
+  Get.put(PayrollController());
+  Get.put(SalesController());
   runApp(const MyApp());
 }
 

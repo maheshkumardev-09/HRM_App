@@ -6,13 +6,16 @@ import 'package:hrm_app/features/auth/views/splash_view.dart';
 import 'package:hrm_app/features/dashboard/bottom_nav_bar.dart';
 import 'package:hrm_app/features/employees/views/employee_profile_view.dart';
 import 'package:hrm_app/features/employees/views/employees_view.dart';
-import 'package:hrm_app/features/expenses/views/add_expenses_view.dart';
+import 'package:hrm_app/features/expenses/views/edit_expenses_view.dart';
+import 'package:hrm_app/features/expenses/views/new_expenses_view.dart';
 import 'package:hrm_app/features/expenses/views/expenses_view.dart';
 import 'package:hrm_app/features/home/views/home_view.dart';
 import 'package:hrm_app/features/home/views/quick_action_view.dart';
+import 'package:hrm_app/features/payroll/views/payroll_view.dart';
 import 'package:hrm_app/features/projects/views/projects_views.dart';
 import 'package:hrm_app/features/projects/views/task_details_view.dart';
 import 'package:hrm_app/features/projects/views/task_view.dart';
+import 'package:hrm_app/features/sales/views/new_quotation_view.dart';
 import 'package:hrm_app/features/time_sheets/views/time_sheet_view.dart';
 
 class AppPages {
@@ -27,10 +30,14 @@ class AppPages {
     GetPage(name: '/empolyees', page: () => EmployeesView()),
     GetPage(name: '/empolyeesprofile', page: () => EmployProfileView()),
     GetPage(name: '/expanses', page: () => ExpensesView()),
-    GetPage(name: '/addexpenses', page: () => AddExpensesView()),
+    GetPage(name: '/newexpenses', page: () => NewExpensesView()),
+    GetPage(name: '/editexpanses', page: () => EditExpensesView()),
+
     GetPage(name: '/project', page: () => ProjectsView()),
     GetPage(name: '/task', page: () => TaskView()),
     GetPage(name: '/taskdetail', page: () => TaskDetailsView()),
     GetPage(name: '/timesheet', page: () => TimeSheetView()),
+    GetPage(name: '/payroll', page: () => PayrollView()),
+    GetPage(name: '/newquotation', page: () => NewQuotationView()),
   ];
 }

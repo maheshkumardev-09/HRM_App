@@ -5,4 +5,6 @@ class AppImages {
   static const dateicon = 'assets/icon/date_icon.png';
   static const annunce = 'assets/icon/annunce.png';
   static const timeShest = 'assets/icon/time_sheet.png';
+  static const payroll = 'assets/icon/icon5.png';
+  static const sales = 'assets/icon/sales.png';
 }

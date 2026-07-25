@@ -24,7 +24,7 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'Submit Expense',
       icon: 'assets/icon/icon3.png',
-      route: AppRoutes.expensesview,
+      route: AppRoutes.newexpensesview,
     ),
     QuickActionModel(
       title: 'New Request',

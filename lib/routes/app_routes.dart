@@ -8,11 +8,13 @@ abstract class AppRoutes {
   static const attendanceview = '/attendance';
   static const empolyeesview = '/empolyees';
   static const empolyeesprofileview = '/empolyeesprofile';
-
   static const expensesview = '/expanses';
-  static const addexpensesview = '/addexpenses';
+  static const newexpensesview = '/newexpenses';
+  static const editexpensesview = '/editexpanses';
   static const projectview = '/project';
   static const taskview = '/task';
   static const taskdetailview = '/taskdetail';
   static const timesheetview = '/timesheet';
+  static const payrollview = '/payroll';
+  static const newquotationview = '/newquotation';
 }

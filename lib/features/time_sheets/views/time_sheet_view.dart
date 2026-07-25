@@ -217,7 +217,7 @@ class TimeSheetView extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed(AppRoutes.addexpensesview),
+        onPressed: () => Get.toNamed(AppRoutes.newexpensesview),
         backgroundColor: AppColors.primaryColor,
         shape: const CircleBorder(),
         child: Icon(Icons.add, color: AppColors.white),

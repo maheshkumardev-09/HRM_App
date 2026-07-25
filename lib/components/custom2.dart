@@ -5,11 +5,13 @@ class Custom2 extends StatelessWidget {
   final String titel;
   final IconData icon;
   final VoidCallback onTap;
+  final Color? color;
   const Custom2({
     super.key,
     required this.titel,
     required this.icon,
     required this.onTap,
+    this.color,
   });
 
   @override
@@ -25,8 +27,14 @@ class Custom2 extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(titel, style: TextStyle(fontSize: 12.sp)),
-          GestureDetector(onTap: onTap, child: Icon(icon)),
+          Text(
+            titel,
+            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
+          ),
+          GestureDetector(
+            onTap: onTap,
+            child: Icon(icon, color: color ?? Colors.black54),
+          ),
         ],
       ),
     );

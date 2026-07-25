@@ -5,14 +5,22 @@ import 'package:hrm_app/constants/app_colors.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
-  const CustomButton({super.key, required this.title, required this.onTap});
+  final Color? buttonColor;
+  final Color? titleColor;
+  const CustomButton({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.buttonColor,
+    this.titleColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: buttonColor ?? AppColors.primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(12.r),
         ),
@@ -22,7 +30,7 @@ class CustomButton extends StatelessWidget {
         style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,
-          color: AppColors.white,
+          color: titleColor ?? AppColors.white,
         ),
       ),
     );

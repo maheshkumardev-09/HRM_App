@@ -3,6 +3,23 @@ import 'package:get/get.dart';
 import 'package:hrm_app/features/expenses/models/expense_model.dart';
 
 class ExpensesController extends GetxController {
+  RxBool isPaidByEmployee = false.obs;
+  RxBool isPaidByCompany = false.obs;
+
+  void selectEmployee(bool value) {
+    isPaidByEmployee.value = value;
+    if (value) {
+      isPaidByCompany.value = false;
+    }
+  }
+
+  void selectCompany(bool value) {
+    isPaidByCompany.value = value;
+    if (value) {
+      isPaidByEmployee.value = false;
+    }
+  }
+
   final List<ExpenseModel> expensesList = [
     ExpenseModel(
       amount: 300.00,

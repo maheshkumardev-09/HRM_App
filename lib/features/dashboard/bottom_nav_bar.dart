@@ -5,6 +5,8 @@ import 'package:hrm_app/features/attendance/views/attendance_view.dart';
 import 'package:hrm_app/features/dashboard/bottom_nav_controller.dart';
 import 'package:hrm_app/features/employees/views/employees_view.dart';
 import 'package:hrm_app/features/home/views/home_view.dart';
+import 'package:hrm_app/features/payroll/views/payroll_view.dart';
+import 'package:hrm_app/features/sales/views/sales_view.dart';
 
 class BottomNavBar extends StatelessWidget {
   final navController = Get.put(BottomNavController());
@@ -12,8 +14,8 @@ class BottomNavBar extends StatelessWidget {
     HomeView(),
     EmployeesView(),
     AttendanceView(),
-    const Center(child: Text('Requests Screen')),
-    const Center(child: Text('Reports Screen')),
+    PayrollView(),
+    SalesView(),
   ];
 
   BottomNavBar({super.key});

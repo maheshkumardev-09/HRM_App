@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hrm_app/components/custom2.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_container.dart';
@@ -11,11 +13,11 @@ import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/expenses/controllers/expenses_controller.dart';
 
-class EditExpensesView extends StatelessWidget {
-  EditExpensesView({super.key});
+class NewExpensesView extends StatelessWidget {
   final discriptionControlle = TextEditingController();
-
   final expenseController = Get.find<ExpensesController>();
+
+  NewExpensesView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class EditExpensesView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomTitel(title: 'Edit Expense', ontap: () {}),
+              CustomTitel(title: 'Submit Expense', ontap: () {}),
               AppSpacing.vertical30,
               CustomContainer(
                 titel: 'Paid By*',
@@ -80,7 +82,7 @@ class EditExpensesView extends StatelessWidget {
               CustomContainer(
                 titel: 'Description*',
                 widget: CustomTextFiled(
-                  label: 'Piad lunch bil for clint',
+                  label: 'Add description here.....',
                   controller: discriptionControlle,
                 ),
               ),
@@ -88,79 +90,66 @@ class EditExpensesView extends StatelessWidget {
               CustomContainer(
                 titel: 'EXpexses Type*',
                 widget: Custom2(
-                  titel: 'Male',
+                  titel: 'Select on expenses type',
                   icon: Icons.keyboard_arrow_down,
                   onTap: () {},
                 ),
               ),
               AppSpacing.vertical20,
+
               CustomContainer(
                 titel: 'Amount*',
                 widget: CustomTextFiled(
-                  label: '300.0',
+                  label: '00.0',
                   controller: discriptionControlle,
                 ),
               ),
               AppSpacing.vertical20,
               CustomContainer(
-                titel: 'Existing Recepits',
+                titel: 'Upload Receipts',
                 widget: GestureDetector(
                   onTap: () {},
-                  child: Column(
-                    children: [
-                      Custom2(
-                        titel: 'Meal bil.PDF(170.0 kb)',
-                        icon: Icons.delete_forever_outlined,
-                        color: Colors.red,
-                        onTap: () {},
-                      ),
-                      AppSpacing.vertical8,
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Drop file here and cilck to upload',
-                                style: TextStyle(
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              AppSpacing.vertical8,
-                              Text(
-                                'PDF,PNG,JPG up to 10MB',
-                                style: TextStyle(
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black45,
-                                ),
-                              ),
-                            ],
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.green.shade100,
                           ),
-                          AppSpacing.horizontal10,
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadiusGeometry.circular(
-                                  12.r,
-                                ),
-                              ),
-                            ),
-                            child: Text(
-                              '+AddRecepit',
-                              style: TextStyle(
-                                color: AppColors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 10.sp,
-                              ),
-                            ),
+                          child: Icon(
+                            Icons.file_upload_outlined,
+                            color: AppColors.primaryColor,
+                            size: 24.w,
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        Text(
+                          'Drop file here and cilck to upload',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black45,
+                          ),
+                        ),
+                        AppSpacing.vertical8,
+                        Text(
+                          'PDF,PNG,JPG up to 10MB',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black45,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -168,11 +157,12 @@ class EditExpensesView extends StatelessWidget {
               CustomContainer(
                 titel: 'Notes',
                 widget: TextField(
+                  maxLines: 4,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade100,
                     hint: Text(
-                      'paid Bill',
+                      'Add any aditional Note',
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
@@ -197,22 +187,7 @@ class EditExpensesView extends StatelessWidget {
                   ),
                   AppSpacing.horizontal10,
                   Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(12.r),
-                        ),
-                      ),
-                      child: Text(
-                        'Update & Submit',
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                    child: CustomButton(title: 'Crate Lead', onTap: () {}),
                   ),
                 ],
               ),
