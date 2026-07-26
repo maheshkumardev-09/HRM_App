@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/components/custom.dart';
+import 'package:hrm_app/components/custom_row_container.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
@@ -32,7 +32,7 @@ class SalesView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.r),
                   color: Colors.grey.shade200,
                 ),
-                child: Custom(
+                child: CustomRowContainer(
                   title: 'Date From',
                   icon: Icons.calendar_today_outlined,
                   title2: 'Date To',
@@ -42,8 +42,9 @@ class SalesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical30,
-              Obx(
-                () => SizedBox(
+              Obx(() {
+                final selected = salescontroller.selectedStatus.value;
+                return SizedBox(
                   height: 30.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -81,79 +82,55 @@ class SalesView extends StatelessWidget {
                       );
                     },
                   ),
-                ),
-              ), //
+                );
+              }), //
               AppSpacing.vertical20,
-              ListView.builder(
-                itemCount: salescontroller.filteredSalesList.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final data = salescontroller.filteredSalesList[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 10.h),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed(AppRoutes.quotationdetailview);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 20.h,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10.w),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primaryColor,
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                  child: Image.asset(
-                                    AppImages.sales,
-                                    fit: BoxFit.cover,
-                                    height: 24.h,
-                                    width: 24.w,
-                                  ),
-                                ),
-                                AppSpacing.horizontal10,
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Cutomar',
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black54,
-                                      ),
+              Obx(
+                () => ListView.builder(
+                  itemCount: salescontroller.filteredSalesList.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final data = salescontroller.filteredSalesList[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.quotationdetailview);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 20.h,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.r),
+                            color: Colors.grey.shade200,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10.w),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      borderRadius: BorderRadius.circular(12.r),
                                     ),
-                                    AppSpacing.vertical8,
-                                    Text(
-                                      data.clientName,
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                    child: Image.asset(
+                                      AppImages.sales,
+                                      fit: BoxFit.cover,
+                                      height: 24.h,
+                                      width: 24.w,
                                     ),
-                                  ],
-                                ),
-                                AppSpacing.horizontal10,
-                                Expanded(
-                                  child: Column(
+                                  ),
+                                  AppSpacing.horizontal10,
+                                  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Date',
+                                        'Cutomar',
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
@@ -162,74 +139,104 @@ class SalesView extends StatelessWidget {
                                       ),
                                       AppSpacing.vertical8,
                                       Text(
-                                        DateFormat(
-                                          'dd/MM/yyyy',
-                                        ).format(data.date),
+                                        data.clientName,
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ],
                                   ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(6.w),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: salescontroller.getStatusColor(
-                                      data.status,
+                                  AppSpacing.horizontal10,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Date',
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                        AppSpacing.vertical8,
+                                        Text(
+                                          DateFormat(
+                                            'dd/MM/yyyy',
+                                          ).format(data.date),
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  child: Text(
-                                    data.status,
-                                    style: TextStyle(
-                                      color: AppColors.white,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            AppSpacing.vertical10,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'SR ${data.amount.toString()}',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 25.h,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Get.toNamed(AppRoutes.editquotationview);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.primaryColor,
+                                  Container(
+                                    padding: EdgeInsets.all(6.w),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: salescontroller.getStatusColor(
+                                        data.status,
+                                      ),
                                     ),
                                     child: Text(
-                                      'Edit/Pay',
+                                      data.status,
                                       style: TextStyle(
                                         color: AppColors.white,
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                              AppSpacing.vertical10,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'SR ${data.amount.toString()}',
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 25.h,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          AppRoutes.editquotationview,
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.primaryColor,
+                                      ),
+                                      child: Text(
+                                        'Edit/Pay',
+                                        style: TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ],
           ),

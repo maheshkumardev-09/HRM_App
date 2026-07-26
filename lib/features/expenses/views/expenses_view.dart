@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/components/custom.dart';
+import 'package:hrm_app/components/custom_row_container.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
@@ -31,7 +31,7 @@ class ExpensesView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(color: Colors.grey.shade400),
               ),
-              child: Custom(
+              child: CustomRowContainer(
                 onTap1: () {},
                 title: 'Date From',
                 icon: Icons.calendar_today_outlined,

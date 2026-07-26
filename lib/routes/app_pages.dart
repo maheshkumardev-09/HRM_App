@@ -18,6 +18,9 @@ import 'package:hrm_app/features/projects/views/task_view.dart';
 import 'package:hrm_app/features/sales/views/quotation_detail_view.dart';
 import 'package:hrm_app/features/sales/views/edit_quotation_view.dart';
 import 'package:hrm_app/features/sales/views/new_quotation_view.dart';
+import 'package:hrm_app/features/time_off/views/new_request_leave_view.dart';
+import 'package:hrm_app/features/time_off/views/team_calendar_view.dart';
+import 'package:hrm_app/features/time_off/views/time_off_view.dart';
 import 'package:hrm_app/features/time_sheets/views/time_sheet_view.dart';
 
 class AppPages {
@@ -42,5 +45,8 @@ class AppPages {
     GetPage(name: '/newquotation', page: () => NewQuotationView()),
     GetPage(name: '/editquotation', page: () => EditQuotationView()),
     GetPage(name: '/quotationdetailview', page: () => QuotationDetailView()),
+    GetPage(name: '/timeoff', page: () => TimeOffView()),
+    GetPage(name: '/newrequest', page: () => NewRequestLeaveView()),
+    GetPage(name: '/teamcalender', page: () => TeamCalendarView()),
   ];
 }

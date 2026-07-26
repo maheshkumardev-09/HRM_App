@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/attendance_action_tile.dart';
-import 'package:hrm_app/components/custom.dart';
+import 'package:hrm_app/components/custom_row_container.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
@@ -34,7 +34,7 @@ class AttendanceView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.grey.shade400),
                 ),
-                child: Custom(
+                child: CustomRowContainer(
                   onTap1: () {},
                   title: 'Select Region',
                   icon: Icons.keyboard_arrow_down,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 
-class CustomCard extends StatelessWidget {
-  const CustomCard({
+class CustomRowCard extends StatelessWidget {
+  const CustomRowCard({
     super.key,
     required this.title,
     required this.title2,
@@ -21,14 +22,28 @@ class CustomCard extends StatelessWidget {
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(title), AppSpacing.vertical8, widget],
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+              ),
+              AppSpacing.vertical8,
+              widget,
+            ],
           ),
         ),
         AppSpacing.horizontal20,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(title2), AppSpacing.vertical8, widget2],
+            children: [
+              Text(
+                title2,
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+              ),
+              AppSpacing.vertical8,
+              widget2,
+            ],
           ),
         ),
       ],

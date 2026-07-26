@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 
-class Custom extends StatelessWidget {
+class CustomRowContainer extends StatelessWidget {
   final String title;
   final IconData icon;
   final String title2;
@@ -10,7 +10,7 @@ class Custom extends StatelessWidget {
   final VoidCallback? onTap1;
   final VoidCallback? onTap2;
 
-  const Custom({
+  const CustomRowContainer({
     super.key,
     required this.title,
     required this.icon,

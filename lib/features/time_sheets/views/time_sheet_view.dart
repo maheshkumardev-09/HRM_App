@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:hrm_app/components/custom.dart';
+import 'package:hrm_app/components/custom_row_container.dart';
 import 'package:hrm_app/components/custom2.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
@@ -50,7 +50,7 @@ class TimeSheetView extends StatelessWidget {
                       onTap: () {},
                     ),
                     AppSpacing.vertical10,
-                    Custom(
+                    CustomRowContainer(
                       title: 'Date From',
                       icon: Icons.calendar_today_outlined,
                       title2: 'Date To',

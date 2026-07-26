@@ -5,7 +5,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hrm_app/components/custom2.dart';
 import 'package:hrm_app/components/custom_button.dart';
-import 'package:hrm_app/components/custom_container.dart';
+import 'package:hrm_app/components/custom_container_with_title.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
@@ -30,7 +30,7 @@ class NewExpensesView extends StatelessWidget {
             children: [
               CustomTitel(title: 'Submit Expense', ontap: () {}),
               AppSpacing.vertical30,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Paid By*',
                 widget: Obx(
                   () => Row(
@@ -79,7 +79,7 @@ class NewExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Description*',
                 widget: CustomTextFiled(
                   label: 'Add description here.....',
@@ -87,7 +87,7 @@ class NewExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'EXpexses Type*',
                 widget: Custom2(
                   titel: 'Select on expenses type',
@@ -97,7 +97,7 @@ class NewExpensesView extends StatelessWidget {
               ),
               AppSpacing.vertical20,
 
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Amount*',
                 widget: CustomTextFiled(
                   label: '00.0',
@@ -105,7 +105,7 @@ class NewExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Upload Receipts',
                 widget: GestureDetector(
                   onTap: () {},
@@ -154,7 +154,7 @@ class NewExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Notes',
                 widget: TextField(
                   maxLines: 4,

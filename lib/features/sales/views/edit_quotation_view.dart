@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hrm_app/components/custom_button.dart';
-import 'package:hrm_app/components/custom_card.dart';
+import 'package:hrm_app/components/custom_row_card.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
@@ -68,7 +68,7 @@ class EditQuotationView extends StatelessWidget {
                       suffixIcon: Icon(Icons.keyboard_arrow_down),
                     ),
                     AppSpacing.vertical15,
-                    CustomCard(
+                    CustomRowCard(
                       title: 'Quontity',
                       title2: 'Unit Price',
                       widget: CustomTextFiled(

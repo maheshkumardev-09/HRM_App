@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_button.dart';
-import 'package:hrm_app/components/custom_card.dart';
+import 'package:hrm_app/components/custom_row_card.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
@@ -131,7 +131,7 @@ class NewQuotationView extends StatelessWidget {
                                 ),
                               ),
                               AppSpacing.vertical15,
-                              CustomCard(
+                              CustomRowCard(
                                 title: 'Quantity',
                                 title2: 'Unit Price',
                                 widget: CustomTextFiled(
@@ -149,7 +149,7 @@ class NewQuotationView extends StatelessWidget {
                                 ),
                               ),
                               AppSpacing.vertical15,
-                              CustomCard(
+                              CustomRowCard(
                                 title: 'Taxes',
                                 title2: 'Ava Qty',
                                 widget: CustomTextFiled(

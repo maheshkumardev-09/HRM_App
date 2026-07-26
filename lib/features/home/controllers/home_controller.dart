@@ -19,7 +19,7 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'Apply Leave',
       icon: 'assets/icon/icon2.png',
-      route: '/leave/apply',
+      route: AppRoutes.newleaverequestview,
     ),
     QuickActionModel(
       title: 'Submit Expense',
@@ -29,7 +29,7 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'New Request',
       icon: 'assets/icon/icon4.png',
-      route: '/request/add',
+      route: '/',
     ),
     QuickActionModel(
       title: 'View Payslip',
@@ -49,7 +49,7 @@ class HomeController extends GetxController {
     QuickActionModel(
       title: 'Time off',
       icon: 'assets/icon/icon8.png',
-      route: '/project',
+      route: AppRoutes.timeoffview,
     ),
     QuickActionModel(
       title: 'Expenses',

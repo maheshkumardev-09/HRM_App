@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/custom2.dart';
 import 'package:hrm_app/components/custom_button.dart';
-import 'package:hrm_app/components/custom_container.dart';
+import 'package:hrm_app/components/custom_container_with_title.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custum_app_bar.dart';
@@ -28,7 +28,7 @@ class EditExpensesView extends StatelessWidget {
             children: [
               CustomTitel(title: 'Edit Expense', ontap: () {}),
               AppSpacing.vertical30,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Paid By*',
                 widget: Obx(
                   () => Row(
@@ -77,7 +77,7 @@ class EditExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Description*',
                 widget: CustomTextFiled(
                   label: 'Piad lunch bil for clint',
@@ -85,7 +85,7 @@ class EditExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'EXpexses Type*',
                 widget: Custom2(
                   titel: 'Male',
@@ -94,7 +94,7 @@ class EditExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Amount*',
                 widget: CustomTextFiled(
                   label: '300.0',
@@ -102,7 +102,7 @@ class EditExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Existing Recepits',
                 widget: GestureDetector(
                   onTap: () {},
@@ -165,7 +165,7 @@ class EditExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              CustomContainer(
+              CustomContainerWithTitle(
                 titel: 'Notes',
                 widget: TextField(
                   decoration: InputDecoration(

@@ -19,4 +19,7 @@ abstract class AppRoutes {
   static const newquotationview = '/newquotation';
   static const editquotationview = '/editquotation';
   static const quotationdetailview = '/quotationdetailview';
+  static const timeoffview = '/timeoff';
+  static const newleaverequestview = '/newrequest';
+  static const teamcalendarview = '/teamcalender';
 }

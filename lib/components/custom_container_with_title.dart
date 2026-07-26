@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 
-class CustomContainer extends StatelessWidget {
+class CustomContainerWithTitle extends StatelessWidget {
   final String titel;
   final Widget widget;
-  const CustomContainer({super.key, required this.titel, required this.widget});
+  const CustomContainerWithTitle({
+    super.key,
+    required this.titel,
+    required this.widget,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
