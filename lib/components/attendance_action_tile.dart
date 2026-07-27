@@ -12,9 +12,8 @@ class AttendanceActionTile extends StatelessWidget {
   });
 
   final String icon;
-  final String label; // "Check-in", "Check-out", "Break-in", "Break-out"
-  final String time; // "16:27" ya "--:--" agar abhi hua nahi
-
+  final String label;
+  final String time;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +24,6 @@ class AttendanceActionTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // 🔹 Icon Box (purple background)
           Container(
             width: 40.w,
             height: 40.w,
@@ -36,8 +34,6 @@ class AttendanceActionTile extends StatelessWidget {
             child: Image.asset(icon, width: 24.w, height: 24.h),
           ),
           AppSpacing.horizontal10,
-
-          // 🔹 Label + Time
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

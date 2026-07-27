@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_action_card.dart';
+import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/components/custom_button.dart';
-import 'package:hrm_app/components/custum_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
@@ -35,7 +35,7 @@ class HomeView extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(12.r),
                       child: Image.asset(
-                        auth.userData.value.profileImage,
+                        AppImages.profileImage,
                         width: 80.w,
                         height: 80.h,
                       ),

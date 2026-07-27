@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_row_container.dart';
 import 'package:hrm_app/components/custom_titel.dart';
-import 'package:hrm_app/components/custum_app_bar.dart';
+import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/expenses/controllers/expenses_controller.dart';
@@ -83,87 +83,104 @@ class ExpensesView extends StatelessWidget {
                   final data = expenseController.expensesList[index];
                   return Padding(
                     padding: EdgeInsets.only(bottom: 10.h),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed(AppRoutes.editexpensesview);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(12.r),
-                          border: Border.all(color: Colors.grey.shade400),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: AppColors.primaryColor,
-                                  ),
-                                  width: 50.w,
-                                  height: 40.h,
-                                  child: Icon(
-                                    Icons.camera_alt_outlined,
-                                    size: 24.w,
-                                    color: AppColors.white,
-                                  ),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(color: Colors.grey.shade400),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: AppColors.primaryColor,
                                 ),
-                                AppSpacing.horizontal20,
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'SR ${data.amount.toString()}',
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    AppSpacing.vertical8,
-                                    Text(
-                                      data.description,
-                                      style: TextStyle(
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
+                                width: 50.w,
+                                height: 40.h,
+                                child: Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 24.w,
+                                  color: AppColors.white,
                                 ),
-                                Spacer(),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 16.w,
-                                    vertical: 8.h,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: expenseController.getStatusColor(
-                                      data.status,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    data.status,
+                              ),
+                              AppSpacing.horizontal20,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'SR ${data.amount.toString()}',
                                     style: TextStyle(
-                                      color: AppColors.white,
-                                      fontSize: 12.sp,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
+                                  AppSpacing.vertical8,
+                                  Text(
+                                    data.description,
+                                    style: TextStyle(
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
+                                  vertical: 8.h,
                                 ),
-                              ],
-                            ),
-                            AppSpacing.vertical10,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: expenseController.getStatusColor(
+                                    data.status,
+                                  ),
+                                ),
+                                child: Text(
+                                  data.status,
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          AppSpacing.vertical10,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    data.date,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  AppSpacing.vertical8,
+                                  Text(
+                                    'Date',
+                                    style: TextStyle(
+                                      fontSize: 10.sp,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: Column(
                                   children: [
                                     Text(
-                                      data.date,
+                                      data.paidBy,
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
@@ -171,38 +188,20 @@ class ExpensesView extends StatelessWidget {
                                     ),
                                     AppSpacing.vertical8,
                                     Text(
-                                      'Date',
+                                      'PaidBy',
                                       style: TextStyle(
                                         fontSize: 10.sp,
-                                        color: Colors.black54,
                                         fontWeight: FontWeight.w400,
+                                        color: Colors.black54,
                                       ),
                                     ),
                                   ],
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        data.paidBy,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      AppSpacing.vertical8,
-                                      Text(
-                                        'PaidBy',
-                                        style: TextStyle(
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
+                              ),
+                              GestureDetector(
+                                onTap: () =>
+                                    Get.toNamed(AppRoutes.editexpensesview),
+                                child: Container(
                                   padding: EdgeInsets.all(8.w),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
@@ -216,10 +215,10 @@ class ExpensesView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   );

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_row_container.dart';
 import 'package:hrm_app/components/custom_titel.dart';
-import 'package:hrm_app/components/custum_app_bar.dart';
+import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
@@ -59,9 +59,7 @@ class SalesView extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 14.w),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade400),
-                            color:
-                                salescontroller.statusList[index] ==
-                                    salescontroller.selectedStatus.value
+                            color: salescontroller.statusList[index] == selected
                                 ? AppColors.primaryColor
                                 : Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(20.r),
@@ -96,7 +94,10 @@ class SalesView extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 10.h),
                       child: GestureDetector(
                         onTap: () {
-                          Get.toNamed(AppRoutes.quotationdetailview);
+                          Get.toNamed(
+                            AppRoutes.quotationdetailview,
+                            arguments: data,
+                          );
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

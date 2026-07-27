@@ -65,7 +65,7 @@ class EmployeesController extends GetxController {
     ),
   ].obs;
 
-  EmployeesModel? getEmployeeById(String id) {
-    return employeeList.firstWhereOrNull((emp) => emp.id == id);
-  }
+  // EmployeesModel? getEmployeeById(String id) {
+  //   return employeeList.firstWhereOrNull((emp) => emp.id == id);
+  // }
 }

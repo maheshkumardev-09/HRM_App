@@ -6,7 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:hrm_app/components/custom_row_container.dart';
 import 'package:hrm_app/components/custom2.dart';
 import 'package:hrm_app/components/custom_titel.dart';
-import 'package:hrm_app/components/custum_app_bar.dart';
+import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';

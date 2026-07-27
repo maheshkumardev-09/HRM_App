@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_button.dart';
-import 'package:hrm_app/components/custom_row_card.dart';
+import 'package:hrm_app/components/custom_card_tow_title.dart';
 import 'package:hrm_app/components/custom_card_one_title.dart';
-import 'package:hrm_app/components/custum_app_bar.dart';
+import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
+import 'package:hrm_app/features/sales/controllers/sales_controller.dart';
+import 'package:hrm_app/features/sales/models/sales_model.dart';
+import 'package:intl/intl.dart';
 
 class QuotationDetailView extends StatelessWidget {
-  const QuotationDetailView({super.key});
+  QuotationDetailView({super.key});
+  final salescontroller = Get.find<SalesController>();
+
+  final SalesModel saleslist = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
+    final product = saleslist.products.first;
     return Scaffold(
       appBar: CustomAppBar(showMenu: false),
       body: Padding(
@@ -51,6 +59,7 @@ class QuotationDetailView extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.primaryColor),
                   borderRadius: BorderRadius.circular(15.r),
+
                   color: Colors.grey.shade200,
                 ),
                 child: Container(
@@ -83,7 +92,7 @@ class QuotationDetailView extends StatelessWidget {
                                 ),
                                 AppSpacing.horizontal8,
                                 Text(
-                                  'Mahesh',
+                                  saleslist.clientName,
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
@@ -96,7 +105,9 @@ class QuotationDetailView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '2026-04-14',
+                                  DateFormat(
+                                    'yyy-MM-dd',
+                                  ).format(saleslist.date),
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
@@ -109,13 +120,16 @@ class QuotationDetailView extends StatelessWidget {
                                   ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20.r),
-                                    color: Colors.green.shade300,
+                                    color: salescontroller.getStatusColor(
+                                      saleslist.status,
+                                    ),
                                   ),
                                   child: Text(
-                                    'Satus',
+                                    saleslist.status,
                                     style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
@@ -133,6 +147,7 @@ class QuotationDetailView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
+                  border: Border.all(color: Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Column(
@@ -155,7 +170,7 @@ class QuotationDetailView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                           color: Colors.grey.shade200,
                         ),
-                        child: Text('Alumnd windows'),
+                        child: Text(product.productName),
                       ),
                     ),
                     AppSpacing.vertical20,
@@ -185,7 +200,7 @@ class QuotationDetailView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                           color: Colors.grey.shade200,
                         ),
-                        child: Text('1.0'),
+                        child: Text(product.quantity.toString()),
                       ),
                       widget2: Container(
                         width: double.infinity,
@@ -194,7 +209,7 @@ class QuotationDetailView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                           color: Colors.grey.shade200,
                         ),
-                        child: Text('1.0'),
+                        child: Text(product.availableQty.toString()),
                       ),
                     ),
                     AppSpacing.vertical20,
@@ -217,7 +232,7 @@ class QuotationDetailView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                           color: Colors.grey.shade200,
                         ),
-                        child: Text('SR 1000.00'),
+                        child: Text('SR ${product.unitPrice.toString()}'),
                       ),
                     ),
                     AppSpacing.vertical20,
@@ -230,15 +245,18 @@ class QuotationDetailView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                           color: Colors.grey.shade200,
                         ),
-                        child: Text('SR 1000.00'),
+                        child: Text('SR ${product.subtotal.toString()}'),
                       ),
                     ),
                     AppSpacing.vertical20,
-                    _rowWidget('Untaxed Amount', '1000.00'),
+                    _rowWidget('Untaxed Amount', product.subtotal.toString()),
                     AppSpacing.vertical20,
-                    _rowWidget('Tax', '0.0'),
+                    _rowWidget('Tax', product.taxes.toString()),
                     AppSpacing.vertical20,
-                    _rowWidget('Tota(Incl Tax):', '1000.00'),
+                    _rowWidget(
+                      'Tota(Incl Tax):',
+                      (product.subtotal + product.taxes).toString(),
+                    ),
                   ],
                 ),
               ),
@@ -249,7 +267,7 @@ class QuotationDetailView extends StatelessWidget {
                   title: 'Back to Quotation',
                   titleColor: Colors.black54,
                   buttonColor: Colors.grey.shade200,
-                  onTap: () {},
+                  onTap: () => Get.back(),
                 ),
               ),
             ],

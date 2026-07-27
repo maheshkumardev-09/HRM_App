@@ -90,6 +90,7 @@ class QuotationController extends GetxController {
         'availableQty': TextEditingController(
           text: product.availableQty.toString(),
         ),
+        'subtotal': TextEditingController(text: product.subtotal.toString()),
       });
     }
   }

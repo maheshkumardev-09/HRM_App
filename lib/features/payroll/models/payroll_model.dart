@@ -1,7 +1,7 @@
 class PayrollModel {
   final String id;
-  final String dateFrom;
-  final String dateTo;
+  final DateTime dateFrom;
+  final DateTime dateTo;
   // final String month;
   final String status;
   final double payment;

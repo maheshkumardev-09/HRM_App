@@ -7,7 +7,7 @@ class SalesController extends GetxController {
   final List<SalesModel> salesList = [
     SalesModel(
       clientName: "Ahmed Ali",
-      status: 'Salels Order',
+      status: 'Sales Order',
       date: DateTime(2026, 7, 20),
       products: [
         ProductLineModel(
@@ -23,25 +23,57 @@ class SalesController extends GetxController {
       clientName: "Sara Khan",
       status: 'Quotation Sent',
       date: DateTime(2026, 7, 18),
-      products: [],
+      products: [
+        ProductLineModel(
+          productName: 'Product B',
+          quantity: 2,
+          unitPrice: 2000,
+          taxes: 100,
+          availableQty: 2,
+        ),
+      ],
     ),
     SalesModel(
       clientName: "Usman Sheikh",
       status: 'Quotation',
       date: DateTime(2026, 7, 15),
-      products: [],
+      products: [
+        ProductLineModel(
+          productName: 'Product c',
+          quantity: 4,
+          unitPrice: 2500,
+          taxes: 80,
+          availableQty: 4,
+        ),
+      ],
     ),
     SalesModel(
       clientName: "Fatima Noor",
       status: 'Sales Order',
       date: DateTime(2026, 7, 10),
-      products: [],
+      products: [
+        ProductLineModel(
+          productName: 'Product d',
+          quantity: 5,
+          unitPrice: 2300,
+          taxes: 150,
+          availableQty: 5,
+        ),
+      ],
     ),
     SalesModel(
       clientName: "Bilal Ahmed",
       status: 'Cancelled',
       date: DateTime(2026, 7, 5),
-      products: [],
+      products: [
+        ProductLineModel(
+          productName: 'Product E',
+          quantity: 3,
+          unitPrice: 2050,
+          taxes: 160,
+          availableQty: 3,
+        ),
+      ],
     ),
   ].obs;
   final List<String> statusList = [
@@ -50,7 +82,7 @@ class SalesController extends GetxController {
     'Quotation Sent',
     'Sales Order',
     'Cancelled',
-  ];
+  ].obs;
   final selectedStatus = 'All States'.obs;
   void changeStatus(String value) {
     selectedStatus.value = value;

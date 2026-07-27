@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_titel.dart';
-import 'package:hrm_app/components/custum_app_bar.dart';
+import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/payroll/controllers/payroll_controller.dart';
+import 'package:intl/intl.dart';
 
 class PayrollView extends StatelessWidget {
   final payrollControllr = Get.find<PayrollController>();
@@ -176,7 +177,9 @@ class PayrollView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    data.dateFrom,
+                                    DateFormat(
+                                      'yyy-MM-dd',
+                                    ).format(data.dateFrom),
                                     style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
@@ -195,7 +198,9 @@ class PayrollView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      data.dateTo,
+                                      DateFormat(
+                                        'yyy-MM-dd',
+                                      ).format(data.dateTo),
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,

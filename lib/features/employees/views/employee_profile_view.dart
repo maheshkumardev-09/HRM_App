@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_titel.dart';
-import 'package:hrm_app/components/custum_app_bar.dart';
+import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/employees/controllers/employees_controller.dart';
+import 'package:hrm_app/features/employees/models/employees_model.dart';
 
 class EmployProfileView extends StatelessWidget {
   EmployProfileView({super.key});
@@ -14,12 +15,12 @@ class EmployProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String employeeId = Get.arguments;
-    final employee = employeeControllr.getEmployeeById(employeeId);
+    final EmployeesModel employee = Get.arguments;
+    // final employee = employeeControllr.getEmployeeById(employeeId);
 
-    if (employee == null) {
-      return const Scaffold(body: Center(child: Text('Employee not found')));
-    }
+    // if (employee == null) {
+    //   return const Scaffold(body: Center(child: Text('Employee not found')));
+    // }
 
     return Scaffold(
       appBar: CustomAppBar(showMenu: false),

@@ -8,4 +8,5 @@ class AppImages {
   static const payroll = 'assets/icon/icon5.png';
   static const sales = 'assets/icon/sales.png';
   static const timeofficon = 'assets/icon/icon8.png';
+  static const timeicon = 'assets/icon/timeicon.png';
 }
