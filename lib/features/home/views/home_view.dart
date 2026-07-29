@@ -10,6 +10,7 @@ import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/attendance/controllers/attendace_controller.dart';
 import 'package:hrm_app/features/auth/controllers/auth_controllr.dart';
 import 'package:hrm_app/features/home/controllers/home_controller.dart';
+import 'package:hrm_app/features/time_off/controllers/time_off_controller.dart';
 import 'package:hrm_app/routes/app_routes.dart';
 
 class HomeView extends StatelessWidget {
@@ -18,6 +19,7 @@ class HomeView extends StatelessWidget {
   final auth = Get.find<AuthControllr>();
   final home = Get.find<HomeController>();
   final attendaceController = Get.find<AttendanceController>();
+  final timeOffController = Get.find<TimeOffController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +48,9 @@ class HomeView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Welcome ${auth.userData.value.name}',
+                            'Welcome ${home.user.value?.name ?? "Gest"}',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -70,56 +72,58 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
                 AppSpacing.vertical20,
-                Card(
-                  child: Container(
-                    padding: EdgeInsets.all(16.w),
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: ClipRRect(
-                            borderRadius: BorderRadiusGeometry.circular(12.r),
-                            child: Image.asset(AppImages.dateicon),
-                          ),
-                          title: Text('Attandece Today'),
-                          subtitle: Text(
-                            attendaceController.currentAttendance.value.status,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.primaryColor,
-                            ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.r),
+                    color: Colors.grey.shade200,
+                  ),
+                  padding: EdgeInsets.all(16.w),
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(12.r),
+                          child: Image.asset(AppImages.dateicon),
+                        ),
+                        title: Text('Attandece Today'),
+                        subtitle: Text(
+                          attendaceController.currentAttendance.value.status,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.primaryColor,
                           ),
                         ),
-                        AppSpacing.vertical10,
-                        SizedBox(
-                          height: 50.h,
-                          width: double.infinity,
-                          child: CustomButton(
-                            title:
-                                attendaceController
-                                        .currentAttendance
-                                        .value
-                                        .status ==
-                                    'In Progress'
-                                ? 'Check Out'
-                                : 'Check In',
-
-                            onTap: () {
-                              if (attendaceController
+                      ),
+                      AppSpacing.vertical10,
+                      SizedBox(
+                        height: 50.h,
+                        width: double.infinity,
+                        child: CustomButton(
+                          title:
+                              attendaceController
                                       .currentAttendance
                                       .value
                                       .status ==
-                                  'In Progress') {
-                                attendaceController.checkOut();
-                              } else {
-                                attendaceController.checkIn();
-                              }
-                            },
-                          ),
+                                  'In Progress'
+                              ? 'Check Out'
+                              : 'Check In',
+
+                          onTap: () {
+                            if (attendaceController
+                                    .currentAttendance
+                                    .value
+                                    .status ==
+                                'In Progress') {
+                              attendaceController.checkOut();
+                            } else {
+                              attendaceController.checkIn();
+                            }
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 AppSpacing.vertical20,
@@ -140,10 +144,15 @@ class HomeView extends StatelessWidget {
                 ),
                 AppSpacing.vertical20,
                 Row(
-                  children: home.leaveBalances.take(2).map((leave) {
+                  children: timeOffController.balanceList.take(2).map((leave) {
                     return Expanded(
-                      child: Card(
-                        child: Padding(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.r),
+                            color: Colors.grey.shade200,
+                          ),
                           padding: EdgeInsets.symmetric(
                             vertical: 16.h,
                             horizontal: 8.w,
@@ -160,7 +169,7 @@ class HomeView extends StatelessWidget {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                '${leave.usedDays}/${leave.totalDays} Days',
+                                '${leave.useDday}/${leave.totalDay} Days',
                                 style: TextStyle(
                                   fontSize: 13.sp,
                                   color: Colors.grey.shade600,
@@ -220,8 +229,13 @@ class HomeView extends StatelessWidget {
                 AppSpacing.vertical20,
                 Column(
                   children: home.announcement.take(2).map((announce) {
-                    return Card(
-                      child: SizedBox(
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          color: Colors.grey.shade200,
+                        ),
                         width: double.infinity,
                         child: Padding(
                           padding: EdgeInsets.symmetric(

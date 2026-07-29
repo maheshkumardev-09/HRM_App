@@ -16,4 +16,8 @@ class ProjectModel {
     required this.endDate,
     required this.id,
   });
+
+  // Map<String, dynamic> toJson() {
+  //   return {"name": name, "id": id, "status": status, "Startdate": startDate};
+  // }
 }

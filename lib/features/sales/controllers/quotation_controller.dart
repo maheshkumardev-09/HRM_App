@@ -120,7 +120,9 @@ class QuotationController extends GetxController {
     customerController.dispose();
     dateController.dispose();
     for (var ctrl in productControllers) {
-      ctrl.values.forEach((c) => c.dispose());
+      for (var c in ctrl.values) {
+        c.dispose();
+      }
     }
     super.onClose();
   }

@@ -13,7 +13,11 @@ class CustomActionCard extends StatelessWidget {
       onTap: () {
         Get.toNamed(action.route);
       },
-      child: Card(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.r),
+          color: Colors.grey.shade200,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

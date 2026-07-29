@@ -4,15 +4,16 @@ import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_card_tow_title.dart';
 import 'package:hrm_app/components/custom_container_with_title.dart';
-import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
+import 'package:hrm_app/features/time_off/controllers/time_off_controller.dart';
 
 class NewRequestLeaveView extends StatelessWidget {
-  const NewRequestLeaveView({super.key});
+  NewRequestLeaveView({super.key});
+  final timeOffController = Get.find<TimeOffController>();
 
   @override
   Widget build(BuildContext context) {
@@ -121,10 +122,31 @@ class NewRequestLeaveView extends StatelessWidget {
               AppSpacing.vertical20,
               CustomContainerWithTitle(
                 titel: 'Leave Type*',
-                widget: CustomTextFiled(
-                  label: 'Select Leave Type',
-                  controller: TextEditingController(),
-                  suffixIcon: Icon(Icons.keyboard_arrow_down),
+                widget: Obx(
+                  () => DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                    hint: Text(
+                      "Select Leave Type",
+                      style: TextStyle(fontSize: 14.sp),
+                    ),
+                    initialValue:
+                        timeOffController.selectedLeaveType.value.isEmpty
+                        ? null
+                        : timeOffController.selectedLeaveType.value,
+                    items: timeOffController.leaveTypes.map((leave) {
+                      return DropdownMenuItem(value: leave, child: Text(leave));
+                    }).toList(),
+                    onChanged: (value) {
+                      timeOffController.selectedLeaveType.value = value!;
+                    },
+                  ),
                 ),
               ),
               AppSpacing.vertical20,
@@ -147,16 +169,27 @@ class NewRequestLeaveView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'dd/mm/yyyy',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
+                        Obx(
+                          () => Text(
+                            timeOffController.startDate.value == null
+                                ? "dd/mm/yyyy"
+                                : "${timeOffController.startDate.value!.day}/"
+                                      "${timeOffController.startDate.value!.month}/"
+                                      "${timeOffController.startDate.value!.year}",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                        Icon(
-                          Icons.calendar_today_outlined,
-                          color: Colors.grey.shade500,
+                        GestureDetector(
+                          onTap: () {
+                            timeOffController.selectDate(true);
+                          },
+                          child: Icon(
+                            Icons.calendar_today_outlined,
+                            color: Colors.grey.shade500,
+                          ),
                         ),
                       ],
                     ),
@@ -172,15 +205,22 @@ class NewRequestLeaveView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'dd/mm/yyyy',
+                          timeOffController.endDate.value == null
+                              ? 'dd/mm/yyyy'
+                              : "${timeOffController.endDate.value!.day}/"
+                                    "${timeOffController.endDate.value!.month}/"
+                                    "${timeOffController.endDate.value!.year}",
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Icon(
-                          Icons.calendar_today_outlined,
-                          color: Colors.grey.shade500,
+                        GestureDetector(
+                          onTap: () => timeOffController.selectDate(false),
+                          child: Icon(
+                            Icons.calendar_today_outlined,
+                            color: Colors.grey.shade500,
+                          ),
                         ),
                       ],
                     ),
@@ -191,6 +231,7 @@ class NewRequestLeaveView extends StatelessWidget {
               CustomContainerWithTitle(
                 titel: 'Notes*',
                 widget: TextField(
+                  controller: timeOffController.noteController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade100,
@@ -205,9 +246,11 @@ class NewRequestLeaveView extends StatelessWidget {
               ),
               AppSpacing.vertical20,
               CustomContainerWithTitle(
-                titel: 'AttochMents*',
+                titel: 'Attachments*',
                 widget: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    timeOffController.pickFile();
+                  },
                   child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(20.w),
@@ -215,39 +258,51 @@ class NewRequestLeaveView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.r),
                       color: Colors.grey.shade100,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.green.shade100,
-                          ),
-                          child: Icon(
-                            Icons.file_upload_outlined,
-                            color: AppColors.primaryColor,
-                            size: 24.w,
-                          ),
-                        ),
-                        Text(
-                          'Drop file here and cilck to upload',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black45,
-                          ),
-                        ),
-                        AppSpacing.vertical8,
-                        Text(
-                          'PDF,PNG,JPG up to 10MB',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black45,
-                          ),
-                        ),
-                      ],
+                    child: Obx(
+                      () => timeOffController.selectedFile.value == null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.green.shade100,
+                                  ),
+                                  child: Icon(
+                                    Icons.file_upload_outlined,
+                                    color: AppColors.primaryColor,
+                                    size: 24.w,
+                                  ),
+                                ),
+                                Text(
+                                  'Drop file here and cilck to upload',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black45,
+                                  ),
+                                ),
+                                AppSpacing.vertical8,
+                                Text(
+                                  'PDF,PNG,JPG up to 10MB',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black45,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(
+                              timeOffController.selectedFile.value!.path
+                                  .split("/")
+                                  .last,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                 ),
@@ -265,7 +320,12 @@ class NewRequestLeaveView extends StatelessWidget {
                   ),
                   AppSpacing.horizontal8,
                   Expanded(
-                    child: CustomButton(title: 'SubmitRequest', onTap: () {}),
+                    child: CustomButton(
+                      title: 'SubmitRequest',
+                      onTap: () {
+                        timeOffController.addleave();
+                      },
+                    ),
                   ),
                 ],
               ),

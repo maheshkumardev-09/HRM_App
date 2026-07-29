@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/features/auth/models/user_moel.dart';
 import 'package:hrm_app/routes/app_routes.dart';
+import 'package:hrm_app/services/storage_service.dart';
 
 class AuthControllr extends GetxController {
   RxBool isLoading = false.obs;
@@ -11,24 +11,20 @@ class AuthControllr extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  var userData = UserMoel(
-    email: 'kumarmahesh123mengh@gmail.com',
-    name: 'Ahamad',
-    profileImage: AppImages.profileImage,
-    designation: 'Software Engineer',
-  ).obs;
-
   Future<void> logIn() async {
-    String email = emailController.text.trim();
-    String password = passwordController.text.trim();
     try {
-      isLoading.value = true;
-      if (email.isEmpty || password.isEmpty) {
-        Get.snackbar('Error', 'Please Enter your email and password ');
-        Get.toNamed(AppRoutes.homeview);
+      UserMoel? user = await StorageService.getUser();
+      if (user == null) {
+        Get.snackbar("Account Not Found", "Please sign up first");
+        return;
+      }
+      if (user.email == emailController.text &&
+          user.password == passwordController.text) {
+        Get.snackbar("Success", "Login Successfully");
+        Get.offAllNamed(AppRoutes.navbar);
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('Error', "Invalid Email Password");
     } finally {
       isLoading.value = false;
     }
@@ -39,22 +35,26 @@ class AuthControllr extends GetxController {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
     try {
-      isLoading.value = true;
-      if (name.isEmpty || email.isEmpty || password.isEmpty) {
-        Get.snackbar('Errr', 'please Enter Your name email and password');
-      }
+      UserMoel user = UserMoel(name: name, email: email, password: password);
+      await StorageService.saveUser(user);
+      Get.snackbar("Success", "Account Created");
+      Get.offAllNamed(AppRoutes.navbar);
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('Error', 'fill all fildes ');
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> forgotPassword() async {
-    // String email = emailController.text.trim();
-  }
-
   void passwordToggle() {
     isPassword.value = !isPassword.value;
+  }
+
+  @override
+  void onClose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 }

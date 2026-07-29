@@ -12,9 +12,6 @@ import 'package:hrm_app/routes/app_routes.dart';
 class SignUpView extends StatelessWidget {
   SignUpView({super.key});
   final _authControllr = Get.find<AuthControllr>();
-  final TextEditingController namecontroler = TextEditingController();
-  final TextEditingController emailControllr = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

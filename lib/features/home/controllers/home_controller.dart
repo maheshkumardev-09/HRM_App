@@ -1,15 +1,22 @@
 import 'package:get/get.dart';
 import 'package:hrm_app/data/models/announcement_model.dart';
-import 'package:hrm_app/data/models/leave_balance_model.dart';
 import 'package:hrm_app/data/models/quick_action_model.dart';
+import 'package:hrm_app/features/auth/models/user_moel.dart';
 import 'package:hrm_app/routes/app_routes.dart';
+import 'package:hrm_app/services/storage_service.dart';
 
 class HomeController extends GetxController {
-  var leaveBalances = <LeaveBalanceModel>[
-    LeaveBalanceModel(leaveType: 'Sick Day Off', usedDays: 8, totalDays: 16),
-    LeaveBalanceModel(leaveType: 'Paid Leaves', usedDays: 8, totalDays: 16),
-    LeaveBalanceModel(leaveType: 'Casual Leave', usedDays: 3, totalDays: 10), //
-  ].obs;
+  Rx<UserMoel?> user = Rx<UserMoel?>(null);
+  @override
+  void onInit() {
+    loadUser();
+    super.onInit();
+  }
+
+  Future<void> loadUser() async {
+    user.value = await StorageService.getUser();
+  }
+
   var quickActions = <QuickActionModel>[
     QuickActionModel(
       title: 'Check Out',

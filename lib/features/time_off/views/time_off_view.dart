@@ -18,122 +18,128 @@ class TimeOffView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(showMenu: false),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTitel(title: 'My Leave Summary', ontap: () {}),
-              AppSpacing.vertical30,
-              Container(
-                padding: EdgeInsets.all(20.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: AppColors.primaryColor),
-                  color: Colors.grey.shade100,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Remaining Leave Balances',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
+      body: Obx(() {
+        if (timeoffcontroller.leaveList.isEmpty) {
+          return Center(child: Text("No Leave Request"));
+        }
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTitel(title: 'My Leave Summary', ontap: () {}),
+                AppSpacing.vertical30,
+                Container(
+                  padding: EdgeInsets.all(20.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: AppColors.primaryColor),
+                    color: Colors.grey.shade100,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Remaining Leave Balances',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    AppSpacing.vertical20,
-                    Container(
-                      padding: EdgeInsets.all(20.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        color: Colors.grey.shade200,
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            AppImages.timeofficon,
-                            width: 50.w,
-                            height: 50.h,
-                            fit: BoxFit.contain,
-                          ),
-                          AppSpacing.horizontal10,
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Paid Leave',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                AppSpacing.vertical8,
-                                Text(
-                                  '8 days remainnig',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    AppSpacing.vertical20,
-                    SizedBox(
-                      height: 40.h,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.toNamed(AppRoutes.teamcalendarview);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(12.r),
-                          ),
+                      AppSpacing.vertical20,
+                      Container(
+                        padding: EdgeInsets.all(20.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          color: Colors.grey.shade200,
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.calendar_today_outlined,
-                              color: AppColors.white,
-                              size: 24.w,
+                            Image.asset(
+                              AppImages.timeofficon,
+                              width: 50.w,
+                              height: 50.h,
+                              fit: BoxFit.contain,
                             ),
                             AppSpacing.horizontal10,
-                            Text(
-                              'Team Calendar',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.white,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Paid Leave',
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  AppSpacing.vertical8,
+                                  Text(
+                                    '8 days remainnig',
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                      AppSpacing.vertical20,
+                      SizedBox(
+                        height: 40.h,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.teamcalendarview);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadiusGeometry.circular(12.r),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.calendar_today_outlined,
+                                color: AppColors.white,
+                                size: 24.w,
+                              ),
+                              AppSpacing.horizontal10,
+                              Text(
+                                'Team Calendar',
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              AppSpacing.vertical30,
-              Text(
-                'My Leave',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
-              ),
-              AppSpacing.vertical20,
-              Obx(
-                () => ListView.builder(
-                  itemCount: timeoffcontroller.timeOffList.length,
+                AppSpacing.vertical30,
+                Text(
+                  'My Leave',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                AppSpacing.vertical20,
+                ListView.builder(
+                  itemCount: timeoffcontroller.leaveList.length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    final data = timeoffcontroller.timeOffList[index];
+                    final data = timeoffcontroller.leaveList[index];
                     return Padding(
                       padding: EdgeInsets.only(bottom: 10.h),
                       child: Container(
@@ -278,11 +284,11 @@ class TimeOffView extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.toNamed(AppRoutes.newleaverequestview),
         backgroundColor: AppColors.primaryColor,

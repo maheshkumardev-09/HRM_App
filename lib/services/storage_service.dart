@@ -13,12 +13,17 @@ class StorageService {
 
   static Future<UserMoel?> getUser() async {
     final preference = await SharedPreferences.getInstance();
-
     String? data = preference.getString("user");
-
     if (data != null) {
       Map<String, dynamic> jsonData = jsonDecode(data);
       return UserMoel.formjson(jsonData);
     }
+    return null;
+  }
+
+  static Future<bool> isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getBool("isLogin") ?? false;
   }
 }
