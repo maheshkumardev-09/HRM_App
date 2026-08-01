@@ -6,6 +6,7 @@ class TimeOffModel {
   final DateTime dateTo;
   final int leaveDuration;
   final String notes;
+  final String attachment;
 
   TimeOffModel({
     required this.allocation,
@@ -15,6 +16,7 @@ class TimeOffModel {
     required this.dateTo,
     required this.leaveDuration,
     required this.notes,
+    required this.attachment,
   });
 
   factory TimeOffModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class TimeOffModel {
       dateTo: DateTime.parse(json['dateTo']),
       leaveDuration: json['duration'],
       notes: json["note"] ?? "",
+      attachment: json["attachment"] ?? ""
     );
   }
 
@@ -38,6 +41,7 @@ class TimeOffModel {
       "dateTo": dateTo.toString(),
       "duration": leaveDuration,
       "note": notes,
+      "attachment": attachment,
     };
   }
 }

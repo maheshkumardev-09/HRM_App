@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:hrm_app/components/custom2.dart';
+import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_container_with_title.dart';
+import 'package:hrm_app/components/custom_dropdown_field.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
@@ -14,7 +12,6 @@ import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/expenses/controllers/expenses_controller.dart';
 
 class NewExpensesView extends StatelessWidget {
-  final discriptionControlle = TextEditingController();
   final expenseController = Get.find<ExpensesController>();
 
   NewExpensesView({super.key});
@@ -83,16 +80,22 @@ class NewExpensesView extends StatelessWidget {
                 titel: 'Description*',
                 widget: CustomTextFiled(
                   label: 'Add description here.....',
-                  controller: discriptionControlle,
+                  controller: expenseController.descriptionController,
                 ),
               ),
               AppSpacing.vertical20,
               CustomContainerWithTitle(
                 titel: 'EXpexses Type*',
-                widget: Custom2(
-                  titel: 'Select on expenses type',
-                  icon: Icons.keyboard_arrow_down,
-                  onTap: () {},
+                widget: Obx(
+                  () => CustomDropdownField(
+                    value: expenseController.selectedExpenseType.value.isEmpty
+                        ? null
+                        : expenseController.selectedExpenseType.value,
+                    items: expenseController.expenseType,
+                    onChanged: (value) {
+                      expenseController.selectedExpenseType.value = value!;
+                    },
+                  ),
                 ),
               ),
               AppSpacing.vertical20,
@@ -100,15 +103,18 @@ class NewExpensesView extends StatelessWidget {
               CustomContainerWithTitle(
                 titel: 'Amount*',
                 widget: CustomTextFiled(
+                  keyboardType: TextInputType.number,
                   label: '00.0',
-                  controller: discriptionControlle,
+                  controller: expenseController.amountController,
                 ),
               ),
               AppSpacing.vertical20,
               CustomContainerWithTitle(
                 titel: 'Upload Receipts',
                 widget: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    expenseController.pickFile();
+                  },
                   child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(10),
@@ -116,39 +122,51 @@ class NewExpensesView extends StatelessWidget {
                       color: Colors.grey.shade100,
                       borderRadius: BorderRadius.circular(12.r),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.green.shade100,
-                          ),
-                          child: Icon(
-                            Icons.file_upload_outlined,
-                            color: AppColors.primaryColor,
-                            size: 24.w,
-                          ),
-                        ),
-                        Text(
-                          'Drop file here and cilck to upload',
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black45,
-                          ),
-                        ),
-                        AppSpacing.vertical8,
-                        Text(
-                          'PDF,PNG,JPG up to 10MB',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black45,
-                          ),
-                        ),
-                      ],
+                    child: Obx(
+                      () => expenseController.selectedFile.value == null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.green.shade100,
+                                  ),
+                                  child: Icon(
+                                    Icons.file_upload_outlined,
+                                    color: AppColors.primaryColor,
+                                    size: 24.w,
+                                  ),
+                                ),
+                                Text(
+                                  'Drop file here and cilck to upload',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black45,
+                                  ),
+                                ),
+                                AppSpacing.vertical8,
+                                Text(
+                                  'PDF,PNG,JPG up to 10MB',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black45,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(
+                              expenseController.selectedFile.value!.path
+                                  .split("/")
+                                  .last,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                 ),
@@ -157,6 +175,7 @@ class NewExpensesView extends StatelessWidget {
               CustomContainerWithTitle(
                 titel: 'Notes',
                 widget: TextField(
+                  controller: expenseController.noteController,
                   maxLines: 4,
                   decoration: InputDecoration(
                     filled: true,
@@ -181,13 +200,18 @@ class NewExpensesView extends StatelessWidget {
                     child: CustomButton(
                       title: 'Cancel',
                       titleColor: Colors.black,
-                      onTap: () {},
+                      onTap: () => Get.back(),
                       buttonColor: Colors.grey.shade300,
                     ),
                   ),
                   AppSpacing.horizontal10,
                   Expanded(
-                    child: CustomButton(title: 'Crate Lead', onTap: () {}),
+                    child: CustomButton(
+                      title: 'Crate Lead',
+                      onTap: () {
+                        expenseController.addNewExpenses();
+                      },
+                    ),
                   ),
                 ],
               ),

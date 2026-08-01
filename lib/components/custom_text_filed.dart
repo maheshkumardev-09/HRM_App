@@ -9,6 +9,8 @@ class CustomTextFiled extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixicon;
   final bool readonly;
+  final TextInputType? keyboardType;
+
   final ValueChanged<String>? onChanged;
   const CustomTextFiled({
     super.key,
@@ -19,11 +21,13 @@ class CustomTextFiled extends StatelessWidget {
     this.prefixicon,
     this.readonly = false,
     this.onChanged,
+    this.keyboardType,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      keyboardType: keyboardType,
       obscureText: hidepassword,
       controller: controller,
       readOnly: readonly,

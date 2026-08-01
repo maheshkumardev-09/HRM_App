@@ -1,39 +1,60 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:hrm_app/features/time_sheets/data/time_sheet_dummy_data.dart';
 import 'package:hrm_app/features/time_sheets/models/time_sheet_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TimeSheetController extends GetxController {
-  var timesheetList = <TimesheetModel>[
-    TimesheetModel(
-      taskId: "1",
-      date: "2026-04-05",
-      employeeName: "M.Ahmad",
-      description: "This is description of task2...",
-      hoursSpent: 5.5,
-      taskTitle: "Repairing",
-      projectName: "Aman Al Bilad",
-    ),
-    TimesheetModel(
-      taskId: "1",
-      date: "2026-04-05",
-      employeeName: "M.Ahmad",
-      description: "This is description of task2...",
-      hoursSpent: 2.0,
-      taskTitle: "Work of Electrical Wiring",
-      projectName: "Prime Stats",
-    ),
-    TimesheetModel(
-      taskId: "2",
-      date: "2026-04-06",
-      employeeName: "Ali Khan",
-      description: "Inspected pipelines",
-      hoursSpent: 3.0,
-      taskTitle: "Repairing",
-      projectName: "Aman Al Bilad",
-    ),
-    // ... baaki saare entries jo pehle TaskModel ke andar the
-  ].obs;
+  RxList<TimesheetModel> timeSheetList = <TimesheetModel>[].obs;
+
+  @override
+  void onInit() {
+    loadData();
+    super.onInit();
+  }
+
+  Future<void> loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? timesheet = prefs.getString('timesheetlist');
+    if (timesheet == null) {
+      timeSheetList.value = TimeSheetDummyData.timeSheetData
+          .map((e) => TimesheetModel.FromJson(e))
+          .toList();
+      await saveData();
+      return;
+    } else {
+      List data = jsonDecode(timesheet);
+      timeSheetList.value = data
+          .map((e) => TimesheetModel.FromJson(e))
+          .toList();
+    }
+  }
+
+  Future<void> saveData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = timeSheetList.map((e) => e.toJson()).toList();
+    await prefs.setString('timesheetlist', jsonEncode(data));
+  }
+
+  Future<void> addTimeSheet() async {
+    final newTimeSheet = TimesheetModel(
+      date: '',
+      employeeName: '',
+      description: '',
+      hoursSpent: 0.0,
+      taskId: '',
+      taskTitle: '',
+      projectName: '',
+    );
+    timeSheetList.add(newTimeSheet);
+    await saveData();
+
+    Get.back();
+    Get.snackbar('Seccussfull', 'New timesheet created');
+  }
 
   List<TimesheetModel> getEntriesByTask(String taskId) {
-    return timesheetList.where((entry) => entry.taskId == taskId).toList();
+    return timeSheetList.where((entry) => entry.taskId == taskId).toList();
   }
 }

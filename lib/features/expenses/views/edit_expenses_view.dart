@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/components/custom2.dart';
+import 'package:hrm_app/components/custom_2.dart';
+import 'package:hrm_app/components/custom_dropdown_field.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_container_with_title.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
@@ -13,8 +14,6 @@ import 'package:hrm_app/features/expenses/controllers/expenses_controller.dart';
 
 class EditExpensesView extends StatelessWidget {
   EditExpensesView({super.key});
-  final discriptionControlle = TextEditingController();
-
   final expenseController = Get.find<ExpensesController>();
 
   @override
@@ -81,16 +80,22 @@ class EditExpensesView extends StatelessWidget {
                 titel: 'Description*',
                 widget: CustomTextFiled(
                   label: 'Piad lunch bil for clint',
-                  controller: discriptionControlle,
+                  controller: expenseController.descriptionController,
                 ),
               ),
               AppSpacing.vertical20,
               CustomContainerWithTitle(
                 titel: 'EXpexses Type*',
-                widget: Custom2(
-                  titel: 'Male',
-                  icon: Icons.keyboard_arrow_down,
-                  onTap: () {},
+                widget: Obx(
+                  () => CustomDropdownField(
+                    value: expenseController.selectedExpenseType.value.isEmpty
+                        ? null
+                        : expenseController.selectedExpenseType.value,
+                    items: expenseController.expenseType,
+                    onChanged: (value) {
+                      expenseController.selectedExpenseType.value = value!;
+                    },
+                  ),
                 ),
               ),
               AppSpacing.vertical20,
@@ -98,7 +103,7 @@ class EditExpensesView extends StatelessWidget {
                 titel: 'Amount*',
                 widget: CustomTextFiled(
                   label: '300.0',
-                  controller: discriptionControlle,
+                  controller: expenseController.amountController,
                 ),
               ),
               AppSpacing.vertical20,
@@ -109,11 +114,18 @@ class EditExpensesView extends StatelessWidget {
                   child: Column(
                     children: [
                       Custom2(
-                        titel: 'Meal bil.PDF(170.0 kb)',
+                        titel: expenseController.selectedFile.value == null
+                            ? "No file selected"
+                            : expenseController.selectedFile.value!.path
+                                  .split('/')
+                                  .last,
                         icon: Icons.delete_forever_outlined,
                         color: Colors.red,
-                        onTap: () {},
+                        onTap: () {
+                          expenseController.selectedFile.value = null;
+                        },
                       ),
+
                       AppSpacing.vertical8,
                       Row(
                         children: [
@@ -140,7 +152,9 @@ class EditExpensesView extends StatelessWidget {
                           ),
                           AppSpacing.horizontal10,
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              expenseController.pickFile();
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(
@@ -168,6 +182,7 @@ class EditExpensesView extends StatelessWidget {
               CustomContainerWithTitle(
                 titel: 'Notes',
                 widget: TextField(
+                  controller: expenseController.noteController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade100,
@@ -191,14 +206,18 @@ class EditExpensesView extends StatelessWidget {
                     child: CustomButton(
                       title: 'Cancel',
                       titleColor: Colors.black,
-                      onTap: () {},
+                      onTap: () {
+                        Get.back();
+                      },
                       buttonColor: Colors.grey.shade300,
                     ),
                   ),
                   AppSpacing.horizontal10,
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        expenseController.updateExpense();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,
                         shape: RoundedRectangleBorder(

@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:hrm_app/components/custom_2.dart';
 import 'package:hrm_app/components/custom_row_container.dart';
-import 'package:hrm_app/components/custom2.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
@@ -63,11 +63,11 @@ class TimeSheetView extends StatelessWidget {
               ),
               AppSpacing.vertical20,
               ListView.builder(
-                itemCount: timesheetcontroller.timesheetList.length,
+                itemCount: timesheetcontroller.timeSheetList.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  final data = timesheetcontroller.timesheetList[index];
+                  final data = timesheetcontroller.timeSheetList[index];
                   return Padding(
                     padding: EdgeInsets.only(bottom: 10.h),
                     child: Container(
@@ -217,7 +217,7 @@ class TimeSheetView extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed(AppRoutes.newexpensesview),
+        onPressed: () => Get.toNamed(AppRoutes.timesheetview),
         backgroundColor: AppColors.primaryColor,
         shape: const CircleBorder(),
         child: Icon(Icons.add, color: AppColors.white),

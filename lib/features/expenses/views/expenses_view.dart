@@ -8,6 +8,7 @@ import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/expenses/controllers/expenses_controller.dart';
 import 'package:hrm_app/routes/app_routes.dart';
+import 'package:intl/intl.dart';
 
 class ExpensesView extends StatelessWidget {
   ExpensesView({super.key});
@@ -41,14 +42,16 @@ class ExpensesView extends StatelessWidget {
               ),
             ),
             AppSpacing.vertical20,
-            Obx(
-              () => SizedBox(
+            Obx(() {
+              final selected = expenseController.selectedStatus.value;
+              return SizedBox(
                 height: 30.h,
                 child: ListView.builder(
-                  // padding: EdgeInsets.all(20.w),
                   scrollDirection: Axis.horizontal,
                   itemCount: expenseController.statusList.length,
                   itemBuilder: (context, index) {
+                    final status = expenseController.statusList[index];
+
                     return GestureDetector(
                       onTap: () => expenseController.changeStatus(
                         expenseController.statusList[index],
@@ -58,7 +61,7 @@ class ExpensesView extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 14.w),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey.shade400),
-                          color: index == 0
+                          color: status == selected
                               ? AppColors.primaryColor
                               : Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(20.r),
@@ -73,156 +76,171 @@ class ExpensesView extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ), // ListView.builder(
+              );
+            }), // ListView.builder(
             AppSpacing.vertical20,
             Expanded(
-              child: ListView.builder(
-                itemCount: expenseController.expensesList.length,
-                itemBuilder: (context, index) {
-                  final data = expenseController.expensesList[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 10.h),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: Colors.grey.shade400),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: AppColors.primaryColor,
-                                ),
-                                width: 50.w,
-                                height: 40.h,
-                                child: Icon(
-                                  Icons.camera_alt_outlined,
-                                  size: 24.w,
-                                  color: AppColors.white,
-                                ),
-                              ),
-                              AppSpacing.horizontal20,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'SR ${data.amount.toString()}',
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  AppSpacing.vertical8,
-                                  Text(
-                                    data.description,
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 16.w,
-                                  vertical: 8.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: expenseController.getStatusColor(
-                                    data.status,
-                                  ),
-                                ),
-                                child: Text(
-                                  data.status,
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    fontSize: 12.sp,
-                                  ),
-                                ),
-                              ),
-                            ],
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: expenseController.filteredExpenses.length,
+                  itemBuilder: (context, index) {
+                    final data = expenseController.filteredExpenses[index];
+                    return GestureDetector(
+                      onLongPress: () =>
+                          expenseController.showDeleteDialog(data),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 10.h),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: Colors.grey.shade400),
                           ),
-                          AppSpacing.vertical10,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          child: Column(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    data.date,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: AppColors.primaryColor,
                                     ),
-                                  ),
-                                  AppSpacing.vertical8,
-                                  Text(
-                                    'Date',
-                                    style: TextStyle(
-                                      fontSize: 10.sp,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      data.paidBy,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    AppSpacing.vertical8,
-                                    Text(
-                                      'PaidBy',
-                                      style: TextStyle(
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () =>
-                                    Get.toNamed(AppRoutes.editexpensesview),
-                                child: Container(
-                                  padding: EdgeInsets.all(8.w),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: AppColors.primaryColor,
-                                  ),
-                                  child: Text(
-                                    'Edit',
-                                    style: TextStyle(
+                                    width: 50.w,
+                                    height: 40.h,
+                                    child: Icon(
+                                      Icons.camera_alt_outlined,
+                                      size: 24.w,
                                       color: AppColors.white,
-                                      fontSize: 12.sp,
                                     ),
                                   ),
-                                ),
+                                  AppSpacing.horizontal20,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'SR ${data.amount.toString()}',
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      AppSpacing.vertical8,
+                                      Text(
+                                        data.description,
+                                        style: TextStyle(
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w,
+                                      vertical: 8.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: expenseController.getStatusColor(
+                                        data.status,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      data.status,
+                                      style: TextStyle(
+                                        color: AppColors.white,
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              AppSpacing.vertical10,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        DateFormat(
+                                          'yyyy/MM/dd',
+                                        ).format(data.date),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      AppSpacing.vertical8,
+                                      Text(
+                                        'Date',
+                                        style: TextStyle(
+                                          fontSize: 10.sp,
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          data.paidBy,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        AppSpacing.vertical8,
+                                        Text(
+                                          'PaidBy',
+                                          style: TextStyle(
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(
+                                        AppRoutes.editexpensesview,
+                                        arguments: data,
+                                      );
+                                      expenseController.loadData();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(8.w),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: AppColors.primaryColor,
+                                      ),
+                                      child: Text(
+                                        'Edit',
+                                        style: TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ],

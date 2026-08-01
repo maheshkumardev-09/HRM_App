@@ -16,4 +16,28 @@ class TimesheetModel {
     required this.taskTitle,
     required this.projectName,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "taskId": taskId,
+      "date": date,
+      "taskTitle": taskTitle,
+      "projectName": projectName,
+      "employeeName": employeeName,
+      "description": description,
+      "hoursSpent": hoursSpent,
+    };
+  }
+
+  factory TimesheetModel.FromJson(Map<String, dynamic> json) {
+    return TimesheetModel(
+      taskId: json['taskId'] ?? '',
+      date: json['date'] ?? '',
+      taskTitle: json['taskTitle'] ?? '',
+      projectName: json['projectName'] ?? '',
+      employeeName: json['employeeName'] ?? '',
+      description: json['description'] ?? '',
+      hoursSpent: (json['hoursSpent'] as num?)?.toDouble() ?? 0.0,
+    );
+  }
 }

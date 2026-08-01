@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_card_tow_title.dart';
 import 'package:hrm_app/components/custom_container_with_title.dart';
+import 'package:hrm_app/components/custom_dropdown_field.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
@@ -123,27 +124,12 @@ class NewRequestLeaveView extends StatelessWidget {
               CustomContainerWithTitle(
                 titel: 'Leave Type*',
                 widget: Obx(
-                  () => DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey.shade100,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                    ),
-                    hint: Text(
-                      "Select Leave Type",
-                      style: TextStyle(fontSize: 14.sp),
-                    ),
-                    initialValue:
-                        timeOffController.selectedLeaveType.value.isEmpty
+                  () => CustomDropdownField(
+                    value: timeOffController.selectedLeaveType.value.isEmpty
                         ? null
                         : timeOffController.selectedLeaveType.value,
-                    items: timeOffController.leaveTypes.map((leave) {
-                      return DropdownMenuItem(value: leave, child: Text(leave));
-                    }).toList(),
-                    onChanged: (value) {
+                    items: timeOffController.leaveTypes,
+                    onChanged: (String? value) {
                       timeOffController.selectedLeaveType.value = value!;
                     },
                   ),
@@ -204,15 +190,17 @@ class NewRequestLeaveView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          timeOffController.endDate.value == null
-                              ? 'dd/mm/yyyy'
-                              : "${timeOffController.endDate.value!.day}/"
-                                    "${timeOffController.endDate.value!.month}/"
-                                    "${timeOffController.endDate.value!.year}",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
+                        Obx(
+                          () => Text(
+                            timeOffController.endDate.value == null
+                                ? 'dd/mm/yyyy'
+                                : "${timeOffController.endDate.value!.day}/"
+                                      "${timeOffController.endDate.value!.month}/"
+                                      "${timeOffController.endDate.value!.year}",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                         GestureDetector(

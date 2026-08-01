@@ -21,6 +21,7 @@ import 'package:hrm_app/features/sales/views/new_quotation_view.dart';
 import 'package:hrm_app/features/time_off/views/new_request_leave_view.dart';
 import 'package:hrm_app/features/time_off/views/team_calendar_view.dart';
 import 'package:hrm_app/features/time_off/views/time_off_view.dart';
+import 'package:hrm_app/features/time_sheets/views/new_timesheet_view.dart';
 import 'package:hrm_app/features/time_sheets/views/time_sheet_view.dart';
 
 class AppPages {
@@ -41,6 +42,7 @@ class AppPages {
     GetPage(name: '/task', page: () => TaskView()),
     GetPage(name: '/taskdetail', page: () => TaskDetailsView()),
     GetPage(name: '/timesheet', page: () => TimeSheetView()),
+    GetPage(name: '/newtimesheet', page: () => NewTimesheetView()),
     GetPage(name: '/payroll', page: () => PayrollView()),
     GetPage(name: '/newquotation', page: () => NewQuotationView()),
     GetPage(name: '/editquotation', page: () => EditQuotationView()),
