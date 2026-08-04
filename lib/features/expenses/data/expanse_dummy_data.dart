@@ -1,6 +1,7 @@
 class ExpanseDummyData {
   static List<Map<String, dynamic>> expensesList = [
     {
+      "id": '1',
       "amount": 300.00,
       "description": "Paid lunch bill for client",
       "date": "2026-04-01",
@@ -9,6 +10,7 @@ class ExpanseDummyData {
       "expenseType": "Meal & Food",
     },
     {
+      "id": '2',
       "amount": 150.00,
       "description": "Other Expense",
       "date": "2026-04-10",
@@ -17,6 +19,7 @@ class ExpanseDummyData {
       "expenseType": "Other",
     },
     {
+      "id": '3',
       "amount": 1150.00,
       "description": "Office Expenses",
       "date": "2026-04-10",
@@ -25,6 +28,7 @@ class ExpanseDummyData {
       "expenseType": "Accommodation",
     },
     {
+      "id": '4',
       "amount": 300.00,
       "description": "Paid lunch bill for client",
       "date": "2026-04-01",
@@ -33,6 +37,7 @@ class ExpanseDummyData {
       "expenseType": "Meal & Food",
     },
     {
+      "id": '4',
       "amount": 300.00,
       "description": "Paid lunch bill for client",
       "date": "2026-04-01",
@@ -41,6 +46,7 @@ class ExpanseDummyData {
       "expenseType": "Travel",
     },
     {
+      "id": '6',
       "amount": 1150.00,
       "description": "Office Expenses",
       "date": "2026-04-10",

@@ -13,7 +13,7 @@ import 'package:hrm_app/features/time_sheets/models/time_sheet_model.dart';
 import 'package:intl/intl.dart';
 
 class EditTimesheetView extends StatefulWidget {
-  EditTimesheetView({super.key});
+  const EditTimesheetView({super.key});
 
   @override
   State<EditTimesheetView> createState() => _EditTimesheetViewState();
@@ -53,7 +53,7 @@ class _EditTimesheetViewState extends State<EditTimesheetView> {
                   titel: 'Date*',
                   widget: CustomTextFiled(
                     readonly: true,
-                    label: timesheet.date,
+                    label: '',
                     controller: TextEditingController(
                       text: timesheetController.selectedDate.value == null
                           ? ""
@@ -102,7 +102,7 @@ class _EditTimesheetViewState extends State<EditTimesheetView> {
                   titel: 'Description',
                   widget: CustomTextFiled(
                     controller: timesheetController.descriptionController,
-                    label: "Enter Description",
+                    label: '',
                     maxLines: 5,
                   ),
                 ),
@@ -110,7 +110,7 @@ class _EditTimesheetViewState extends State<EditTimesheetView> {
                 CustomContainerWithTitle(
                   titel: 'Hours',
                   widget: CustomTextFiled(
-                    label: timesheet.hoursSpent.toString(),
+                    label: '',
                     controller: timesheetController.hoursController,
                     keyboardType: TextInputType.number,
                   ),

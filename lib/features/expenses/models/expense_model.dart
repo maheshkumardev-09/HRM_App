@@ -1,4 +1,5 @@
 class ExpenseModel {
+  final String id;
   final double amount;
   final String description;
   final DateTime date;
@@ -15,6 +16,7 @@ class ExpenseModel {
     required this.description,
     this.note,
     required this.expenseType,
+    required this.id,
   });
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
@@ -26,11 +28,13 @@ class ExpenseModel {
       description: json["description"] ?? '',
       note: json["note"],
       expenseType: json["expenseType"] ?? '',
+      id: json["id"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "amount": amount,
       "date": date.toIso8601String(),
       "paidBy": paidBy,

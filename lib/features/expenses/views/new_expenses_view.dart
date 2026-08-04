@@ -176,6 +176,7 @@ class NewExpensesView extends StatelessWidget {
               CustomContainerWithTitle(
                 titel: 'Notes',
                 widget: TextField(
+                  keyboardType: TextInputType.multiline,
                   controller: expenseController.noteController,
                   maxLines: 4,
                   decoration: InputDecoration(

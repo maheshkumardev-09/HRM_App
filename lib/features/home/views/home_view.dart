@@ -53,6 +53,8 @@ class HomeView extends StatelessWidget {
                               fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           AppSpacing.vertical8,
                           GestureDetector(

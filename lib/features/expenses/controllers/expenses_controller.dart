@@ -3,76 +3,32 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/features/expenses/data/expanse_dummy_data.dart';
 import 'package:hrm_app/features/expenses/models/expense_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExpensesController extends GetxController {
-  RxBool isLoading = false.obs;
-  RxString selectedExpenseType = "".obs;
+  RxList<ExpenseModel> expenses = <ExpenseModel>[].obs;
+  ExpenseModel? editingExpense;
   final descriptionController = TextEditingController();
   final amountController = TextEditingController();
   final noteController = TextEditingController();
+  RxString selectedExpenseType = "".obs;
+  RxBool isLoading = false.obs;
   Rx<File?> selectedFile = Rx<File?>(null);
   RxBool isPaidByEmployee = false.obs;
   RxBool isPaidByCompany = false.obs;
-  RxList<ExpenseModel> expenselist = <ExpenseModel>[].obs;
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
-
-  ExpenseModel? selectedExpense;
-
-  @override
-  void onInit() {
-    super.onInit();
-
-    loadData();
-    selectedExpense = Get.arguments;
-    if (selectedExpense != null) {
-      loadExpenseData();
-    }
-  }
+  final selectedStatus = 'All States'.obs;
 
   List<String> expenseType = [
     'Meal & Food',
     'Travel',
     'Accommodation',
     'Airfare',
-    'other',
+    'Other',
   ];
-  Future<void> loadData() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? expanlist = prefs.getString("expenses");
-    if (expanlist == null) {
-      expenselist.value = ExpanseDummyData.expensesList
-          .map((e) => ExpenseModel.fromJson(e))
-          .toList();
-      await saved();
-    } else {
-      List data = jsonDecode(expanlist);
-      expenselist.value = data.map((e) => ExpenseModel.fromJson(e)).toList();
-    }
-  }
-
-  Future<void> saved() async {
-    final prefs = await SharedPreferences.getInstance();
-    final data = expenselist.map((e) => e.toJson()).toList();
-    await prefs.setString("expenses", jsonEncode(data));
-  }
-
-  void selectEmployee(bool value) {
-    isPaidByEmployee.value = value;
-    if (value) {
-      isPaidByCompany.value = false;
-    }
-  }
-
-  void selectCompany(bool value) {
-    isPaidByCompany.value = value;
-    if (value) {
-      isPaidByEmployee.value = false;
-    }
-  }
-
   final List<String> statusList = [
     'All States',
     'To Report',
@@ -82,7 +38,133 @@ class ExpensesController extends GetxController {
     'Draft',
     'Cancelled',
   ].obs;
-  final selectedStatus = 'All States'.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadData();
+  }
+
+  @override
+  void onClose() {
+    descriptionController.dispose();
+    amountController.dispose();
+    noteController.dispose();
+    super.onClose();
+  }
+
+  void startEdit(ExpenseModel expense) {
+    editingExpense = expense;
+
+    descriptionController.text = expense.description;
+
+    amountController.text = expense.amount.toString();
+
+    selectedExpenseType.value = expense.expenseType;
+  }
+
+  void clearForm() {
+    editingExpense = null;
+    descriptionController.clear();
+    amountController.clear();
+    selectedExpenseType.value = "";
+    isPaidByEmployee.value = false;
+    isPaidByCompany.value = false;
+    noteController.clear();
+    selectedFile.value = null;
+    selectedDate.value = null;
+  }
+
+  Future<void> loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? expanlist = prefs.getString("expenses");
+    if (expanlist == null) {
+      expenses.value = ExpanseDummyData.expensesList
+          .map((e) => ExpenseModel.fromJson(e))
+          .toList();
+      await saved();
+    } else {
+      List data = jsonDecode(expanlist);
+      expenses.value = data.map((e) => ExpenseModel.fromJson(e)).toList();
+    }
+  }
+
+  Future<void> addNewExpenses() async {
+    if (selectedExpenseType.value.isEmpty ||
+        amountController.text.trim().isEmpty ||
+        descriptionController.text.trim().isEmpty ||
+        (!isPaidByCompany.value && !isPaidByEmployee.value)) {
+      Get.snackbar("Error", "Please fill all fields");
+      return;
+    }
+    final newExpen = ExpenseModel(
+      amount: double.tryParse(amountController.text) ?? 00,
+      date: DateTime.now(),
+      paidBy: isPaidByCompany.value ? 'Company' : 'Employee',
+      status: 'Draft',
+      description: descriptionController.text,
+      expenseType: selectedExpenseType.value,
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+    );
+    isLoading.value = true;
+    expenses.add(newExpen);
+    await saved();
+    isLoading.value = false;
+    clearForm();
+    Get.back();
+    Get.snackbar('Success', 'New Expenses added');
+  }
+
+  Future<void> updateExpense() async {
+    if (editingExpense == null) {
+      Get.snackbar("Error", "Expense not found");
+      return;
+    }
+    final index = expenses.indexWhere((e) => e.id == editingExpense!.id);
+    if (index == -1) {
+      Get.snackbar("Error", "Expense not found");
+      return;
+    }
+    expenses[index] = ExpenseModel(
+      id: editingExpense!.id,
+      amount: double.tryParse(amountController.text) ?? 0,
+      date: editingExpense!.date,
+      paidBy: isPaidByCompany.value ? "Company" : "Employee",
+      status: editingExpense!.status,
+      description: descriptionController.text,
+      expenseType: selectedExpenseType.value,
+    );
+    await saved();
+    expenses.refresh();
+    clearForm();
+    Get.back();
+    Get.snackbar("Updated", "Expense updated successfully");
+  }
+
+  Future<void> removeExpense(ExpenseModel expense) async {
+    expenses.remove(expense);
+    await saved();
+    Get.snackbar("Deleted", "Expense removed successfully");
+  }
+
+  Future<void> saved() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = expenses.map((e) => e.toJson()).toList();
+    await prefs.setString("expenses", jsonEncode(data));
+  }
+
+  void changeStatus(String value) {
+    selectedStatus.value = value;
+  }
+
+  List<ExpenseModel> get filteredExpenses {
+    if (selectedStatus.value == "All States") {
+      return expenses;
+    }
+
+    return expenses.where((e) => e.status == selectedStatus.value).toList();
+  }
+
   Color getStatusColor(String status) {
     switch (status) {
       case 'Approved':
@@ -104,20 +186,22 @@ class ExpensesController extends GetxController {
         return Colors.red;
 
       default:
-        return Colors.black54;
+        return AppColors.primaryColor;
     }
   }
 
-  void changeStatus(String value) {
-    selectedStatus.value = value;
+  void selectEmployee(bool value) {
+    isPaidByEmployee.value = value;
+    if (value) {
+      isPaidByCompany.value = false;
+    }
   }
 
-  List<ExpenseModel> get filteredExpenses {
-    if (selectedStatus.value == "All States") {
-      return expenselist;
+  void selectCompany(bool value) {
+    isPaidByCompany.value = value;
+    if (value) {
+      isPaidByEmployee.value = false;
     }
-
-    return expenselist.where((e) => e.status == selectedStatus.value).toList();
   }
 
   Future<void> pickFile() async {
@@ -128,82 +212,6 @@ class ExpensesController extends GetxController {
     if (result != null) {
       selectedFile.value = File(result.files.single.path!);
     }
-  }
-
-  void loadExpenseData() {
-    descriptionController.text = selectedExpense!.description;
-    amountController.text = selectedExpense!.amount.toString();
-    selectedExpenseType.value = selectedExpense!.expenseType;
-
-    if (selectedExpense!.paidBy == "Company") {
-      isPaidByCompany.value = true;
-      isPaidByEmployee.value = false;
-    } else {
-      isPaidByEmployee.value = true;
-      isPaidByCompany.value = false;
-    }
-  }
-
-  Future<void> updateExpense() async {
-    print("Update Start");
-
-    final index = expenselist.indexWhere(
-      (e) =>
-          e.description == selectedExpense!.description &&
-          e.date == selectedExpense!.date,
-    );
-
-    if (index != -1) {
-      expenselist[index] = ExpenseModel(
-        amount: double.tryParse(amountController.text) ?? 0,
-        date: selectedExpense!.date,
-        paidBy: isPaidByCompany.value ? "Company" : "Employee",
-        status: selectedExpense!.status,
-        description: descriptionController.text,
-        expenseType: selectedExpenseType.value,
-      );
-      await saved();
-      expenselist.refresh();
-      Get.back();
-
-      Get.snackbar("Updated", "Expense updated successfully");
-    } else {}
-  }
-
-  Future<void> addNewExpenses() async {
-    if (selectedExpenseType.value.isEmpty ||
-        amountController.text.trim().isEmpty ||
-        descriptionController.text.trim().isEmpty ||
-        (!isPaidByCompany.value && !isPaidByEmployee.value)) {
-      Get.snackbar("Error", "Please fill all fields");
-      return;
-    }
-    final newExpen = ExpenseModel(
-      amount: double.tryParse(amountController.text) ?? 00,
-      date: DateTime.now(),
-      paidBy: isPaidByCompany.value ? 'Company' : 'Employee',
-      status: 'Draft',
-      description: descriptionController.text,
-      expenseType: selectedExpenseType.value,
-    );
-    expenselist.add(newExpen);
-    isLoading.value = true;
-    await saved();
-    isLoading.value = false;
-    amountController.clear();
-    descriptionController.clear();
-    selectedExpenseType.value = '';
-    noteController.clear();
-    isPaidByCompany.value = false;
-    isPaidByEmployee.value = false;
-    Get.back();
-    Get.snackbar('Success', 'New Expenses added');
-  }
-
-  Future<void> removeExpense(ExpenseModel expense) async {
-    expenselist.remove(expense);
-    await saved();
-    Get.snackbar("Deleted", "Expense removed successfully");
   }
 
   void showDeleteDialog(ExpenseModel expense) {

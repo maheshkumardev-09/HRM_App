@@ -20,37 +20,36 @@ class ExpensesView extends StatelessWidget {
       appBar: CustomAppBar(showMenu: false),
       body: Padding(
         padding: EdgeInsets.all(20.w),
-        child: Column(
-          children: [
-            CustomTitel(title: 'My Expenses', ontap: () {}),
-            AppSpacing.vertical20,
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: Colors.grey.shade400),
+        child: Obx(() {
+          return Column(
+            children: [
+              CustomTitel(title: 'My Expenses', ontap: () {}),
+              AppSpacing.vertical20,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(color: Colors.grey.shade400),
+                ),
+                child: CustomRowContainer(
+                  onTap1: () {},
+                  title: 'Date From',
+                  icon: Icons.calendar_today_outlined,
+                  onTap2: () {},
+                  title2: 'Date To',
+                  icon2: Icons.calendar_today_outlined,
+                ),
               ),
-              child: CustomRowContainer(
-                onTap1: () {},
-                title: 'Date From',
-                icon: Icons.calendar_today_outlined,
-                onTap2: () {},
-                title2: 'Date To',
-                icon2: Icons.calendar_today_outlined,
-              ),
-            ),
-            AppSpacing.vertical20,
-            Obx(() {
-              final selected = expenseController.selectedStatus.value;
-              return SizedBox(
+              AppSpacing.vertical20,
+
+              SizedBox(
                 height: 30.h,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: expenseController.statusList.length,
                   itemBuilder: (context, index) {
                     final status = expenseController.statusList[index];
-
                     return GestureDetector(
                       onTap: () => expenseController.changeStatus(
                         expenseController.statusList[index],
@@ -60,8 +59,9 @@ class ExpensesView extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 14.w),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey.shade400),
-                          color: status == selected
-                              ? AppColors.primaryColor
+                          color:
+                              status == expenseController.selectedStatus.value
+                              ? expenseController.getStatusColor(status)
                               : Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(20.r),
                         ),
@@ -75,12 +75,10 @@ class ExpensesView extends StatelessWidget {
                     );
                   },
                 ),
-              );
-            }), // ListView.builder(
-            AppSpacing.vertical20,
-            Expanded(
-              child: Obx(
-                () => ListView.builder(
+              ),
+              AppSpacing.vertical20,
+              Expanded(
+                child: ListView.builder(
                   itemCount: expenseController.filteredExpenses.length,
                   itemBuilder: (context, index) {
                     final data = expenseController.filteredExpenses[index];
@@ -214,11 +212,8 @@ class ExpensesView extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(
-                                        AppRoutes.editexpensesview,
-                                        arguments: data,
-                                      );
-                                      expenseController.loadData();
+                                      expenseController.startEdit(data);
+                                      Get.toNamed(AppRoutes.editexpensesview);
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(8.w),
@@ -245,12 +240,16 @@ class ExpensesView extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-          ],
-        ),
+              AppSpacing.vertical30,
+            ],
+          );
+        }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed(AppRoutes.newexpensesview),
+        onPressed: () {
+          expenseController.clearForm();
+          Get.toNamed(AppRoutes.newexpensesview);
+        },
         backgroundColor: AppColors.primaryColor,
         shape: const CircleBorder(),
         child: Icon(Icons.add, color: AppColors.white),

@@ -23,14 +23,14 @@ class EditExpensesView extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomTitel(title: 'Edit Expense', ontap: () {}),
-              AppSpacing.vertical30,
-              CustomContainerWithTitle(
-                titel: 'Paid By*',
-                widget: Obx(
-                  () => Row(
+          child: Obx(
+            () => Column(
+              children: [
+                CustomTitel(title: 'Edit Expense', ontap: () {}),
+                AppSpacing.vertical30,
+                CustomContainerWithTitle(
+                  titel: 'Paid By*',
+                  widget: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
@@ -74,21 +74,18 @@ class EditExpensesView extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-              AppSpacing.vertical20,
-              CustomContainerWithTitle(
-                titel: 'Description*',
-                widget: CustomTextFiled(
-                  label: 'Piad lunch bil for clint',
-                  controller: expenseController.descriptionController,
+                AppSpacing.vertical20,
+                CustomContainerWithTitle(
+                  titel: 'Description*',
+                  widget: CustomTextFiled(
+                    label: '',
+                    controller: expenseController.descriptionController,
+                  ),
                 ),
-              ),
-              AppSpacing.vertical20,
-              CustomContainerWithTitle(
-                titel: 'EXpexses Type*',
-                widget: Obx(
-                  () => CustomDropdownField(
-                    hintText: 'Edit expense',
+                AppSpacing.vertical20,
+                CustomContainerWithTitle(
+                  titel: 'EXpexses Type*',
+                  widget: CustomDropdownField(
                     value: expenseController.selectedExpenseType.value.isEmpty
                         ? null
                         : expenseController.selectedExpenseType.value,
@@ -98,145 +95,144 @@ class EditExpensesView extends StatelessWidget {
                     },
                   ),
                 ),
-              ),
-              AppSpacing.vertical20,
-              CustomContainerWithTitle(
-                titel: 'Amount*',
-                widget: CustomTextFiled(
-                  label: '300.0',
-                  controller: expenseController.amountController,
-                ),
-              ),
-              AppSpacing.vertical20,
-              CustomContainerWithTitle(
-                titel: 'Existing Recepits',
-                widget: GestureDetector(
-                  onTap: () {},
-                  child: Column(
-                    children: [
-                      Custom2(
-                        titel: expenseController.selectedFile.value == null
-                            ? "No file selected"
-                            : expenseController.selectedFile.value!.path
-                                  .split('/')
-                                  .last,
-                        icon: Icons.delete_forever_outlined,
-                        color: Colors.red,
-                        onTap: () {
-                          expenseController.selectedFile.value = null;
-                        },
-                      ),
-
-                      AppSpacing.vertical8,
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Drop file here and cilck to upload',
-                                style: TextStyle(
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              AppSpacing.vertical8,
-                              Text(
-                                'PDF,PNG,JPG up to 10MB',
-                                style: TextStyle(
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black45,
-                                ),
-                              ),
-                            ],
-                          ),
-                          AppSpacing.horizontal10,
-                          ElevatedButton(
-                            onPressed: () {
-                              expenseController.pickFile();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadiusGeometry.circular(
-                                  12.r,
-                                ),
-                              ),
-                            ),
-                            child: Text(
-                              '+AddRecepit',
-                              style: TextStyle(
-                                color: AppColors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 10.sp,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                AppSpacing.vertical20,
+                CustomContainerWithTitle(
+                  titel: 'Amount*',
+                  widget: CustomTextFiled(
+                    label: '300.0',
+                    controller: expenseController.amountController,
                   ),
                 ),
-              ),
-              AppSpacing.vertical20,
-              CustomContainerWithTitle(
-                titel: 'Notes',
-                widget: TextField(
-                  controller: expenseController.noteController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey.shade100,
-                    hint: Text(
-                      'paid Bill',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-              ),
-              AppSpacing.vertical30,
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                      title: 'Cancel',
-                      titleColor: Colors.black,
-                      onTap: () {
-                        Get.back();
-                      },
-                      buttonColor: Colors.grey.shade300,
-                    ),
-                  ),
-                  AppSpacing.horizontal10,
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        expenseController.updateExpense();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(12.r),
+                AppSpacing.vertical20,
+                CustomContainerWithTitle(
+                  titel: 'Existing Recepits',
+                  widget: GestureDetector(
+                    onTap: () {},
+                    child: Column(
+                      children: [
+                        Custom2(
+                          titel: expenseController.selectedFile.value == null
+                              ? "No file selected"
+                              : expenseController.selectedFile.value!.path
+                                    .split('/')
+                                    .last,
+                          icon: Icons.delete_forever_outlined,
+                          color: Colors.red,
+                          onTap: () {
+                            expenseController.selectedFile.value = null;
+                          },
                         ),
-                      ),
-                      child: Text(
-                        'Update & Submit',
+                        AppSpacing.vertical8,
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Drop file here and cilck to upload',
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                AppSpacing.vertical8,
+                                Text(
+                                  'PDF,PNG,JPG up to 10MB',
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black45,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            AppSpacing.horizontal10,
+                            ElevatedButton(
+                              onPressed: () {
+                                expenseController.pickFile();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    12.r,
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                '+AddRecepit',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 10.sp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                AppSpacing.vertical20,
+                CustomContainerWithTitle(
+                  titel: 'Notes',
+                  widget: TextField(
+                    controller: expenseController.noteController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+                      hint: Text(
+                        'paid Bill',
                         style: TextStyle(
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
                         ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                AppSpacing.vertical30,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        title: 'Cancel',
+                        titleColor: Colors.black,
+                        onTap: () {
+                          Get.back();
+                        },
+                        buttonColor: Colors.grey.shade300,
+                      ),
+                    ),
+                    AppSpacing.horizontal10,
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          expenseController.updateExpense();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(12.r),
+                          ),
+                        ),
+                        child: Text(
+                          'Update & Submit',
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

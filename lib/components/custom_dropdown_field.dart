@@ -5,14 +5,14 @@ class CustomDropdownField extends StatelessWidget {
   final String? value;
   final List<String> items;
   final ValueChanged<String?> onChanged;
-  final String hintText;
+  final String? hintText;
 
   const CustomDropdownField({
     super.key,
     required this.value,
     required this.items,
     required this.onChanged,
-    required this.hintText,
+    this.hintText,
   });
 
   @override

@@ -57,7 +57,7 @@ class EmployeesView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '71',
+                          employeeController.employeeList.length.toString(),
                           style: TextStyle(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w500,

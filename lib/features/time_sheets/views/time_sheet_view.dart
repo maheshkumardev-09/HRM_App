@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/state_manager.dart';
 import 'package:hrm_app/components/custom_2.dart';
 import 'package:hrm_app/components/custom_row_container.dart';
 import 'package:hrm_app/components/custom_titel.dart';
@@ -62,180 +62,186 @@ class TimeSheetView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical20,
-              ListView.builder(
-                itemCount: timesheetcontroller.timeSheetList.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final data = timesheetcontroller.timeSheetList[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 10.h),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed(
-                          AppRoutes.timesheetdetailview,
-                          arguments: data,
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(12.r),
-                          border: Border.all(color: Colors.grey.shade400),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 12.w,
-                                    vertical: 8.h,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: AppColors.primaryColor,
-                                  ),
-
-                                  child: Image.asset(
-                                    AppImages.timeShest,
-                                    width: 24.w,
-                                    height: 24.h,
-                                  ),
-                                ),
-                                AppSpacing.horizontal20,
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        data.taskTitle,
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.clip,
-                                      ),
-                                      AppSpacing.vertical8,
-                                      Text(
-                                        data.description,
-                                        style: TextStyle(
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 16.w,
-                                    vertical: 8.h,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    border: Border.all(
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    '${data.hoursSpent.toString()} Hours',
-                                    style: TextStyle(
-                                      color: AppColors.primaryColor,
-                                      fontSize: 12.sp,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            AppSpacing.vertical10,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data.date,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    AppSpacing.vertical8,
-                                    Text(
-                                      'Date',
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.black54,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        data.projectName,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      AppSpacing.vertical8,
-                                      Text(
-                                        'Project',
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(
-                                      AppRoutes.edittimesheetview,
-                                      arguments: {"data": data, "index": index},
-                                    );
-                                  },
-                                  child: Container(
+              Obx(
+                () => ListView.builder(
+                  itemCount: timesheetcontroller.timeSheetList.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final data = timesheetcontroller.timeSheetList[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.timesheetdetailview,
+                            arguments: data,
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: Colors.grey.shade400),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 12.w,
-                                      vertical: 6.h,
+                                      vertical: 8.h,
                                     ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       color: AppColors.primaryColor,
                                     ),
+
+                                    child: Image.asset(
+                                      AppImages.timeShest,
+                                      width: 24.w,
+                                      height: 24.h,
+                                    ),
+                                  ),
+                                  AppSpacing.horizontal20,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data.taskTitle,
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                        AppSpacing.vertical8,
+                                        Text(
+                                          data.description,
+                                          style: TextStyle(
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w,
+                                      vertical: 8.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
                                     child: Text(
-                                      'Edit',
+                                      '${data.hoursSpent.toString()} Hours',
                                       style: TextStyle(
-                                        color: AppColors.white,
+                                        color: AppColors.primaryColor,
                                         fontSize: 12.sp,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              AppSpacing.vertical10,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        data.date,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      AppSpacing.vertical8,
+                                      Text(
+                                        'Date',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          data.projectName,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        AppSpacing.vertical8,
+                                        Text(
+                                          'Project',
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(
+                                        AppRoutes.edittimesheetview,
+                                        arguments: {
+                                          "data": data,
+                                          "index": index,
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 12.w,
+                                        vertical: 6.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: AppColors.primaryColor,
+                                      ),
+                                      child: Text(
+                                        'Edit',
+                                        style: TextStyle(
+                                          color: AppColors.white,
+                                          fontSize: 12.sp,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ],
           ),
