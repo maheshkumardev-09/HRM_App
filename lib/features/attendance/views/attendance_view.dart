@@ -22,12 +22,12 @@ class AttendanceView extends StatelessWidget {
         padding: EdgeInsets.all(10.w),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTitel(title: 'Attendace', ontap: () {}),
               AppSpacing.vertical20,
               Container(
-                padding: EdgeInsets.all(8.0.w),
-                height: 90.h,
+                padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 8.w),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
@@ -129,7 +129,7 @@ class AttendanceView extends StatelessWidget {
                       ),
                       AppSpacing.vertical20,
                       SizedBox(
-                        height: 50.h,
+                        height: 40.h,
                         width: double.infinity,
                         child: CustomButton(
                           title: data.status == 'In Progress'
@@ -147,15 +147,9 @@ class AttendanceView extends StatelessWidget {
                 );
               }),
               AppSpacing.vertical20,
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'My Attendance History',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+              Text(
+                'My Attendance History',
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               AppSpacing.vertical20,
               ListView.builder(

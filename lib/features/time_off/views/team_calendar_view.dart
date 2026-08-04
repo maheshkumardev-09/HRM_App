@@ -18,60 +18,62 @@ class TeamCalendarView extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
         child: Obx(
-          () => Column(
-            children: [
-              CustomTitel(title: 'Team Time Off Calendar', ontap: () {}),
-              AppSpacing.vertical30,
-              Container(
-                padding: EdgeInsets.all(15.w),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(16.r),
-                  border: Border.all(color: Colors.grey.shade300),
-                ),
-                child: TableCalendar(
-                  firstDay: DateTime(2026),
-                  lastDay: DateTime(2036),
-                  focusedDay: controller.focusedDay.value,
-                  selectedDayPredicate: (day) =>
-                      isSameDay(controller.selectedDay.value, day),
-                  onDaySelected: (selectedDay, focusedDay) {
-                    controller.onDaySelected(selectedDay, focusedDay);
-                  },
+          () => SingleChildScrollView(
+            child: Column(
+              children: [
+                CustomTitel(title: 'Team Time Off Calendar', ontap: () {}),
+                AppSpacing.vertical30,
+                Container(
+                  padding: EdgeInsets.all(15.w),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(16.r),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: TableCalendar(
+                    firstDay: DateTime(2026),
+                    lastDay: DateTime(2036),
+                    focusedDay: controller.focusedDay.value,
+                    selectedDayPredicate: (day) =>
+                        isSameDay(controller.selectedDay.value, day),
+                    onDaySelected: (selectedDay, focusedDay) {
+                      controller.onDaySelected(selectedDay, focusedDay);
+                    },
 
-                  headerStyle: HeaderStyle(
-                    titleCentered: true,
-                    formatButtonVisible: false,
-                    leftChevronIcon: Icon(Icons.chevron_left),
-                    rightChevronIcon: Icon(Icons.chevron_right),
-                  ),
-                  daysOfWeekStyle: DaysOfWeekStyle(
-                    weekdayStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12.sp,
+                    headerStyle: HeaderStyle(
+                      titleCentered: true,
+                      formatButtonVisible: false,
+                      leftChevronIcon: Icon(Icons.chevron_left),
+                      rightChevronIcon: Icon(Icons.chevron_right),
                     ),
+                    daysOfWeekStyle: DaysOfWeekStyle(
+                      weekdayStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12.sp,
+                      ),
 
-                    weekendStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12.sp,
+                      weekendStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12.sp,
+                      ),
                     ),
-                  ),
-                  calendarStyle: CalendarStyle(
-                    todayDecoration: BoxDecoration(
-                      color: Colors.grey,
-                      shape: BoxShape.circle,
+                    calendarStyle: CalendarStyle(
+                      todayDecoration: BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                      ),
+                      selectedDecoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      outsideDaysVisible: true,
                     ),
-                    selectedDecoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    outsideDaysVisible: true,
                   ),
                 ),
-              ),
-              AppSpacing.vertical60,
-              Expanded(
-                child: ListView.builder(
+                AppSpacing.vertical60,
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: controller.teamLeaveList.length,
                   itemBuilder: (context, index) {
                     final teamLeave = controller.teamLeaveList[index];
@@ -102,8 +104,8 @@ class TeamCalendarView extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

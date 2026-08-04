@@ -23,6 +23,8 @@ import 'package:hrm_app/features/time_off/views/team_calendar_view.dart';
 import 'package:hrm_app/features/time_off/views/time_off_view.dart';
 import 'package:hrm_app/features/time_sheets/views/new_timesheet_view.dart';
 import 'package:hrm_app/features/time_sheets/views/time_sheet_view.dart';
+import 'package:hrm_app/features/time_sheets/views/timesheet_details_view.dart';
+import 'package:hrm_app/features/time_sheets/views/edit_timesheet_view.dart';
 
 class AppPages {
   static final page = [
@@ -43,6 +45,8 @@ class AppPages {
     GetPage(name: '/taskdetail', page: () => TaskDetailsView()),
     GetPage(name: '/timesheet', page: () => TimeSheetView()),
     GetPage(name: '/newtimesheet', page: () => NewTimesheetView()),
+    GetPage(name: '/timesheetdetail', page: () => TimesheetDetailsView()),
+    GetPage(name: '/edittimesheet', page: () => EditTimesheetView()),
     GetPage(name: '/payroll', page: () => PayrollView()),
     GetPage(name: '/newquotation', page: () => NewQuotationView()),
     GetPage(name: '/editquotation', page: () => EditQuotationView()),

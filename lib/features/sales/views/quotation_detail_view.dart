@@ -162,7 +162,7 @@ class QuotationDetailView extends StatelessWidget {
                     ),
                     AppSpacing.vertical20,
                     CustomCardOneTitle(
-                      title: 'Prodect',
+                      titel: 'Prodect',
                       widget: Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(15.w),
@@ -175,7 +175,7 @@ class QuotationDetailView extends StatelessWidget {
                     ),
                     AppSpacing.vertical20,
                     CustomCardOneTitle(
-                      title: 'Description',
+                      titel: 'Description',
                       widget: Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(15.w),
@@ -237,7 +237,7 @@ class QuotationDetailView extends StatelessWidget {
                     ),
                     AppSpacing.vertical20,
                     CustomCardOneTitle(
-                      title: 'Subtotal',
+                      titel: 'Subtotal',
                       widget: Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(15.w),

@@ -25,8 +25,7 @@ class ExpensesView extends StatelessWidget {
             CustomTitel(title: 'My Expenses', ontap: () {}),
             AppSpacing.vertical20,
             Container(
-              padding: EdgeInsets.all(8.w),
-              height: 90.h,
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(12.r),
@@ -103,12 +102,15 @@ class ExpensesView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                      vertical: 8.h,
+                                    ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       color: AppColors.primaryColor,
                                     ),
-                                    width: 50.w,
-                                    height: 40.h,
+
                                     child: Icon(
                                       Icons.camera_alt_outlined,
                                       size: 24.w,
@@ -116,28 +118,29 @@ class ExpensesView extends StatelessWidget {
                                     ),
                                   ),
                                   AppSpacing.horizontal20,
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'SR ${data.amount.toString()}',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'SR ${data.amount.toString()}',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
-                                      ),
-                                      AppSpacing.vertical8,
-                                      Text(
-                                        data.description,
-                                        style: TextStyle(
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w400,
+                                        AppSpacing.vertical8,
+                                        Text(
+                                          data.description,
+                                          style: TextStyle(
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                  Spacer(),
                                   Container(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 16.w,

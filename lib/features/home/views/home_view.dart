@@ -42,7 +42,7 @@ class HomeView extends StatelessWidget {
                         height: 80.h,
                       ),
                     ),
-                    SizedBox(width: 20.w),
+                    AppSpacing.horizontal20,
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,6 +54,7 @@ class HomeView extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                          AppSpacing.vertical8,
                           GestureDetector(
                             onTap: () {},
                             child: Text(
@@ -86,7 +87,13 @@ class HomeView extends StatelessWidget {
                           borderRadius: BorderRadiusGeometry.circular(12.r),
                           child: Image.asset(AppImages.dateicon),
                         ),
-                        title: Text('Attandece Today'),
+                        title: Text(
+                          'Attandece Today',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                         subtitle: Text(
                           attendaceController.currentAttendance.value.status,
                           style: TextStyle(
@@ -98,7 +105,7 @@ class HomeView extends StatelessWidget {
                       ),
                       AppSpacing.vertical10,
                       SizedBox(
-                        height: 50.h,
+                        height: 40.h,
                         width: double.infinity,
                         child: CustomButton(
                           title:

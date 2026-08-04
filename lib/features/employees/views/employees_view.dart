@@ -44,6 +44,7 @@ class EmployeesView extends StatelessWidget {
                           'assets/icon/empolyee-icon.png',
                           width: 50.w,
                           height: 50.h,
+                          fit: BoxFit.contain,
                         ),
                         AppSpacing.horizontal8,
                         Expanded(
@@ -111,6 +112,7 @@ class EmployeesView extends StatelessWidget {
                                 AppImages.profileImage,
                                 height: 60.h,
                                 width: 60.w,
+                                fit: BoxFit.contain,
                               ),
                               AppSpacing.horizontal10,
                               Column(

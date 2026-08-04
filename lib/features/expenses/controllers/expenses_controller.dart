@@ -153,8 +153,6 @@ class ExpensesController extends GetxController {
           e.date == selectedExpense!.date,
     );
 
-    print("Index: $index");
-
     if (index != -1) {
       expenselist[index] = ExpenseModel(
         amount: double.tryParse(amountController.text) ?? 0,
@@ -164,19 +162,12 @@ class ExpensesController extends GetxController {
         description: descriptionController.text,
         expenseType: selectedExpenseType.value,
       );
-
       await saved();
-
-      print("Saved Done");
-
       expenselist.refresh();
-
       Get.back();
 
       Get.snackbar("Updated", "Expense updated successfully");
-    } else {
-      print("Expense Not Found");
-    }
+    } else {}
   }
 
   Future<void> addNewExpenses() async {

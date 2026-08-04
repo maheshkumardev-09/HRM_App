@@ -9,6 +9,7 @@ class CustomTextFiled extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixicon;
   final bool readonly;
+  final int maxLines;
   final TextInputType? keyboardType;
 
   final ValueChanged<String>? onChanged;
@@ -22,6 +23,7 @@ class CustomTextFiled extends StatelessWidget {
     this.readonly = false,
     this.onChanged,
     this.keyboardType,
+    this.maxLines = 1,
   });
 
   @override
@@ -32,6 +34,7 @@ class CustomTextFiled extends StatelessWidget {
       controller: controller,
       readOnly: readonly,
       onChanged: onChanged,
+      maxLines: maxLines,
       decoration: InputDecoration(
         label: Text(label),
         filled: true,

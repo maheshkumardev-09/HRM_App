@@ -51,11 +51,9 @@ class PayrollView extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Image.asset(
-                            AppImages.payroll,
-                            width: 30.w,
-                            height: 30.h,
-                            fit: BoxFit.cover,
+                          Padding(
+                            padding: EdgeInsets.all(10.w),
+                            child: Image.asset(AppImages.payroll),
                           ),
                           AppSpacing.horizontal10,
                           Expanded(

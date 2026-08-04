@@ -88,6 +88,7 @@ class NewExpensesView extends StatelessWidget {
                 titel: 'EXpexses Type*',
                 widget: Obx(
                   () => CustomDropdownField(
+                    hintText: 'Select expanse typr',
                     value: expenseController.selectedExpenseType.value.isEmpty
                         ? null
                         : expenseController.selectedExpenseType.value,

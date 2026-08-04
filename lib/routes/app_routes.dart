@@ -16,6 +16,8 @@ abstract class AppRoutes {
   static const taskdetailview = '/taskdetail';
   static const timesheetview = '/timesheet';
   static const newtimesheetview = '/newtimesheet';
+  static const timesheetdetailview = '/timesheetdetail';
+  static const edittimesheetview = '/edittimesheet';
   static const payrollview = '/payroll';
   static const newquotationview = '/newquotation';
   static const editquotationview = '/editquotation';

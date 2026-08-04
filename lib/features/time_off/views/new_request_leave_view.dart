@@ -132,6 +132,7 @@ class NewRequestLeaveView extends StatelessWidget {
                     onChanged: (String? value) {
                       timeOffController.selectedLeaveType.value = value!;
                     },
+                    hintText: 'Select Leave Type',
                   ),
                 ),
               ),
