@@ -20,7 +20,7 @@ class TimeSheetView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(showMenu: false),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20),
         child: SingleChildScrollView(
@@ -207,13 +207,12 @@ class TimeSheetView extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(
-                                        AppRoutes.edittimesheetview,
-                                        arguments: {
-                                          "data": data,
-                                          "index": index,
-                                        },
+                                      timesheetcontroller.startEdit(
+                                        data,
+                                        index,
                                       );
+
+                                      Get.toNamed(AppRoutes.edittimesheetview);
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(

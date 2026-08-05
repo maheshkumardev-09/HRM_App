@@ -17,7 +17,7 @@ class TimesheetDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(showMenu: false),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
         child: SingleChildScrollView(

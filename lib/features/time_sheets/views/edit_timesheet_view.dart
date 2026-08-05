@@ -9,38 +9,16 @@ import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/time_sheets/controllers/time_sheet_controller.dart';
-import 'package:hrm_app/features/time_sheets/models/time_sheet_model.dart';
 import 'package:intl/intl.dart';
 
-class EditTimesheetView extends StatefulWidget {
-  const EditTimesheetView({super.key});
-
-  @override
-  State<EditTimesheetView> createState() => _EditTimesheetViewState();
-}
-
-class _EditTimesheetViewState extends State<EditTimesheetView> {
+class EditTimesheetView extends StatelessWidget {
+  EditTimesheetView({super.key});
   final timesheetController = Get.find<TimeSheetController>();
-  late TimesheetModel timesheet;
-  late int index;
-
-  @override
-  void initState() {
-    super.initState();
-    final args = Get.arguments;
-    timesheet = args["data"];
-    index = args["index"];
-
-    timesheetController.descriptionController.text = timesheet.description;
-    timesheetController.hoursController.text = timesheet.hoursSpent.toString();
-    timesheetController.selectedProject.value = timesheet.projectName;
-    timesheetController.selectedTask.value = timesheet.taskTitle;
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(showMenu: false),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
@@ -80,7 +58,6 @@ class _EditTimesheetViewState extends State<EditTimesheetView> {
                     onChanged: (value) {
                       timesheetController.selectedProject.value = value!;
                     },
-                    hintText: timesheet.projectName,
                   ),
                 ),
                 AppSpacing.vertical20,
@@ -94,7 +71,6 @@ class _EditTimesheetViewState extends State<EditTimesheetView> {
                     onChanged: (value) {
                       timesheetController.selectedTask.value = value!;
                     },
-                    hintText: timesheet.taskTitle,
                   ),
                 ),
                 AppSpacing.vertical20,
@@ -133,33 +109,7 @@ class _EditTimesheetViewState extends State<EditTimesheetView> {
                       child: CustomButton(
                         title: 'Save Changes',
                         onTap: () {
-                          TimesheetModel updatedData = TimesheetModel(
-                            date: timesheet.date,
-                            employeeName: timesheet.employeeName,
-                            description:
-                                timesheetController.descriptionController.text,
-                            hoursSpent:
-                                double.tryParse(
-                                  timesheetController.hoursController.text,
-                                ) ??
-                                0,
-                            taskId: timesheet.taskId,
-                            taskTitle:
-                                timesheetController.selectedTask.value.isEmpty
-                                ? timesheet.taskTitle
-                                : timesheetController.selectedTask.value,
-                            projectName:
-                                timesheetController
-                                    .selectedProject
-                                    .value
-                                    .isEmpty
-                                ? timesheet.projectName
-                                : timesheetController.selectedProject.value,
-                          );
-                          timesheetController.updateTimeSheet(
-                            index,
-                            updatedData,
-                          );
+                          timesheetController.updateTimesheet();
                         },
                       ),
                     ),

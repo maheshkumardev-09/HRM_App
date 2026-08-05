@@ -24,7 +24,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(showMenu: true),
       drawer: Drawer(child: Column(children: [Text('okdfm')])),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),

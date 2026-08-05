@@ -17,7 +17,7 @@ class TimeOffView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(showMenu: false),
+      appBar: CustomAppBar(),
       body: Obx(() {
         if (timeoffcontroller.leaveList.isEmpty) {
           return Center(child: Text("No Leave Request"));

@@ -17,7 +17,7 @@ class ExpensesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(showMenu: false),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.all(20.w),
         child: Obx(() {

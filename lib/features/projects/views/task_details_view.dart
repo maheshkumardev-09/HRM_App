@@ -28,7 +28,7 @@ class TaskDetailsView extends StatelessWidget {
     final taskTimesheets = timesheetController.getEntriesByTask(task.id);
 
     return Scaffold(
-      appBar: CustomAppBar(showMenu: false),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
         child: SingleChildScrollView(

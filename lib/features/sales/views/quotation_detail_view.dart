@@ -22,7 +22,7 @@ class QuotationDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = saleslist.products.first;
     return Scaffold(
-      appBar: CustomAppBar(showMenu: false),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.all(20.w),
         child: SingleChildScrollView(

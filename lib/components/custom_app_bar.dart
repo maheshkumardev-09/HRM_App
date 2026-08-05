@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, this.showMenu = true});
+  const CustomAppBar({super.key, this.showMenu = false});
   final bool showMenu;
   @override
   Widget build(BuildContext context) {
