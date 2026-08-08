@@ -4,19 +4,21 @@ import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_action_card.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/components/custom_button.dart';
+import 'package:hrm_app/components/custom_section_header.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/attendance/controllers/attendace_controller.dart';
-import 'package:hrm_app/features/auth/controllers/auth_controllr.dart';
+import 'package:hrm_app/features/auth/controllers/auth_controller.dart';
 import 'package:hrm_app/features/home/controllers/home_controller.dart';
 import 'package:hrm_app/features/time_off/controllers/time_off_controller.dart';
 import 'package:hrm_app/routes/app_routes.dart';
+import 'package:intl/intl.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final auth = Get.find<AuthControllr>();
+  final auth = Get.find<AuthController>();
   final home = Get.find<HomeController>();
   final attendaceController = Get.find<AttendanceController>();
   final timeOffController = Get.find<TimeOffController>();
@@ -24,25 +26,26 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: CustomAppBar(showMenu: true),
+      appBar: CustomAppBar(showBackButton: false),
       drawer: Drawer(child: Column(children: [Text('okdfm')])),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
         child: Obx(
           () => SingleChildScrollView(
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(12.r),
+                      borderRadius: BorderRadiusGeometry.circular(25.r),
                       child: Image.asset(
                         AppImages.profileImage,
                         width: 80.w,
                         height: 80.h,
                       ),
                     ),
-                    AppSpacing.horizontal20,
+                    AppSpacing.horizontal15,
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,17 +53,17 @@ class HomeView extends StatelessWidget {
                           Text(
                             'Welcome ${home.user.value?.name ?? "Gest"}',
                             style: TextStyle(
-                              fontSize: 15.sp,
+                              fontSize: 24.sp,
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          AppSpacing.vertical8,
+                          AppSpacing.vertical10,
                           GestureDetector(
                             onTap: () {},
                             child: Text(
-                              'view profile',
+                              'View Profile',
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
@@ -74,40 +77,58 @@ class HomeView extends StatelessWidget {
                     GestureDetector(onTap: () {}, child: Icon(Icons.more_vert)),
                   ],
                 ),
-                AppSpacing.vertical20,
+                AppSpacing.vertical30,
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.r),
-                    color: Colors.grey.shade200,
-                  ),
-                  padding: EdgeInsets.all(16.w),
                   width: double.infinity,
+                  padding: EdgeInsets.all(20.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.r),
+                    color: AppColors.containerBackColor,
+                    border: Border.all(color: AppColors.primaryColor),
+                  ),
                   child: Column(
                     children: [
-                      ListTile(
-                        leading: ClipRRect(
-                          borderRadius: BorderRadiusGeometry.circular(12.r),
-                          child: Image.asset(AppImages.dateicon),
-                        ),
-                        title: Text(
-                          'Attandece Today',
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            child: Image.asset(
+                              AppImages.dateicon,
+                              width: 50.w,
+                              height: 50.h,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        subtitle: Text(
-                          attendaceController.currentAttendance.value.status,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.primaryColor,
+                          AppSpacing.horizontal10,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Attandece Today',
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              AppSpacing.vertical5,
+                              Text(
+                                attendaceController
+                                    .currentAttendance
+                                    .value
+                                    .status,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
-                      AppSpacing.vertical10,
+                      AppSpacing.vertical20,
                       SizedBox(
-                        height: 40.h,
+                        height: 48.h,
                         width: double.infinity,
                         child: CustomButton(
                           title:
@@ -135,153 +156,120 @@ class HomeView extends StatelessWidget {
                     ],
                   ),
                 ),
-                AppSpacing.vertical20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'My Remaning Balances',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    GestureDetector(
-                      child: Text('ViewAll', style: TextStyle(fontSize: 14.sp)),
-                    ),
-                  ],
+                AppSpacing.vertical30,
+                CustomSectionHeader(
+                  title: 'My Remaning Balances',
+                  onViewAllTap: () {},
                 ),
                 AppSpacing.vertical20,
                 Row(
+                  spacing: 10.w,
                   children: timeOffController.balanceList.take(2).map((leave) {
                     return Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                            color: Colors.grey.shade200,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            vertical: 16.h,
-                            horizontal: 8.w,
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                leave.leaveType,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.r),
+                          color: AppColors.whiteColor,
+                          border: Border.all(color: AppColors.borderColor),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 15.h,
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              leave.leaveType,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
                               ),
-                              SizedBox(height: 6.h),
-                              Text(
-                                '${leave.useDday}/${leave.totalDay} Days',
-                                style: TextStyle(
-                                  fontSize: 13.sp,
-                                  color: Colors.grey.shade600,
-                                ),
+                            ),
+                            AppSpacing.vertical5,
+                            Text(
+                              '${leave.useDday}/${leave.totalDay} Days',
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w300,
+                                color: AppColors.textColor,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     );
                   }).toList(),
                 ),
-                AppSpacing.vertical20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Quick Actions',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => Get.toNamed(AppRoutes.actions),
-                      child: Text('ViewAll', style: TextStyle(fontSize: 14.sp)),
-                    ),
-                  ],
+                AppSpacing.vertical30,
+                CustomSectionHeader(
+                  title: 'Quick Actions',
+                  onViewAllTap: () {
+                    Get.toNamed(AppRoutes.actions);
+                  },
                 ),
                 AppSpacing.vertical20,
-                GridView.count(
+                GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 12.h,
-                  crossAxisSpacing: 12.w,
-                  children: home.quickActions.take(6).map((action) {
+                  itemCount: home.quickActions.take(6).length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    mainAxisSpacing: 10.h,
+                    crossAxisSpacing: 10.w,
+                    mainAxisExtent: 105.h,
+                  ),
+                  itemBuilder: (context, index) {
+                    final action = home.quickActions[index];
                     return CustomActionCard(action: action);
-                  }).toList(),
+                  },
                 ),
-                AppSpacing.vertical20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Announcements',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    GestureDetector(
-                      child: Text('ViewAll', style: TextStyle(fontSize: 14.sp)),
-                    ),
-                  ],
-                ),
+                AppSpacing.vertical30,
+                CustomSectionHeader(title: 'Announcements'),
                 AppSpacing.vertical20,
                 Column(
+                  spacing: 10.h,
                   children: home.announcement.take(2).map((announce) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 10.h),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        width: double.infinity,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 8.0.h,
-                            horizontal: 8.w,
+                    return Container(
+                      padding: EdgeInsets.all(20.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.r),
+                        border: BoxBorder.all(color: AppColors.borderColor),
+                        color: AppColors.containerBackColor,
+                      ),
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            AppImages.annunce,
+                            width: 40.w,
+                            height: 40.h,
+                            fit: BoxFit.cover,
                           ),
-                          child: Row(
+                          AppSpacing.horizontal15,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                AppImages.annunce,
-                                width: 40.w,
-                                height: 40.h,
+                              Text(
+                                announce.title,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                              SizedBox(width: 10.w),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    announce.title,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  Text(
-                                    announce.date.day.toString(),
-                                    style: TextStyle(
-                                      fontSize: 13.sp,
-                                      color: Colors.grey.shade600,
-                                    ),
-                                  ),
-                                ],
+                              AppSpacing.vertical5,
+                              Text(
+                                DateFormat('MMM dd').format(announce.date),
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.textColor,
+                                ),
                               ),
                             ],
                           ),
-                        ),
+                        ],
                       ),
                     );
                   }).toList(),

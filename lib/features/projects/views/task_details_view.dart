@@ -450,7 +450,7 @@ class TaskDetailsView extends StatelessWidget {
                       ),
                       child: Icon(
                         Icons.send,
-                        color: AppColors.white,
+                        color: AppColors.whiteColor,
                         size: 24.w,
                       ),
                     ),

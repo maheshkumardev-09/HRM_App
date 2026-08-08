@@ -46,14 +46,14 @@ class NewQuotationView extends StatelessWidget {
                     AppSpacing.vertical8,
                     CustomTextFiled(
                       label: 'Selact Customer',
-                      prefixicon: Icon(Icons.person_outline),
+                      prefixIcon: Icon(Icons.person_outline),
                       controller: quotationController.customerController,
                       suffixIcon: GestureDetector(
                         onTap: () {},
                         child: Icon(Icons.keyboard_arrow_down),
                       ),
                     ),
-                    AppSpacing.vertical15,
+                    AppSpacing.vertical16,
                     Text(
                       'Quotation Date',
                       style: TextStyle(
@@ -130,7 +130,7 @@ class NewQuotationView extends StatelessWidget {
                                   child: Icon(Icons.keyboard_arrow_down),
                                 ),
                               ),
-                              AppSpacing.vertical15,
+                              AppSpacing.vertical16,
                               CustomRowCard(
                                 title: 'Quantity',
                                 title2: 'Unit Price',
@@ -148,7 +148,7 @@ class NewQuotationView extends StatelessWidget {
                                       .calculateSubtotal(index),
                                 ),
                               ),
-                              AppSpacing.vertical15,
+                              AppSpacing.vertical16,
                               CustomRowCard(
                                 title: 'Taxes',
                                 title2: 'Ava Qty',
@@ -173,7 +173,7 @@ class NewQuotationView extends StatelessWidget {
                               CustomTextFiled(
                                 label: 'SR 1500.00',
                                 controller: controllers['subtotal']!,
-                                readonly: true,
+                                readOnly: true,
                                 onChanged: (v) => quotationController
                                     .calculateSubtotal(index),
                               ),
@@ -215,7 +215,7 @@ class NewQuotationView extends StatelessWidget {
                       child: Text(
                         'Create Quotation',
                         style: TextStyle(
-                          color: AppColors.white,
+                          color: AppColors.whiteColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

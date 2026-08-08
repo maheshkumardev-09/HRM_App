@@ -19,20 +19,21 @@ class AttendanceView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.all(10.w),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AppSpacing.vertical30,
               CustomTitel(title: 'Attendace', ontap: () {}),
-              AppSpacing.vertical20,
+              AppSpacing.vertical30,
               Container(
-                padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 8.w),
+                padding: EdgeInsets.all(20.w),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade400),
+                  color: AppColors.containerBackColor,
+                  borderRadius: BorderRadius.circular(25.r),
+                  border: Border.all(color: AppColors.borderColor),
                 ),
                 child: CustomRowContainer(
                   onTap1: () {},
@@ -43,35 +44,43 @@ class AttendanceView extends StatelessWidget {
                   onTap2: () {},
                 ),
               ),
-              AppSpacing.vertical20,
+              AppSpacing.vertical30,
               Obx(() {
                 final data = attendaceController.currentAttendance.value;
                 return Container(
                   padding: EdgeInsets.all(20.w),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(color: Colors.grey.shade400),
+                    color: AppColors.containerBackColor,
+                    borderRadius: BorderRadius.circular(25.r),
+                    border: Border.all(color: AppColors.primaryColor),
                   ),
                   child: (Column(
+                    spacing: 20.h,
                     children: [
                       Text(
-                        '2 Hours 12 minutes since check-in',
+                        attendaceController.workingTime.value,
                         style: TextStyle(
                           fontSize: 13.sp,
-                          color: Colors.grey.shade600,
+                          color: AppColors.textColor,
                         ),
                       ),
-                      AppSpacing.vertical20,
-                      Text(
-                        '12:12:00 PM',
-                        style: TextStyle(
-                          fontSize: 22.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.alarm, size: 24.w),
+                          AppSpacing.horizontal10,
+                          Text(
+                            DateFormat(
+                              'hh:mm:ss a',
+                            ).format(DateTime.timestamp()),
+                            style: TextStyle(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      AppSpacing.vertical20,
                       Row(
                         children: [
                           Expanded(
@@ -85,7 +94,7 @@ class AttendanceView extends StatelessWidget {
                                   : '--:--',
                             ),
                           ),
-                          AppSpacing.horizontal10,
+                          AppSpacing.horizontal15,
                           Expanded(
                             child: AttendanceActionTile(
                               icon: 'assets/icon/time-out.png',
@@ -99,7 +108,6 @@ class AttendanceView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      AppSpacing.vertical10,
                       Row(
                         children: [
                           Expanded(
@@ -113,7 +121,7 @@ class AttendanceView extends StatelessWidget {
                                   : '--:--',
                             ),
                           ),
-                          AppSpacing.horizontal10,
+                          AppSpacing.horizontal15,
                           Expanded(
                             child: AttendanceActionTile(
                               icon: 'assets/icon/break-out.png',
@@ -127,9 +135,8 @@ class AttendanceView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      AppSpacing.vertical20,
                       SizedBox(
-                        height: 40.h,
+                        height: 48.h,
                         width: double.infinity,
                         child: CustomButton(
                           title: data.status == 'In Progress'
@@ -146,63 +153,63 @@ class AttendanceView extends StatelessWidget {
                   )),
                 );
               }),
-              AppSpacing.vertical20,
+              AppSpacing.vertical30,
               Text(
                 'My Attendance History',
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               AppSpacing.vertical20,
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: attendaceController.attendanceHistory.length,
-                itemBuilder: (context, index) {
-                  final history = attendaceController.attendanceHistory[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 12.h),
-                    child: Container(
-                      padding: EdgeInsets.all(12.w),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(16.r),
-                        border: Border.all(color: Colors.grey.shade400),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 48.w,
-                            height: 48.w,
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  DateFormat('dd').format(history.date),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
+              Obx(
+                () => ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: attendaceController.attendancelist.length,
+                  itemBuilder: (context, index) {
+                    final history = attendaceController.attendancelist[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      child: Container(
+                        padding: EdgeInsets.all(15.w),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.containerBackColor,
+                          borderRadius: BorderRadius.circular(25.r),
+                          border: Border.all(color: AppColors.borderColor),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 50.w,
+                              height: 50.w,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.circular(15.r),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    DateFormat('dd').format(history.date),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  DateFormat(
-                                    'EEE',
-                                  ).format(history.date).toUpperCase(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
+                                  Text(
+                                    DateFormat(
+                                      'EEE',
+                                    ).format(history.date).toUpperCase(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10.sp,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          AppSpacing.horizontal12,
-                          Expanded(
-                            child: Column(
+                            AppSpacing.horizontal30,
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -224,9 +231,8 @@ class AttendanceView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                          Expanded(
-                            child: Column(
+                            AppSpacing.horizontal40,
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -238,7 +244,7 @@ class AttendanceView extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                AppSpacing.vertical2,
+                                AppSpacing.vertical5,
                                 Text(
                                   'Check-out',
                                   style: TextStyle(
@@ -248,34 +254,35 @@ class AttendanceView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  history.totalHours,
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w600,
+                            AppSpacing.horizontal40,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    history.totalHours,
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 2.h),
-                                Text(
-                                  'Total Hours',
-                                  style: TextStyle(
-                                    fontSize: 11.sp,
-                                    color: Colors.grey,
+                                  AppSpacing.vertical5,
+                                  Text(
+                                    'Total Hours',
+                                    style: TextStyle(
+                                      fontSize: 11.sp,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ],
           ),

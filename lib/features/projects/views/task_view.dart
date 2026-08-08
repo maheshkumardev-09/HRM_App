@@ -50,7 +50,7 @@ class TaskView extends StatelessWidget {
                         ),
                       ),
                       trailing: Text(
-                        '07',
+                        taskController.taskList.length.toString(),
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
@@ -144,11 +144,11 @@ class TaskView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    AppSpacing.vertical15,
+                    AppSpacing.vertical16,
                     CustomTextFiled(
                       label: 'Search',
                       controller: searchControlle,
-                      prefixicon: Icon(Icons.search),
+                      prefixIcon: Icon(Icons.search),
                     ),
                   ],
                 ),
@@ -220,7 +220,7 @@ class TaskView extends StatelessWidget {
                                     child: Icon(
                                       Icons.calendar_month_outlined,
                                       size: 24.w,
-                                      color: AppColors.white,
+                                      color: AppColors.whiteColor,
                                     ),
                                   ),
                                   AppSpacing.horizontal10,

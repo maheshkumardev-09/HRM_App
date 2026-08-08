@@ -22,15 +22,18 @@ class CustomButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColor ?? AppColors.primaryColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(12.r),
+          borderRadius: BorderRadiusGeometry.circular(15.r),
         ),
+        padding: EdgeInsets.zero,
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: Text(
         title,
         style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,
-          color: titleColor ?? AppColors.white,
+          color: titleColor ?? AppColors.whiteColor,
         ),
       ),
     );

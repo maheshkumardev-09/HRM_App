@@ -32,7 +32,7 @@ class NewTimesheetView extends StatelessWidget {
                 titel: 'Date*',
                 widget: Obx(
                   () => CustomTextFiled(
-                    readonly: true,
+                    readOnly: true,
                     label: 'dd/mm/yyyy',
                     controller: TextEditingController(
                       text: timesheetController.selectedDate.value == null
@@ -123,7 +123,7 @@ class NewTimesheetView extends StatelessWidget {
                       child: Text(
                         'Create Timesheet',
                         style: TextStyle(
-                          color: AppColors.white,
+                          color: AppColors.whiteColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 13.sp,
                         ),

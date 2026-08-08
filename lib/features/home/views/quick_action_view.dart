@@ -12,10 +12,12 @@ class QuickActionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final remainingActions = home.quickActions.skip(6).toList();
+
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.all(20.w),
+        padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
         child: Column(
           children: [
             Row(
@@ -32,25 +34,23 @@ class QuickActionView extends StatelessWidget {
               ],
             ),
             AppSpacing.vertical20,
-            Obx(() {
-              final remainingActions = home.quickActions.skip(6).toList();
-              return Expanded(
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 12.h,
-                    crossAxisSpacing: 12.w,
-                  ),
-
-                  itemCount: remainingActions.length,
-                  itemBuilder: (context, index) {
-                    return CustomActionCard(
-                      action: remainingActions[index],
-                    ); // sirf 7 wale dikhenge
-                  },
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 10.h,
+                  crossAxisSpacing: 10.w,
+                  mainAxisExtent: 105.h,
                 ),
-              );
-            }),
+
+                itemCount: remainingActions.length,
+                itemBuilder: (context, index) {
+                  return CustomActionCard(
+                    action: remainingActions[index],
+                  ); // sirf 7 wale dikhenge
+                },
+              ),
+            ),
           ],
         ),
       ),

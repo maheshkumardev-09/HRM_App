@@ -18,21 +18,23 @@ class PayrollView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.all(20.w),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AppSpacing.vertical30,
               CustomTitel(title: 'Payroll', ontap: () {}),
               AppSpacing.vertical30,
               Container(
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(25.r),
                   border: Border.all(color: AppColors.primaryColor),
-                  color: Colors.grey.shade100,
+                  color: AppColors.containerBackColor,
                 ),
                 child: Column(
+                  spacing: 20.h,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -42,20 +44,20 @@ class PayrollView extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    AppSpacing.vertical20,
                     Container(
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(25.r),
+                        color: AppColors.containerBackColordark,
                       ),
                       child: Row(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.all(10.w),
-                            child: Image.asset(AppImages.payroll),
+                          Image.asset(
+                            AppImages.payroll,
+                            height: 50.h,
+                            width: 50.w,
                           ),
-                          AppSpacing.horizontal10,
+                          AppSpacing.horizontal15,
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,42 +65,53 @@ class PayrollView extends StatelessWidget {
                                 Text(
                                   'SR 295.00',
                                   style: TextStyle(
-                                    fontSize: 14.sp,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 AppSpacing.vertical10,
-                                Text(
-                                  'April 2026',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'April 2026',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w,
+                                        vertical: 5.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          50.r,
+                                        ),
+                                        color: Colors.green,
+                                      ),
+                                      child: Text(
+                                        'Paid',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: AppColors.whiteColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 15.w,
-                              vertical: 8.0.h,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.sp),
-                              color: Colors.green,
-                            ),
-                            child: Text(
-                              'Paid',
-                              style: TextStyle(color: AppColors.white),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    AppSpacing.vertical20,
                     SizedBox(
                       width: double.infinity,
-                      height: 40.h,
+                      height: 48.h,
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
@@ -112,7 +125,7 @@ class PayrollView extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.download_for_offline_outlined,
-                              color: AppColors.white,
+                              color: AppColors.whiteColor,
                               size: 25.w,
                             ),
                             AppSpacing.horizontal8,
@@ -121,7 +134,7 @@ class PayrollView extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.white,
+                                color: AppColors.whiteColor,
                               ),
                             ),
                           ],
@@ -146,31 +159,30 @@ class PayrollView extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 10.h),
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 20.h,
-                      ),
+                      padding: EdgeInsets.all(15.w),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(25.r),
+                        color: AppColors.containerBackColor,
+                        border: Border.all(color: AppColors.borderColor),
                       ),
                       child: Column(
                         children: [
                           Row(
                             children: [
                               Container(
-                                padding: EdgeInsets.all(10.dg),
+                                height: 50.h,
+                                width: 50.w,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.sp),
+                                  borderRadius: BorderRadius.circular(15.sp),
                                   color: AppColors.primaryColor,
                                 ),
-                                child: Icon(
-                                  Icons.receipt_long_outlined,
-                                  color: AppColors.white,
-                                  size: 24,
+                                child: Image.asset(
+                                  'assets/icon/bill.png',
+                                  height: 24.h,
+                                  width: 24.w,
                                 ),
                               ),
-                              AppSpacing.horizontal10,
+                              AppSpacing.horizontal15,
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -179,18 +191,18 @@ class PayrollView extends StatelessWidget {
                                       'yyy-MM-dd',
                                     ).format(data.dateFrom),
                                     style: TextStyle(
-                                      fontSize: 14.sp,
+                                      fontSize: 12.sp,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  AppSpacing.vertical8,
+                                  AppSpacing.vertical5,
                                   Text(
                                     'Date From',
-                                    style: TextStyle(fontSize: 12.sp),
+                                    style: TextStyle(fontSize: 10.sp),
                                   ),
                                 ],
                               ),
-                              AppSpacing.horizontal8,
+                              AppSpacing.horizontal20,
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +212,7 @@ class PayrollView extends StatelessWidget {
                                         'yyy-MM-dd',
                                       ).format(data.dateTo),
                                       style: TextStyle(
-                                        fontSize: 14.sp,
+                                        fontSize: 12.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
                                       maxLines: 1,
@@ -209,19 +221,18 @@ class PayrollView extends StatelessWidget {
                                     AppSpacing.vertical8,
                                     Text(
                                       'Date To',
-                                      style: TextStyle(fontSize: 12.sp),
+                                      style: TextStyle(fontSize: 10.sp),
                                     ),
                                   ],
                                 ),
                               ),
-                              AppSpacing.horizontal2,
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 12.w,
-                                  vertical: 8.0.h,
+                                  horizontal: 10.w,
+                                  vertical: 5.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.sp),
+                                  borderRadius: BorderRadius.circular(50.w),
                                   color: payrollControllr.getStatusColor(
                                     data.status,
                                   ),
@@ -229,7 +240,7 @@ class PayrollView extends StatelessWidget {
                                 child: Text(
                                   data.status,
                                   style: TextStyle(
-                                    color: AppColors.white,
+                                    color: AppColors.whiteColor,
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -237,31 +248,34 @@ class PayrollView extends StatelessWidget {
                               ),
                             ],
                           ),
-                          AppSpacing.vertical15,
+                          AppSpacing.vertical20,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'SR ${data.payment.toString()}',
                                 style: TextStyle(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(
-                                width: 130.w,
-                                height: 25.h,
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primaryColor,
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w,
+                                    vertical: 5.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50.r),
+                                    color: AppColors.primaryColor,
                                   ),
                                   child: Text(
                                     'Download PDF',
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.white,
+                                      color: AppColors.whiteColor,
                                     ),
                                   ),
                                 ),

@@ -38,7 +38,7 @@ class EditExpensesView extends StatelessWidget {
                           Checkbox(
                             value: expenseController.isPaidByEmployee.value,
                             activeColor: AppColors.primaryColor,
-                            checkColor: AppColors.white,
+                            checkColor: AppColors.whiteColor,
                             onChanged: (value) {
                               expenseController.selectEmployee(value!);
                             },
@@ -57,7 +57,7 @@ class EditExpensesView extends StatelessWidget {
                           Checkbox(
                             value: expenseController.isPaidByCompany.value,
                             activeColor: AppColors.primaryColor,
-                            checkColor: AppColors.white,
+                            checkColor: AppColors.whiteColor,
                             onChanged: (value) {
                               expenseController.selectCompany(value!);
                             },
@@ -162,7 +162,7 @@ class EditExpensesView extends StatelessWidget {
                               child: Text(
                                 '+AddRecepit',
                                 style: TextStyle(
-                                  color: AppColors.white,
+                                  color: AppColors.whiteColor,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 10.sp,
                                 ),
@@ -223,7 +223,7 @@ class EditExpensesView extends StatelessWidget {
                         child: Text(
                           'Update & Submit',
                           style: TextStyle(
-                            color: AppColors.white,
+                            color: AppColors.whiteColor,
                             fontWeight: FontWeight.w500,
                           ),
                         ),

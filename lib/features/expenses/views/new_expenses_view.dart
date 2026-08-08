@@ -19,7 +19,7 @@ class NewExpensesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(onNotificationTap: () {}),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         child: SingleChildScrollView(
@@ -38,7 +38,7 @@ class NewExpensesView extends StatelessWidget {
                           Checkbox(
                             value: expenseController.isPaidByEmployee.value,
                             activeColor: AppColors.primaryColor,
-                            checkColor: AppColors.white,
+                            checkColor: AppColors.whiteColor,
                             onChanged: (value) {
                               expenseController.selectEmployee(value!);
                             },
@@ -57,7 +57,7 @@ class NewExpensesView extends StatelessWidget {
                           Checkbox(
                             value: expenseController.isPaidByCompany.value,
                             activeColor: AppColors.primaryColor,
-                            checkColor: AppColors.white,
+                            checkColor: AppColors.whiteColor,
                             onChanged: (value) {
                               expenseController.selectCompany(value!);
                             },

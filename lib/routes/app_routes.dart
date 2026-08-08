@@ -1,16 +1,15 @@
 abstract class AppRoutes {
-  static const splashview = '/splashview';
   static const loginview = '/loginview';
   static const signupview = '/signupview';
   static const navbar = '/navbar';
-  static const homeview = '/homeview';
+  static const homeview = '/home';
   static const actions = '/actions';
   static const attendanceview = '/attendance';
-  static const empolyeesview = '/empolyees';
-  static const empolyeesprofileview = '/empolyeesprofile';
-  static const expensesview = '/expanses';
+  static const empolyeesview = '/employees';
+  static const empolyeesprofileview = '/employprofile';
+  static const expensesview = '/expenses';
   static const newexpensesview = '/newexpenses';
-  static const editexpensesview = '/editexpanses';
+  static const editexpensesview = '/editexpenses';
   static const projectview = '/project';
   static const taskview = '/task';
   static const taskdetailview = '/taskdetail';
@@ -25,4 +24,7 @@ abstract class AppRoutes {
   static const timeoffview = '/timeoff';
   static const newleaverequestview = '/newrequest';
   static const teamcalendarview = '/teamcalender';
+  static const myrequestsview = '/myrequests';
+  static const newrequestsview = '/newrequests';
+  static const requestdetailsview = '/requestdetails';
 }

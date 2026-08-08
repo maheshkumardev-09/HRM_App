@@ -226,7 +226,7 @@ class TimeSheetView extends StatelessWidget {
                                       child: Text(
                                         'Edit',
                                         style: TextStyle(
-                                          color: AppColors.white,
+                                          color: AppColors.whiteColor,
                                           fontSize: 12.sp,
                                         ),
                                       ),
@@ -250,7 +250,7 @@ class TimeSheetView extends StatelessWidget {
         onPressed: () => Get.toNamed(AppRoutes.newtimesheetview),
         backgroundColor: AppColors.primaryColor,
         shape: const CircleBorder(),
-        child: Icon(Icons.add, color: AppColors.white),
+        child: Icon(Icons.add, color: AppColors.whiteColor),
       ),
     );
   }

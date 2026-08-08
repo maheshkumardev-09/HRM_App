@@ -1,8 +1,8 @@
 class TimeOffDummyData {
   static final leaveBalance = [
-    {"leaveType": "Annual Leave", "total": 20, "used": 5, "remaining": 15},
+    {"leaveType": "Sick Day Off", "total": 20, "used": 5, "remaining": 15},
 
-    {"leaveType": "Sick Leave", "total": 10, "used": 2, "remaining": 8},
+    {"leaveType": "Pida leaves", "total": 10, "used": 2, "remaining": 8},
   ];
 
   static final leaves = [

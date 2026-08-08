@@ -112,7 +112,7 @@ class ExpensesView extends StatelessWidget {
                                     child: Icon(
                                       Icons.camera_alt_outlined,
                                       size: 24.w,
-                                      color: AppColors.white,
+                                      color: AppColors.whiteColor,
                                     ),
                                   ),
                                   AppSpacing.horizontal20,
@@ -153,7 +153,7 @@ class ExpensesView extends StatelessWidget {
                                     child: Text(
                                       data.status,
                                       style: TextStyle(
-                                        color: AppColors.white,
+                                        color: AppColors.whiteColor,
                                         fontSize: 12.sp,
                                       ),
                                     ),
@@ -224,7 +224,7 @@ class ExpensesView extends StatelessWidget {
                                       child: Text(
                                         'Edit',
                                         style: TextStyle(
-                                          color: AppColors.white,
+                                          color: AppColors.whiteColor,
                                           fontSize: 12.sp,
                                         ),
                                       ),
@@ -252,7 +252,7 @@ class ExpensesView extends StatelessWidget {
         },
         backgroundColor: AppColors.primaryColor,
         shape: const CircleBorder(),
-        child: Icon(Icons.add, color: AppColors.white),
+        child: Icon(Icons.add, color: AppColors.whiteColor),
       ),
     );
   }

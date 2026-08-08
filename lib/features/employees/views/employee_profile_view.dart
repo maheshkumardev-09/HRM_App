@@ -23,24 +23,26 @@ class EmployProfileView extends StatelessWidget {
     // }
 
     return Scaffold(
-      appBar: CustomAppBar(),
+      backgroundColor: AppColors.backgroundColor,
+      appBar: CustomAppBar(backgroundColor: AppColors.backgroundColor),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
 
         child: SingleChildScrollView(
           child: Column(
             children: [
+              AppSpacing.vertical30,
               CustomTitel(title: 'Employee Profile', ontap: () {}),
               AppSpacing.vertical30,
               Container(
-                width: 150.w,
-                height: 140.h,
+                width: 152.w,
+                height: 152.h,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(25.r),
                   border: Border.all(color: AppColors.primaryColor),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(25.r),
                   child: Image.asset(AppImages.profileImage, fit: BoxFit.cover),
                 ),
               ),
@@ -49,25 +51,26 @@ class EmployProfileView extends StatelessWidget {
                 employee.name,
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500),
               ),
-              AppSpacing.vertical10,
+              AppSpacing.vertical20,
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 7.h),
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.primaryColor),
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Row(
+                  spacing: 5.w,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       Icons.business_center_outlined,
                       color: AppColors.primaryColor,
+                      size: 18.w,
                     ),
-                    AppSpacing.horizontal8,
                     Text(
                       employee.category,
                       style: TextStyle(
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                         color: AppColors.primaryColor,
                       ),
                     ),
@@ -78,23 +81,23 @@ class EmployProfileView extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(25.r),
                   border: Border.all(color: AppColors.primaryColor),
-                  color: Colors.grey.shade100,
+                  color: AppColors.containerBackColordark,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Empoly Emial', style: TextStyle(fontSize: 13.sp)),
-                    AppSpacing.vertical8,
+                    Text('Empoly Emial', style: TextStyle(fontSize: 14.sp)),
+                    AppSpacing.vertical10,
                     _infoField(Icons.email_outlined, employee.email),
                     AppSpacing.vertical15,
-                    Text('Phone', style: TextStyle(fontSize: 13.sp)),
-                    AppSpacing.vertical8,
+                    Text('Phone Namber', style: TextStyle(fontSize: 14.sp)),
+                    AppSpacing.vertical10,
                     _infoField(Icons.call_outlined, employee.phone),
                     AppSpacing.vertical15,
-                    Text('Department', style: TextStyle(fontSize: 13.sp)),
-                    AppSpacing.vertical8,
+                    Text('Department', style: TextStyle(fontSize: 14.sp)),
+                    AppSpacing.vertical10,
                     _infoField(Icons.description_outlined, employee.department),
                   ],
                 ),
@@ -108,15 +111,15 @@ class EmployProfileView extends StatelessWidget {
 
   Widget _infoField(IconData icon, String value) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      padding: EdgeInsets.all(15.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(15.r),
       ),
       child: Row(
+        spacing: 10.w,
         children: [
-          Icon(icon, size: 18.sp, color: Colors.grey),
-          SizedBox(width: 10.w),
+          Icon(icon, size: 20.w, color: Colors.grey),
           Text(value, style: TextStyle(fontSize: 14.sp)),
         ],
       ),

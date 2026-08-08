@@ -21,19 +21,20 @@ class EmployeesView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              AppSpacing.vertical30,
               CustomTitel(title: 'Employee Directory', ontap: () {}),
-              AppSpacing.vertical20,
+              AppSpacing.vertical30,
               Container(
-                padding: EdgeInsets.all(15.w),
+                padding: EdgeInsets.all(20.w),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade400),
+                  color: AppColors.containerBackColor,
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(color: AppColors.primaryColor),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -46,13 +47,13 @@ class EmployeesView extends StatelessWidget {
                           height: 50.h,
                           fit: BoxFit.contain,
                         ),
-                        AppSpacing.horizontal8,
+                        AppSpacing.horizontal10,
                         Expanded(
                           child: Text(
                             'Totol Employees',
                             style: TextStyle(
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                         ),
@@ -69,6 +70,8 @@ class EmployeesView extends StatelessWidget {
                     CustomTextFiled(
                       label: 'Search',
                       controller: searchController,
+                      fillColor: AppColors.textfieldColor,
+                      showBorder: false,
                     ),
                     AppSpacing.vertical15,
                     CustomRowContainer(
@@ -100,22 +103,28 @@ class EmployeesView extends StatelessWidget {
                           );
                         },
                         child: Container(
-                          padding: EdgeInsets.all(10.w),
+                          padding: EdgeInsets.all(15.w),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey.shade400),
+                            color: AppColors.containerBackColor,
+                            borderRadius: BorderRadius.circular(25.r),
+                            border: Border.all(color: AppColors.borderColor),
                           ),
                           child: Row(
                             children: [
-                              Image.asset(
-                                AppImages.profileImage,
-                                height: 60.h,
-                                width: 60.w,
-                                fit: BoxFit.contain,
+                              ClipRRect(
+                                borderRadius: BorderRadiusGeometry.circular(
+                                  15.r,
+                                ),
+                                child: Image.asset(
+                                  AppImages.profileImage,
+                                  height: 60.h,
+                                  width: 60.w,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              AppSpacing.horizontal10,
+                              AppSpacing.horizontal15,
                               Column(
+                                spacing: 10.h,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
@@ -126,26 +135,32 @@ class EmployeesView extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 8.h),
-                                    padding: EdgeInsets.all(5.w),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                      vertical: 5.h,
+                                    ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(10.r),
                                       border: Border.all(
                                         color: AppColors.primaryColor,
                                       ),
                                     ),
-                                    // width: 144,
-                                    // height: 26.h,
+
                                     child: Row(
+                                      spacing: 5.w,
                                       children: [
                                         Icon(
                                           Icons.business_center_outlined,
-                                          size: 20.w,
+                                          size: 16.w,
+                                          color: AppColors.primaryColor,
                                         ),
-                                        AppSpacing.horizontal2,
                                         Text(
                                           data.category,
-                                          style: TextStyle(fontSize: 12.sp),
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.primaryColor,
+                                          ),
                                         ),
                                       ],
                                     ),

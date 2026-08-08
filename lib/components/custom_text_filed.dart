@@ -7,48 +7,79 @@ class CustomTextFiled extends StatelessWidget {
   final TextEditingController controller;
   final bool hidepassword;
   final Widget? suffixIcon;
-  final Widget? prefixicon;
-  final bool readonly;
-  final int maxLines;
-  final TextInputType? keyboardType;
-
+  final Widget? prefixIcon;
+  final TextInputType keyboardType;
+  final String? Function(String?)? validator;
+  final Color? fillColor;
+  final bool showBorder;
+  final Color? borderColor;
+  final double borderRadius;
   final ValueChanged<String>? onChanged;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final int maxLines;
   const CustomTextFiled({
     super.key,
     required this.label,
     required this.controller,
     this.hidepassword = false,
     this.suffixIcon,
-    this.prefixicon,
-    this.readonly = false,
+    this.prefixIcon,
+    this.keyboardType = TextInputType.text,
+    this.validator,
+    this.fillColor,
+    this.showBorder = true,
+    this.borderColor,
+    this.borderRadius = 12,
     this.onChanged,
-    this.keyboardType,
+    this.readOnly = false,
+    this.onTap,
     this.maxLines = 1,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      keyboardType: keyboardType,
-      obscureText: hidepassword,
+    return TextFormField(
       controller: controller,
-      readOnly: readonly,
+      obscureText: hidepassword,
+      keyboardType: keyboardType,
+      validator: validator,
+      style: TextStyle(fontSize: 14.sp),
       onChanged: onChanged,
+      readOnly: readOnly,
+      onTap: onTap,
       maxLines: maxLines,
       decoration: InputDecoration(
-        label: Text(label),
+        hintText: label,
+        hintStyle: TextStyle(fontSize: 16.sp, color: Colors.grey),
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         filled: true,
-        fillColor: Colors.grey.shade200,
+        fillColor: fillColor ?? AppColors.whiteColor,
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        constraints: BoxConstraints(minHeight: 56.h),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: Colors.grey.shade100),
+          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderSide: showBorder
+              ? BorderSide(color: borderColor ?? Colors.grey.shade300)
+              : BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderSide: showBorder
+              ? BorderSide(color: borderColor ?? Colors.grey.shade300)
+              : BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: AppColors.primaryColor),
+          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderSide: showBorder
+              ? BorderSide(color: AppColors.primaryColor, width: 1.5)
+              : BorderSide.none,
         ),
-        suffixIcon: suffixIcon,
-        prefixIcon: prefixicon,
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderSide: BorderSide(color: Colors.red, width: 1),
+        ),
       ),
     );
   }

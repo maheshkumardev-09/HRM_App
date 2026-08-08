@@ -76,7 +76,7 @@ class NewRequestLeaveView extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.all(6.w),
                             decoration: BoxDecoration(
-                              color: AppColors.white,
+                              color: AppColors.whiteColor,
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Row(
@@ -97,7 +97,7 @@ class NewRequestLeaveView extends StatelessWidget {
                             child: Container(
                               padding: EdgeInsets.all(6.w),
                               decoration: BoxDecoration(
-                                color: AppColors.white,
+                                color: AppColors.whiteColor,
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Row(

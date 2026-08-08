@@ -30,7 +30,7 @@ class EditTimesheetView extends StatelessWidget {
                 CustomContainerWithTitle(
                   titel: 'Date*',
                   widget: CustomTextFiled(
-                    readonly: true,
+                    readOnly: true,
                     label: '',
                     controller: TextEditingController(
                       text: timesheetController.selectedDate.value == null

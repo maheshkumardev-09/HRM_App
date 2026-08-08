@@ -109,7 +109,7 @@ class TimeOffView extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.calendar_today_outlined,
-                                  color: AppColors.white,
+                                  color: AppColors.whiteColor,
                                   size: 24.w,
                                 ),
                                 AppSpacing.horizontal10,
@@ -118,7 +118,7 @@ class TimeOffView extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w500,
-                                    color: AppColors.white,
+                                    color: AppColors.whiteColor,
                                   ),
                                 ),
                               ],
@@ -170,7 +170,7 @@ class TimeOffView extends StatelessWidget {
                                       ),
                                       child: Icon(
                                         Icons.calendar_today_outlined,
-                                        color: AppColors.white,
+                                        color: AppColors.whiteColor,
                                       ),
                                     ),
                                     AppSpacing.horizontal12,
@@ -201,7 +201,7 @@ class TimeOffView extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
-                                          color: AppColors.white,
+                                          color: AppColors.whiteColor,
                                         ),
                                       ),
                                     ),
@@ -308,7 +308,7 @@ class TimeOffView extends StatelessWidget {
         onPressed: () => Get.toNamed(AppRoutes.newleaverequestview),
         backgroundColor: AppColors.primaryColor,
         shape: const CircleBorder(),
-        child: Icon(Icons.add, color: AppColors.white),
+        child: Icon(Icons.add, color: AppColors.whiteColor),
       ),
     );
   }

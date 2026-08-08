@@ -2,101 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hrm_app/features/attendance/controllers/attendace_controller.dart';
-import 'package:hrm_app/features/auth/controllers/auth_controllr.dart';
-import 'package:hrm_app/features/employees/controllers/employees_controller.dart';
-import 'package:hrm_app/features/expenses/controllers/expenses_controller.dart';
-import 'package:hrm_app/features/home/controllers/home_controller.dart';
-import 'package:hrm_app/features/payroll/controllers/payroll_controller.dart';
-import 'package:hrm_app/features/projects/controllers/project_controller.dart';
-import 'package:hrm_app/features/projects/controllers/task_controller.dart';
-import 'package:hrm_app/features/sales/controllers/quotation_controller.dart';
-import 'package:hrm_app/features/sales/controllers/sales_controller.dart';
-import 'package:hrm_app/features/time_off/controllers/time_off_controller.dart';
-import 'package:hrm_app/features/time_sheets/controllers/time_sheet_controller.dart';
+import 'package:hrm_app/constants/app_colors.dart';
+import 'package:hrm_app/features/auth/binding/initial_binding.dart';
 import 'package:hrm_app/routes/app_pages.dart';
 import 'package:hrm_app/routes/app_routes.dart';
+import 'package:hrm_app/services/storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  Get.put(AuthControllr());
-  Get.put(HomeController());
-  Get.put(AttendanceController());
-  Get.put(EmployeesController());
-  Get.put(ExpensesController());
-  Get.put(ProjectController());
-  Get.put(TaskController());
-  Get.put(TimeSheetController());
-  Get.put(PayrollController());
-  Get.put(SalesController());
-  Get.put(QuotationController());
-  Get.put(TimeOffController());
-  runApp(const MyApp());
+  bool isLogin = await StorageService.isLoggedIn();
+  runApp(MyApp(isLogin: isLogin));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLogin;
+  const MyApp({super.key, required this.isLogin});
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 690),
+      designSize: const Size(440, 956),
       child: GetMaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+          scaffoldBackgroundColor: AppColors.whiteColor,
+        ),
         debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.splashview,
+        initialBinding: InitialBinding(),
+        initialRoute: isLogin ? AppRoutes.navbar : AppRoutes.loginview,
         getPages: AppPages.page,
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(
-          widget.title,
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

@@ -17,19 +17,19 @@ class AttendanceActionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10.w),
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(14.r),
+        color: AppColors.containerBackColordark,
+        borderRadius: BorderRadius.circular(25.r),
       ),
       child: Row(
         children: [
           Container(
-            width: 40.w,
-            height: 40.w,
+            width: 50.w,
+            height: 50.w,
             decoration: BoxDecoration(
               color: AppColors.primaryColor,
-              borderRadius: BorderRadius.circular(10.r),
+              borderRadius: BorderRadius.circular(15.r),
             ),
             child: Image.asset(icon, width: 24.w, height: 24.h),
           ),
@@ -41,15 +41,12 @@ class AttendanceActionTile extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 12.sp, color: AppColors.textColor),
                 ),
                 Text(
                   time,
                   style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

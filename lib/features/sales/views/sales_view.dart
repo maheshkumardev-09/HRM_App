@@ -20,17 +20,19 @@ class SalesView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              AppSpacing.vertical30,
               CustomTitel(title: 'Sales Orders', ontap: () {}),
               AppSpacing.vertical30,
               Container(
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(25.r),
+                  color: AppColors.containerBackColor,
+                  border: Border.all(color: AppColors.primaryColor),
                 ),
                 child: CustomRowContainer(
                   title: 'Date From',
@@ -45,7 +47,7 @@ class SalesView extends StatelessWidget {
               Obx(() {
                 final selected = salescontroller.selectedStatus.value;
                 return SizedBox(
-                  height: 30.h,
+                  height: 36.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: salescontroller.statusList.length,
@@ -55,25 +57,24 @@ class SalesView extends StatelessWidget {
                           salescontroller.statusList[index],
                         ),
                         child: Container(
-                          margin: EdgeInsets.only(right: 8.w),
-                          padding: EdgeInsets.symmetric(horizontal: 14.w),
+                          margin: EdgeInsets.only(right: 10.w),
+                          padding: EdgeInsets.all(10.w),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade400),
+                            border: Border.all(color: AppColors.borderColor),
                             color: salescontroller.statusList[index] == selected
                                 ? AppColors.primaryColor
                                 : Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(20.r),
+                            borderRadius: BorderRadius.circular(50.r),
                           ),
-                          child: Center(
-                            child: Text(
-                              salescontroller.statusList[index],
-                              style: TextStyle(
-                                color:
-                                    salescontroller.statusList[index] ==
-                                        salescontroller.selectedStatus.value
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
+                          child: Text(
+                            salescontroller.statusList[index],
+                            style: TextStyle(
+                              color:
+                                  salescontroller.statusList[index] ==
+                                      salescontroller.selectedStatus.value
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontSize: 12.sp,
                             ),
                           ),
                         ),
@@ -100,32 +101,30 @@ class SalesView extends StatelessWidget {
                           );
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 20.h,
-                          ),
+                          padding: EdgeInsets.all(15.w),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(25.r),
+                            color: AppColors.containerBackColor,
+                            border: Border.all(color: AppColors.borderColor),
                           ),
                           child: Column(
                             children: [
                               Row(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(10.w),
+                                    height: 50.h,
+                                    width: 50.w,
                                     decoration: BoxDecoration(
                                       color: AppColors.primaryColor,
-                                      borderRadius: BorderRadius.circular(12.r),
+                                      borderRadius: BorderRadius.circular(15.r),
                                     ),
                                     child: Image.asset(
                                       AppImages.sales,
-                                      fit: BoxFit.cover,
                                       height: 24.h,
                                       width: 24.w,
                                     ),
                                   ),
-                                  AppSpacing.horizontal10,
+                                  AppSpacing.horizontal15,
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -133,12 +132,12 @@ class SalesView extends StatelessWidget {
                                       Text(
                                         'Cutomar',
                                         style: TextStyle(
-                                          fontSize: 14.sp,
+                                          fontSize: 12.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black54,
                                         ),
                                       ),
-                                      AppSpacing.vertical8,
+                                      AppSpacing.vertical5,
                                       Text(
                                         data.clientName,
                                         style: TextStyle(
@@ -150,7 +149,7 @@ class SalesView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  AppSpacing.horizontal10,
+                                  AppSpacing.horizontal20,
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -159,7 +158,7 @@ class SalesView extends StatelessWidget {
                                         Text(
                                           'Date',
                                           style: TextStyle(
-                                            fontSize: 14.sp,
+                                            fontSize: 12.sp,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black54,
                                           ),
@@ -178,9 +177,12 @@ class SalesView extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.all(6.w),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                      vertical: 5.h,
+                                    ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(50.r),
                                       color: salescontroller.getStatusColor(
                                         data.status,
                                       ),
@@ -188,7 +190,7 @@ class SalesView extends StatelessWidget {
                                     child: Text(
                                       data.status,
                                       style: TextStyle(
-                                        color: AppColors.white,
+                                        color: AppColors.whiteColor,
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -208,21 +210,25 @@ class SalesView extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 25.h,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        Get.toNamed(
-                                          AppRoutes.editquotationview,
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.primaryColor,
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(AppRoutes.editquotationview);
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w,
+                                        vertical: 5.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primaryColor,
+                                        borderRadius: BorderRadius.circular(
+                                          50.r,
+                                        ),
                                       ),
                                       child: Text(
                                         'Edit/Pay',
                                         style: TextStyle(
-                                          color: AppColors.white,
+                                          color: AppColors.whiteColor,
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w600,
                                         ),

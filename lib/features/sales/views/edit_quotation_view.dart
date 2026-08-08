@@ -67,7 +67,7 @@ class EditQuotationView extends StatelessWidget {
                       controller: TextEditingController(),
                       suffixIcon: Icon(Icons.keyboard_arrow_down),
                     ),
-                    AppSpacing.vertical15,
+                    AppSpacing.vertical16,
                     CustomRowCard(
                       title: 'Quontity',
                       title2: 'Unit Price',

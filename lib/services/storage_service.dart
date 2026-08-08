@@ -21,9 +21,13 @@ class StorageService {
     return null;
   }
 
+  static Future<void> setLoggedIn(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', value);
+  }
+
   static Future<bool> isLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
-
     return prefs.getBool("isLogin") ?? false;
   }
 }

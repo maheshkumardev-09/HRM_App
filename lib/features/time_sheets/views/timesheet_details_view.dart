@@ -83,7 +83,7 @@ class TimesheetDetailsView extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.white,
+                                  color: AppColors.whiteColor,
                                 ),
                               ),
                             ),
@@ -97,7 +97,7 @@ class TimesheetDetailsView extends StatelessWidget {
                             child: Container(
                               padding: EdgeInsets.all(6.w),
                               decoration: BoxDecoration(
-                                color: AppColors.white,
+                                color: AppColors.whiteColor,
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Row(
@@ -120,7 +120,7 @@ class TimesheetDetailsView extends StatelessWidget {
                             child: Container(
                               padding: EdgeInsets.all(6.w),
                               decoration: BoxDecoration(
-                                color: AppColors.white,
+                                color: AppColors.whiteColor,
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Row(
@@ -150,7 +150,7 @@ class TimesheetDetailsView extends StatelessWidget {
                 widget: Container(
                   padding: EdgeInsets.all(10.w),
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: AppColors.whiteColor,
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Column(
