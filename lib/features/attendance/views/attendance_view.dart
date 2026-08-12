@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/attendance_action_tile.dart';
-import 'package:hrm_app/components/custom_row_container.dart';
+import 'package:hrm_app/components/custom_dropdown_field.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
+import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/attendance/controllers/attendace_controller.dart';
 import 'package:intl/intl.dart';
@@ -27,21 +28,51 @@ class AttendanceView extends StatelessWidget {
               AppSpacing.vertical30,
               CustomTitel(title: 'Attendace', ontap: () {}),
               AppSpacing.vertical30,
-              Container(
-                padding: EdgeInsets.all(20.w),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.containerBackColor,
-                  borderRadius: BorderRadius.circular(25.r),
-                  border: Border.all(color: AppColors.borderColor),
-                ),
-                child: CustomRowContainer(
-                  onTap1: () {},
-                  title: 'Select Region',
-                  icon: Icons.keyboard_arrow_down,
-                  title2: 'Select Sub-region',
-                  icon2: Icons.keyboard_arrow_down,
-                  onTap2: () {},
+              Obx(
+                () => Container(
+                  padding: EdgeInsets.all(20.w),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColors.containerBackColor,
+                    borderRadius: BorderRadius.circular(25.r),
+                    border: Border.all(color: AppColors.borderColor),
+                  ),
+                  child: Row(
+                    // spacing: 10.w,
+                    children: [
+                      Expanded(
+                        child: CustomDropdownField(
+                          hintText: 'Select Region',
+                          value: attendaceController.selectedRegion.value?.name,
+                          items: attendaceController.regions
+                              .map((r) => r.name)
+                              .toList(),
+                          onChanged: (selectedName) {
+                            final region = attendaceController.regions
+                                .firstWhere((r) => r.name == selectedName);
+                            attendaceController.setRegion(region);
+                          },
+                        ),
+                      ),
+                      AppSpacing.horizontal10,
+                      Expanded(
+                        child: CustomDropdownField(
+                          hintText: 'Select SubRegion',
+                          value:
+                              attendaceController.selectedSubRegion.value?.name,
+                          items: attendaceController.subRegions
+                              .map((r) => r.name)
+                              .toList(),
+                          onChanged: (selectedName) {
+                            if (selectedName == null) return;
+                            final subRegion = attendaceController.subRegions
+                                .firstWhere((r) => r.name == selectedName);
+                            attendaceController.setSubRegion(subRegion);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               AppSpacing.vertical30,
@@ -59,7 +90,7 @@ class AttendanceView extends StatelessWidget {
                     spacing: 20.h,
                     children: [
                       Text(
-                        attendaceController.workingTime.value,
+                        attendaceController.workingTime,
                         style: TextStyle(
                           fontSize: 13.sp,
                           color: AppColors.textColor,
@@ -68,12 +99,14 @@ class AttendanceView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.alarm, size: 24.w),
+                          Image.asset(
+                            AppImages.timer,
+                            width: 24.w,
+                            height: 24.h,
+                          ),
                           AppSpacing.horizontal10,
                           Text(
-                            DateFormat(
-                              'hh:mm:ss a',
-                            ).format(DateTime.timestamp()),
+                            attendaceController.workingTime,
                             style: TextStyle(
                               fontSize: 24.sp,
                               fontWeight: FontWeight.bold,

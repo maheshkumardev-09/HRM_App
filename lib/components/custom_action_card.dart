@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/constants/app_colors.dart';
-import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/home/models/quick_action_model.dart';
 
 class CustomActionCard extends StatelessWidget {
@@ -25,7 +24,7 @@ class CustomActionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(action.icon, width: 40.w, height: 40.h),
-            AppSpacing.vertical10,
+            SizedBox(height: 10.h),
             Text(
               action.title,
               textAlign: TextAlign.center,

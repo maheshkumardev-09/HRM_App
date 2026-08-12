@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/features/sales/controllers/sales_controller.dart';
-import 'package:hrm_app/features/sales/models/product_line_model.dart';
+import 'package:hrm_app/features/sales/models/products_model.dart';
 import 'package:hrm_app/features/sales/models/sales_model.dart';
 import 'package:intl/intl.dart';
 
 class QuotationController extends GetxController {
   final customerController = TextEditingController();
   final dateController = TextEditingController();
+  RxString selectedProductType = ''.obs;
   final RxList<Map<String, TextEditingController>> productControllers =
       <Map<String, TextEditingController>>[
         {
@@ -31,6 +32,7 @@ class QuotationController extends GetxController {
   }
 
   void removeProductLine(int index) {
+    if (index == 0) return;
     productControllers.removeAt(index);
   }
 
@@ -38,8 +40,8 @@ class QuotationController extends GetxController {
     final picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2030),
+      firstDate: DateTime(2025),
+      lastDate: DateTime.now(),
     );
     if (picked != null) {
       dateController.text = DateFormat('dd/MM/yyyy').format(picked);
@@ -48,7 +50,7 @@ class QuotationController extends GetxController {
 
   SalesModel _buildSalesModel() {
     final products = productControllers.map((ctrl) {
-      return ProductLineModel(
+      return ProducttseModel(
         productName: ctrl['product']!.text,
         quantity: int.tryParse(ctrl['quantity']!.text) ?? 0,
         unitPrice: double.tryParse(ctrl['unitPrice']!.text) ?? 0,
@@ -79,7 +81,6 @@ class QuotationController extends GetxController {
   void loadExistingData(SalesModel sale) {
     customerController.text = sale.clientName;
     dateController.text = DateFormat('dd/MM/yyyy').format(sale.date);
-
     productControllers.clear();
     for (var product in sale.products) {
       productControllers.add({
@@ -95,24 +96,17 @@ class QuotationController extends GetxController {
     }
   }
 
-  // 🔹 Naya function — index-based, kyunki multiple products hain
   void calculateSubtotal(int index) {
     final ctrl = productControllers[index];
-
     final qty = double.tryParse(ctrl['quantity']!.text) ?? 0;
     final price = double.tryParse(ctrl['unitPrice']!.text) ?? 0;
     final tax = double.tryParse(ctrl['taxes']!.text) ?? 0;
-
     final subtotal = (qty * price) + tax;
-
-    // 🔹 Agar 'subtotal' controller pehle se list mein nahi hai, add karein
     if (!ctrl.containsKey('subtotal')) {
       ctrl['subtotal'] = TextEditingController();
     }
-
     ctrl['subtotal']!.text = 'SR ${subtotal.toStringAsFixed(2)}';
-
-    productControllers.refresh(); // ✅ UI ko force update karo
+    productControllers.refresh();
   }
 
   @override

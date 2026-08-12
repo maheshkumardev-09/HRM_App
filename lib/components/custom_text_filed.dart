@@ -4,7 +4,7 @@ import 'package:hrm_app/constants/app_colors.dart';
 
 class CustomTextFiled extends StatelessWidget {
   final String label;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final bool hidepassword;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -21,7 +21,7 @@ class CustomTextFiled extends StatelessWidget {
   const CustomTextFiled({
     super.key,
     required this.label,
-    required this.controller,
+    this.controller,
     this.hidepassword = false,
     this.suffixIcon,
     this.prefixIcon,
@@ -56,28 +56,30 @@ class CustomTextFiled extends StatelessWidget {
         suffixIcon: suffixIcon,
         filled: true,
         fillColor: fillColor ?? AppColors.whiteColor,
+        suffixIconColor: Colors.grey,
+        prefixIconColor: Colors.grey,
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         constraints: BoxConstraints(minHeight: 56.h),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: showBorder
               ? BorderSide(color: borderColor ?? Colors.grey.shade300)
               : BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: showBorder
               ? BorderSide(color: borderColor ?? Colors.grey.shade300)
               : BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: showBorder
               ? BorderSide(color: AppColors.primaryColor, width: 1.5)
               : BorderSide.none,
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderRadius: BorderRadius.circular(15.r),
           borderSide: BorderSide(color: Colors.red, width: 1),
         ),
       ),

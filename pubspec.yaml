@@ -39,6 +39,8 @@ dependencies:
   shared_preferences: ^2.5.5
   file_picker: ^8.1.2
   flutter_native_splash: ^2.4.8
+  csc_picker: ^0.2.7
+  country_state_city: ^0.1.6
 
 dev_dependencies:
   flutter_test:

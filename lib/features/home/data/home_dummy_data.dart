@@ -1,7 +1,7 @@
 import 'package:hrm_app/features/home/models/quick_action_model.dart';
 import 'package:hrm_app/routes/app_routes.dart';
 
-class QuickActionsData {
+class HomeDummyData {
   static final List<QuickActionModel> items = [
     QuickActionModel(
       title: 'Check Out',
@@ -118,5 +118,13 @@ class QuickActionsData {
       icon: 'assets/icon/icon23.png',
       route: '/violation',
     ),
+  ];
+  static List<Map<String, dynamic>> announcements = [
+    {'id': '1', 'title': 'Office Closure', 'date': '2025-03-21T00:00:00.000'},
+    {
+      'id': '2',
+      'title': 'Annual Review Deadline',
+      'date': '2025-03-21T00:00:00.000',
+    },
   ];
 }

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_card_tow_title.dart';
+import 'package:hrm_app/components/custom_dropdown_field.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
@@ -20,18 +21,19 @@ class NewQuotationView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomTitel(title: 'Create New Quotation', ontap: () {}),
+              AppSpacing.vertical30,
+              CustomTitel(title: 'Create New Quotation'),
               AppSpacing.vertical30,
               Container(
-                padding: EdgeInsets.all(15.w),
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(25.r),
                   border: Border.all(color: AppColors.primaryColor),
-                  color: Colors.grey.shade100,
+                  color: AppColors.containerBackColor,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,17 +45,18 @@ class NewQuotationView extends StatelessWidget {
                         fontSize: 14.sp,
                       ),
                     ),
-                    AppSpacing.vertical8,
+                    AppSpacing.vertical10,
                     CustomTextFiled(
                       label: 'Selact Customer',
-                      prefixIcon: Icon(Icons.person_outline),
+                      prefixIcon: Icon(Icons.person),
                       controller: quotationController.customerController,
                       suffixIcon: GestureDetector(
                         onTap: () {},
                         child: Icon(Icons.keyboard_arrow_down),
                       ),
+                      fillColor: AppColors.textfieldColor,
                     ),
-                    AppSpacing.vertical16,
+                    AppSpacing.vertical15,
                     Text(
                       'Quotation Date',
                       style: TextStyle(
@@ -61,14 +64,17 @@ class NewQuotationView extends StatelessWidget {
                         fontSize: 14.sp,
                       ),
                     ),
-                    AppSpacing.vertical8,
+                    AppSpacing.vertical10,
                     CustomTextFiled(
                       label: 'dd/mm/yy',
                       controller: quotationController.dateController,
-                      suffixIcon: GestureDetector(
+                      prefixIcon: GestureDetector(
                         onTap: () => quotationController.pickDate(context),
                         child: Icon(Icons.calendar_today_outlined),
                       ),
+                      showBorder: false,
+                      readOnly: true,
+                      fillColor: AppColors.textfieldColor,
                     ),
                   ],
                 ),
@@ -85,9 +91,9 @@ class NewQuotationView extends StatelessWidget {
                         return Container(
                           padding: EdgeInsets.all(20.w),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                            color: Colors.grey.shade100,
-                            border: Border.all(color: Colors.grey.shade200),
+                            borderRadius: BorderRadius.circular(25.r),
+                            color: AppColors.whiteColor,
+                            border: Border.all(color: AppColors.borderColor),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,6 +120,7 @@ class NewQuotationView extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              AppSpacing.vertical15,
                               Text(
                                 'Product',
                                 style: TextStyle(
@@ -121,47 +128,66 @@ class NewQuotationView extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              AppSpacing.vertical8,
-                              CustomTextFiled(
-                                label: 'Select Product',
-                                controller: controllers['product']!,
-                                suffixIcon: GestureDetector(
-                                  onTap: () {},
-                                  child: Icon(Icons.keyboard_arrow_down),
-                                ),
+                              AppSpacing.vertical10,
+                              CustomDropdownField(
+                                hintText: 'Select Product',
+                                value: controllers['product']!.text.isEmpty
+                                    ? null
+                                    : controllers['product']!.text,
+                                items: salesController.ProdectNames,
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    controllers['product']!.text = value;
+                                    quotationController.productControllers
+                                        .refresh();
+                                  }
+                                },
                               ),
-                              AppSpacing.vertical16,
+                              AppSpacing.vertical15,
                               CustomRowCard(
                                 title: 'Quantity',
                                 title2: 'Unit Price',
-                                widget: CustomTextFiled(
-                                  label: '25',
-                                  controller: controllers['quantity']!,
-                                  suffixIcon: Icon(Icons.keyboard_arrow_down),
-                                  onChanged: (v) => quotationController
-                                      .calculateSubtotal(index), // ✅ yahan
+                                widget: CustomDropdownField(
+                                  hintText: '10',
+                                  value: controllers['quantity']!.text.isEmpty
+                                      ? null
+                                      : controllers['quantity']!.text,
+                                  items: List.generate(
+                                    100,
+                                    (index) => (index++).toString(),
+                                  ),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      controllers['quantity']!.text = value;
+                                      quotationController.productControllers
+                                          .refresh();
+                                    }
+                                  },
                                 ),
                                 widget2: CustomTextFiled(
+                                  keyboardType: TextInputType.number,
                                   label: 'SR 1000.00',
                                   controller: controllers['unitPrice']!,
                                   onChanged: (v) => quotationController
                                       .calculateSubtotal(index),
                                 ),
                               ),
-                              AppSpacing.vertical16,
+                              AppSpacing.vertical15,
                               CustomRowCard(
                                 title: 'Taxes',
                                 title2: 'Ava Qty',
                                 widget: CustomTextFiled(
+                                  keyboardType: TextInputType.number,
                                   label: ' SR 500.00',
                                   controller: controllers['taxes']!,
                                 ),
                                 widget2: CustomTextFiled(
+                                  keyboardType: TextInputType.number,
                                   label: '10',
                                   controller: controllers['availableQty']!,
                                 ),
                               ),
-                              AppSpacing.vertical8,
+                              AppSpacing.vertical15,
                               Text(
                                 'Subtotal',
                                 style: TextStyle(
@@ -169,7 +195,7 @@ class NewQuotationView extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              AppSpacing.vertical8,
+                              AppSpacing.vertical10,
                               CustomTextFiled(
                                 label: 'SR 1500.00',
                                 controller: controllers['subtotal']!,
@@ -187,17 +213,31 @@ class NewQuotationView extends StatelessWidget {
               AppSpacing.vertical20,
               Align(
                 alignment: Alignment.centerRight,
-                child: CustomButton(title: '+Add Product', onTap: () {}),
+                child: SizedBox(
+                  height: 44.h,
+                  width: 132.w,
+                  child: CustomButton(
+                    title: '+ Add Product',
+                    onTap: () {
+                      quotationController.addProductLine();
+                    },
+                  ),
+                ),
               ),
               AppSpacing.vertical30,
               Row(
                 children: [
                   Expanded(
-                    child: CustomButton(
-                      title: 'Cancel',
-                      titleColor: Colors.black54,
-                      buttonColor: Colors.grey.shade300,
-                      onTap: () {},
+                    child: SizedBox(
+                      height: 48.h,
+                      child: CustomButton(
+                        title: 'Cancel',
+                        titleColor: Colors.black54,
+                        buttonColor: Colors.grey.shade300,
+                        onTap: () {
+                          Get.back();
+                        },
+                      ),
                     ),
                   ),
                   AppSpacing.horizontal10,
@@ -209,7 +249,7 @@ class NewQuotationView extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
+                          borderRadius: BorderRadius.circular(15.r),
                         ),
                       ),
                       child: Text(
@@ -223,6 +263,7 @@ class NewQuotationView extends StatelessWidget {
                   ),
                 ],
               ),
+              AppSpacing.vertical30,
             ],
           ),
         ),

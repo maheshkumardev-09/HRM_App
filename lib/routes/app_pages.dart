@@ -111,7 +111,13 @@ class AppPages {
         Get.lazyPut(() => QuotationController());
       }),
     ),
-    GetPage(name: '/editquotation', page: () => EditQuotationView()),
+    GetPage(
+      name: '/editquotation',
+      page: () => EditQuotationView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => QuotationController());
+      }),
+    ),
     GetPage(name: '/quotationdetailview', page: () => QuotationDetailView()),
     GetPage(
       name: '/timeoff',

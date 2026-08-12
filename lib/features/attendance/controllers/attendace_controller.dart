@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:country_state_city/models/city.dart';
+import 'package:country_state_city/models/country.dart';
+import 'package:country_state_city/utils/city_utils.dart';
+import 'package:country_state_city/utils/country_utils.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/features/attendance/data/attenddance_dummy_data.dart';
 import 'package:hrm_app/features/attendance/models/attendace_model.dart';
@@ -9,14 +13,15 @@ import 'package:hrm_app/features/attendance/models/region_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceController extends GetxController {
+  RxList<Country> regions = <Country>[].obs;
+  RxList<City> subRegions = <City>[].obs;
+  Rx<Country?> selectedRegion = Rx<Country?>(null);
+  Rx<City?> selectedSubRegion = Rx<City?>(null);
   Timer? timer;
-  RxString workingTime = "00:00:00".obs;
+  Rx<DateTime> currentTime = DateTime.now().obs;
+  RxInt seconds = 0.obs;
   RxList<AttendanceHistoryModel> attendancelist =
       <AttendanceHistoryModel>[].obs;
-  var regions = <RegionModel>[
-    RegionModel(id: '1', name: 'Karachi'),
-    RegionModel(id: '2', name: 'Lahore'),
-  ].obs;
   String calculateTotalHours(
     DateTime checkIn,
     DateTime checkOut,
@@ -39,7 +44,29 @@ class AttendanceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    loadRegions();
     loadData();
+  }
+
+  @override
+  void onClose() {
+    timer?.cancel();
+    super.onClose();
+  }
+
+  Future<void> loadRegions() async {
+    regions.value = await getAllCountries();
+  }
+
+  Future<void> setRegion(Country country) async {
+    selectedRegion.value = country;
+    selectedSubRegion.value = null;
+    final cities = await getCountryCities(country.isoCode);
+    subRegions.value = cities;
+  }
+
+  void setSubRegion(City city) {
+    selectedSubRegion.value = city;
   }
 
   Future<void> loadData() async {
@@ -64,18 +91,25 @@ class AttendanceController extends GetxController {
   }
 
   void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      final checkIn = currentAttendance.value.checkInTime;
+    timer?.cancel();
+    seconds.value = 0;
 
-      if (checkIn != null) {
-        final duration = DateTime.now().difference(checkIn);
+    timer = Timer.periodic(const Duration(seconds: 1), (_) => seconds.value++);
+  }
 
-        final hours = duration.inHours;
-        final minutes = duration.inMinutes % 60;
+  void stopTimer() {
+    timer?.cancel();
+    timer = null;
+  }
 
-        workingTime.value = '$hours Hours $minutes minutes since check-in';
-      }
-    });
+  String get workingTime {
+    final hours = seconds.value ~/ 3600;
+    final minutes = (seconds.value % 3600) ~/ 60;
+    final secondsValue = seconds.value % 60;
+
+    return '${hours.toString().padLeft(2, '0')}:'
+        '${minutes.toString().padLeft(2, '0')}:'
+        '${secondsValue.toString().padLeft(2, '0')}';
   }
 
   void checkIn() {
@@ -87,7 +121,6 @@ class AttendanceController extends GetxController {
   }
 
   void checkOut() {
-    timer?.cancel();
     final current = currentAttendance.value;
     final checkoutTime = DateTime.now();
     final total = calculateTotalHours(
@@ -106,8 +139,14 @@ class AttendanceController extends GetxController {
       checkInTime: current.checkInTime!,
       checkOutTime: checkoutTime,
       totalHours: total,
+      region: RegionModel(
+        country: selectedRegion.value!.name,
+        city: selectedSubRegion.value!.name,
+      ),
     );
     attendancelist.add(attendance);
+    stopTimer();
+
     saveData();
   }
 

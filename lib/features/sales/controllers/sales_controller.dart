@@ -1,81 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/features/sales/models/product_line_model.dart';
+import 'package:hrm_app/features/sales/data/sales_dummy_data.dart';
 import 'package:hrm_app/features/sales/models/sales_model.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SalesController extends GetxController {
-  final List<SalesModel> salesList = [
-    SalesModel(
-      clientName: "Ahmed Ali",
-      status: 'Sales Order',
-      date: DateTime(2026, 7, 20),
-      products: [
-        ProductLineModel(
-          productName: 'Product A',
-          quantity: 5,
-          unitPrice: 5000,
-          taxes: 0,
-          availableQty: 10,
-        ),
-      ],
-    ),
-    SalesModel(
-      clientName: "Sara Khan",
-      status: 'Quotation Sent',
-      date: DateTime(2026, 7, 18),
-      products: [
-        ProductLineModel(
-          productName: 'Product B',
-          quantity: 2,
-          unitPrice: 2000,
-          taxes: 100,
-          availableQty: 2,
-        ),
-      ],
-    ),
-    SalesModel(
-      clientName: "Usman Sheikh",
-      status: 'Quotation',
-      date: DateTime(2026, 7, 15),
-      products: [
-        ProductLineModel(
-          productName: 'Product c',
-          quantity: 4,
-          unitPrice: 2500,
-          taxes: 80,
-          availableQty: 4,
-        ),
-      ],
-    ),
-    SalesModel(
-      clientName: "Fatima Noor",
-      status: 'Sales Order',
-      date: DateTime(2026, 7, 10),
-      products: [
-        ProductLineModel(
-          productName: 'Product d',
-          quantity: 5,
-          unitPrice: 2300,
-          taxes: 150,
-          availableQty: 5,
-        ),
-      ],
-    ),
-    SalesModel(
-      clientName: "Bilal Ahmed",
-      status: 'Cancelled',
-      date: DateTime(2026, 7, 5),
-      products: [
-        ProductLineModel(
-          productName: 'Product E',
-          quantity: 3,
-          unitPrice: 2050,
-          taxes: 160,
-          availableQty: 3,
-        ),
-      ],
-    ),
-  ].obs;
+  final fromDateController = TextEditingController();
+  final toDateController = TextEditingController();
+  final salesList = <SalesModel>[].obs;
+  final filterSales = <SalesModel>[].obs;
+  List<String> ProdectNames = [
+    'Product A',
+    'Product B',
+    'Product C',
+    'Product D',
+    'Product E',
+    'Product F',
+    'Product G',
+  ];
   final List<String> statusList = [
     'All States',
     'Quotation',
@@ -84,15 +29,99 @@ class SalesController extends GetxController {
     'Cancelled',
   ].obs;
   final selectedStatus = 'All States'.obs;
-  void changeStatus(String value) {
-    selectedStatus.value = value;
+  DateTime? fromDate;
+
+  DateTime? toDate;
+  @override
+  void onInit() {
+    _init();
+    super.onInit();
   }
 
-  List<SalesModel> get filteredSalesList {
-    if (selectedStatus.value == 'All States') return salesList;
-    return salesList
-        .where((sale) => sale.status == selectedStatus.value)
-        .toList();
+  @override
+  void onClose() {
+    fromDateController.dispose();
+    toDateController.dispose();
+    super.onClose();
+  }
+
+  Future<void> _init() async {
+    await loadData();
+    filterSales.assignAll(salesList);
+  }
+
+  Future<void> loadData() async {
+    final pres = await SharedPreferences.getInstance();
+    final data = pres.getString('saleslist');
+
+    if (data == null) {
+      salesList.value = SalesDummyData.salesList
+          .map((e) => SalesModel.fromJson(e))
+          .toList();
+    } else {
+      List list = jsonDecode(data);
+      salesList.value = list.map((e) => SalesModel.fromJson(e)).toList();
+    }
+  }
+
+  Future<void> save() async {
+    final pres = await SharedPreferences.getInstance();
+    final data = salesList.map((e) => e.toJson()).toList();
+    await pres.setString('saleslist', jsonEncode(data));
+  }
+
+  void changeStatus(String value) {
+    selectedStatus.value = value;
+    applyFilters();
+  }
+
+  void changeDateRange(DateTime? start, DateTime? end) {
+    fromDate = start;
+    toDate = end;
+    applyFilters();
+  }
+
+  void applyFilters() {
+    filterSales.assignAll(
+      salesList.where((sales) {
+        final stausMatch =
+            selectedStatus.value == 'All States' ||
+            sales.status == selectedStatus.value;
+
+        final dateMatch =
+            (fromDate == null || !sales.date.isBefore(fromDate!)) &&
+            (toDate == null || !sales.date.isAfter(toDate!));
+        return stausMatch && dateMatch;
+      }).toList(),
+    );
+  }
+
+  Future<void> pickFromDate(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: fromDate ?? DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2035),
+    );
+    if (picked != null) {
+      fromDate = picked;
+      fromDateController.text = DateFormat('dd/MM/yyyy').format(picked);
+      applyFilters();
+    }
+  }
+
+  Future<void> pickToDate(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: toDate ?? DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2035),
+    );
+    if (picked != null) {
+      toDate = picked;
+      toDateController.text = DateFormat('dd/MM/yyyy').format(picked);
+      applyFilters();
+    }
   }
 
   Color getStatusColor(String status) {
@@ -112,9 +141,20 @@ class SalesController extends GetxController {
 
   void addQuotation(SalesModel sale) {
     salesList.add(sale);
+    applyFilters();
+    save();
   }
 
   void updateQuotation(int index, SalesModel updatedSale) {
     salesList[index] = updatedSale;
+    save();
+    applyFilters();
+  }
+
+  void clearFilters() {
+    selectedStatus.value = 'All States';
+    fromDate = null;
+    toDate = null;
+    filterSales.assignAll(salesList);
   }
 }

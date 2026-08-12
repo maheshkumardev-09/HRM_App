@@ -5,6 +5,7 @@ import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_card_tow_title.dart';
 import 'package:hrm_app/components/custom_card_one_title.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
+import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
@@ -24,10 +25,11 @@ class QuotationDetailView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.all(20.w),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              AppSpacing.vertical30,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -49,24 +51,21 @@ class QuotationDetailView extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  GestureDetector(child: Icon(Icons.more_vert)),
                 ],
               ),
-              AppSpacing.vertical20,
+              AppSpacing.vertical30,
               Container(
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.primaryColor),
-                  borderRadius: BorderRadius.circular(15.r),
-
-                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(25.r),
+                  color: AppColors.containerBackColor,
                 ),
                 child: Container(
-                  padding: EdgeInsets.all(10.w),
+                  padding: EdgeInsets.all(20.w),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    color: Colors.green.shade50,
+                    borderRadius: BorderRadius.circular(25.r),
+                    color: AppColors.containerBackColordark,
                   ),
                   child: Row(
                     children: [
@@ -76,31 +75,32 @@ class QuotationDetailView extends StatelessWidget {
                         height: 50.h,
                         fit: BoxFit.cover,
                       ),
-                      AppSpacing.horizontal10,
+                      AppSpacing.horizontal15,
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'customer:',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w400,
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'customer:',
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
-                                ),
-                                AppSpacing.horizontal8,
-                                Text(
-                                  saleslist.clientName,
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
+                                  TextSpan(
+                                    text: saleslist.clientName,
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            AppSpacing.vertical8,
+                            AppSpacing.vertical10,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -144,11 +144,11 @@ class QuotationDetailView extends StatelessWidget {
               ),
               AppSpacing.vertical20,
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  border: Border.all(color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(12.r),
+                  color: AppColors.whiteColor,
+                  border: Border.all(color: AppColors.borderColor),
+                  borderRadius: BorderRadius.circular(25.r),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,96 +156,79 @@ class QuotationDetailView extends StatelessWidget {
                     Text(
                       'Products',
                       style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     AppSpacing.vertical20,
                     CustomCardOneTitle(
                       titel: 'Prodect',
-                      widget: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(15.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Text(product.productName),
+                      widget: CustomTextFiled(
+                        label: product.productName,
+                        controller: TextEditingController(),
+                        readOnly: true,
+                        fillColor: AppColors.textfieldColor,
+                        showBorder: false,
                       ),
                     ),
-                    AppSpacing.vertical20,
+                    AppSpacing.vertical15,
                     CustomCardOneTitle(
                       titel: 'Description',
-                      widget: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(15.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Text(
-                          'Alumnd windows with tranaprent glass',
-                          maxLines: 1,
-                        ),
+                      widget: CustomTextFiled(
+                        label: 'Alumnd windows with tranaprent glass',
+                        controller: TextEditingController(),
+                        showBorder: false,
+                        fillColor: AppColors.textfieldColor,
+                        readOnly: true,
                       ),
                     ),
-                    AppSpacing.vertical20,
+                    AppSpacing.vertical15,
                     CustomRowCard(
                       title: 'Ordered',
                       title2: 'Delivered',
-                      widget: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(15.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Text(product.quantity.toString()),
+                      widget: CustomTextFiled(
+                        label: product.quantity.toString(),
+                        controller: TextEditingController(),
+                        fillColor: AppColors.textfieldColor,
+                        showBorder: false,
+                        readOnly: true,
                       ),
-                      widget2: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(15.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Text(product.availableQty.toString()),
+                      widget2: CustomTextFiled(
+                        label: product.availableQty.toString(),
+                        controller: TextEditingController(),
+                        fillColor: AppColors.textfieldColor,
+                        showBorder: false,
+                        readOnly: true,
                       ),
                     ),
                     AppSpacing.vertical20,
                     CustomRowCard(
                       title: 'Invoiced',
                       title2: 'Unit Price',
-                      widget: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(15.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Text('1.0'),
+                      widget: CustomTextFiled(
+                        label: '1.0',
+                        controller: TextEditingController(),
+                        fillColor: AppColors.textfieldColor,
+                        showBorder: false,
+                        readOnly: true,
                       ),
-                      widget2: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(15.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Text('SR ${product.unitPrice.toString()}'),
+                      widget2: CustomTextFiled(
+                        label: 'SR ${product.unitPrice.toString()}',
+                        controller: TextEditingController(),
+                        fillColor: AppColors.textfieldColor,
+                        showBorder: false,
+                        readOnly: true,
                       ),
                     ),
                     AppSpacing.vertical20,
                     CustomCardOneTitle(
                       titel: 'Subtotal',
-                      widget: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(15.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Text('SR ${product.subtotal.toString()}'),
+                      widget: CustomTextFiled(
+                        label: 'SR ${product.subtotal.toString()}',
+                        controller: TextEditingController(),
+                        fillColor: AppColors.textfieldColor,
+                        showBorder: false,
+                        readOnly: true,
                       ),
                     ),
                     AppSpacing.vertical20,
@@ -260,16 +243,18 @@ class QuotationDetailView extends StatelessWidget {
                   ],
                 ),
               ),
-              AppSpacing.vertical30,
+              AppSpacing.vertical35,
               SizedBox(
+                height: 48.h,
                 width: double.infinity,
                 child: CustomButton(
                   title: 'Back to Quotation',
                   titleColor: Colors.black54,
-                  buttonColor: Colors.grey.shade200,
+                  buttonColor: AppColors.textfieldColor,
                   onTap: () => Get.back(),
                 ),
               ),
+              AppSpacing.vertical30,
             ],
           ),
         ),

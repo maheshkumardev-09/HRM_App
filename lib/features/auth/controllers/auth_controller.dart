@@ -30,7 +30,6 @@ class AuthController extends GetxController {
           user.password == passwordController.text.trim()) {
         await StorageService.setLoggedIn(true);
         clearFields();
-        Get.snackbar("Success", "Login Successfully");
         Get.offAllNamed(AppRoutes.navbar);
       }
     } finally {
@@ -49,7 +48,6 @@ class AuthController extends GetxController {
       await StorageService.saveUser(user);
       await StorageService.setLoggedIn(true);
       clearFields();
-      Get.snackbar("Success", "Account Created");
       Get.offAllNamed(AppRoutes.navbar);
     } finally {
       isLoading.value = false;

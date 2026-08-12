@@ -159,7 +159,9 @@ class HomeView extends StatelessWidget {
                 AppSpacing.vertical30,
                 CustomSectionHeader(
                   title: 'My Remaning Balances',
-                  onViewAllTap: () {},
+                  onViewAllTap: () {
+                    Get.toNamed(AppRoutes.timeoffview);
+                  },
                 ),
                 AppSpacing.vertical20,
                 Row(
@@ -229,7 +231,7 @@ class HomeView extends StatelessWidget {
                 AppSpacing.vertical20,
                 Column(
                   spacing: 10.h,
-                  children: home.announcement.take(2).map((announce) {
+                  children: home.announcements.take(2).map((announce) {
                     return Container(
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(

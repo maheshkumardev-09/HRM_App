@@ -64,8 +64,26 @@ class EmployeesController extends GetxController {
       department: 'Development',
     ),
   ].obs;
+  final filteredList = <EmployeesModel>[].obs;
+  @override
+  void onInit() {
+    super.onInit();
 
-  // EmployeesModel? getEmployeeById(String id) {
-  //   return employeeList.firstWhereOrNull((emp) => emp.id == id);
-  // }
+    filteredList.assignAll(employeeList);
+  }
+
+  void searchEmployee(String value) {
+    if (value.isEmpty) {
+      filteredList.assignAll(employeeList);
+    } else {
+      filteredList.assignAll(
+        employeeList
+            .where(
+              (employ) =>
+                  employ.name.toLowerCase().contains(value.toLowerCase()),
+            )
+            .toList(),
+      );
+    }
+  }
 }

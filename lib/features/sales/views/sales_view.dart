@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/components/custom_row_container.dart';
+import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
@@ -25,7 +25,7 @@ class SalesView extends StatelessWidget {
           child: Column(
             children: [
               AppSpacing.vertical30,
-              CustomTitel(title: 'Sales Orders', ontap: () {}),
+              CustomTitel(title: 'Sales Orders'),
               AppSpacing.vertical30,
               Container(
                 padding: EdgeInsets.all(20.w),
@@ -34,13 +34,38 @@ class SalesView extends StatelessWidget {
                   color: AppColors.containerBackColor,
                   border: Border.all(color: AppColors.primaryColor),
                 ),
-                child: CustomRowContainer(
-                  title: 'Date From',
-                  icon: Icons.calendar_today_outlined,
-                  title2: 'Date To',
-                  icon2: Icons.calendar_today_outlined,
-                  onTap1: () {},
-                  onTap2: () {},
+                child: Row(
+                  spacing: 10.w,
+                  children: [
+                    Expanded(
+                      child: CustomTextFiled(
+                        controller: salescontroller.fromDateController,
+                        label: 'From Date',
+                        readOnly: true,
+                        onTap: () {
+                          salescontroller.pickFromDate(context);
+                        },
+                        suffixIcon: Icon(
+                          Icons.calendar_today_outlined,
+                          size: 24.w,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomTextFiled(
+                        controller: salescontroller.toDateController,
+                        label: 'To Date',
+                        readOnly: true,
+                        onTap: () {
+                          salescontroller.pickToDate(context);
+                        },
+                        suffixIcon: Icon(
+                          Icons.calendar_today_outlined,
+                          size: 24.w,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               AppSpacing.vertical30,
@@ -86,11 +111,11 @@ class SalesView extends StatelessWidget {
               AppSpacing.vertical20,
               Obx(
                 () => ListView.builder(
-                  itemCount: salescontroller.filteredSalesList.length,
+                  itemCount: salescontroller.filterSales.length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    final data = salescontroller.filteredSalesList[index];
+                    final data = salescontroller.filterSales[index];
                     return Padding(
                       padding: EdgeInsets.only(bottom: 10.h),
                       child: GestureDetector(
@@ -212,7 +237,13 @@ class SalesView extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(AppRoutes.editquotationview);
+                                      Get.toNamed(
+                                        AppRoutes.editquotationview,
+                                        arguments: {
+                                          'sale': data,
+                                          'index': index,
+                                        },
+                                      );
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
@@ -249,13 +280,17 @@ class SalesView extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed(AppRoutes.newquotationview);
-        },
-        backgroundColor: AppColors.primaryColor,
-        shape: const CircleBorder(),
-        child: Icon(Icons.add, color: Colors.white),
+      floatingActionButton: SizedBox(
+        height: 60.h,
+        width: 60.w,
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.toNamed(AppRoutes.newquotationview);
+          },
+          backgroundColor: AppColors.primaryColor,
+          shape: CircleBorder(),
+          child: Icon(Icons.add, color: Colors.white, size: 24.w),
+        ),
       ),
     );
   }

@@ -1,14 +1,18 @@
+import 'package:hrm_app/features/attendance/models/region_model.dart';
+
 class AttendanceHistoryModel {
   final DateTime date;
   final DateTime checkInTime;
   final DateTime checkOutTime;
   final String totalHours;
+  final RegionModel region;
 
   AttendanceHistoryModel({
     required this.date,
     required this.checkInTime,
     required this.checkOutTime,
     required this.totalHours,
+    required this.region,
   });
 
   factory AttendanceHistoryModel.fromJson(Map<String, dynamic> json) {
@@ -17,6 +21,7 @@ class AttendanceHistoryModel {
       checkInTime: DateTime.parse(json['checkInTime']),
       checkOutTime: DateTime.parse(json['checkOutTime']),
       totalHours: json['totalHours'],
+      region: RegionModel.fromJson(json['region']),
     );
   }
 
@@ -26,6 +31,7 @@ class AttendanceHistoryModel {
       "checkInTime": checkInTime.toIso8601String(),
       "checkOutTime": checkOutTime.toIso8601String(),
       "totalHours": totalHours,
+      "region": region,
     };
   }
 }

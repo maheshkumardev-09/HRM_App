@@ -26,7 +26,7 @@ class EmployeesView extends StatelessWidget {
           child: Column(
             children: [
               AppSpacing.vertical30,
-              CustomTitel(title: 'Employee Directory', ontap: () {}),
+              CustomTitel(title: 'Employee Directory'),
               AppSpacing.vertical30,
               Container(
                 padding: EdgeInsets.all(20.w),
@@ -62,6 +62,7 @@ class EmployeesView extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w500,
+                            color: AppColors.primaryColor,
                           ),
                         ),
                       ],
@@ -69,9 +70,11 @@ class EmployeesView extends StatelessWidget {
                     AppSpacing.vertical15,
                     CustomTextFiled(
                       label: 'Search',
-                      controller: searchController,
                       fillColor: AppColors.textfieldColor,
                       showBorder: false,
+                      onChanged: (value) {
+                        employeeController.searchEmployee(value);
+                      },
                     ),
                     AppSpacing.vertical15,
                     CustomRowContainer(
@@ -90,9 +93,9 @@ class EmployeesView extends StatelessWidget {
                 () => ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: employeeController.employeeList.length,
+                  itemCount: employeeController.filteredList.length,
                   itemBuilder: (context, index) {
-                    final data = employeeController.employeeList[index];
+                    final data = employeeController.filteredList[index];
                     return Padding(
                       padding: EdgeInsets.only(bottom: 10.h),
                       child: GestureDetector(
