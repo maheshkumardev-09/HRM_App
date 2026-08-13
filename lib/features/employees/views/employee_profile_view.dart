@@ -68,7 +68,7 @@ class EmployProfileView extends StatelessWidget {
                       size: 18.w,
                     ),
                     Text(
-                      employee.category,
+                      employee.position,
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: AppColors.primaryColor,

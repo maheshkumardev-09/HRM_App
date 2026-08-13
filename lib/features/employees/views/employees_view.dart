@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/components/custom_row_container.dart';
+import 'package:hrm_app/components/custom_dropdown_field.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
@@ -73,17 +73,41 @@ class EmployeesView extends StatelessWidget {
                       fillColor: AppColors.textfieldColor,
                       showBorder: false,
                       onChanged: (value) {
-                        employeeController.searchEmployee(value);
+                        employeeController.searchText.value = value;
+                        employeeController.apllyFilter();
                       },
                     ),
                     AppSpacing.vertical15,
-                    CustomRowContainer(
-                      onTap1: () {},
-                      title: 'All Departments',
-                      icon: Icons.keyboard_arrow_down,
-                      title2: 'All Job Positions',
-                      onTap2: () {},
-                      icon2: Icons.keyboard_arrow_down,
+                    Row(
+                      spacing: 10.w,
+                      children: [
+                        Expanded(
+                          child: CustomDropdownField(
+                            value: employeeController.selectedDepartment.value,
+                            items: employeeController.departmentList,
+                            onChanged: (value) {
+                              if (value != null) {
+                                employeeController.selectedDepartment.value =
+                                    value;
+                                employeeController.apllyFilter();
+                              }
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomDropdownField(
+                            value: employeeController.selectedPosition.value,
+                            items: employeeController.positionList,
+                            onChanged: (value) {
+                              if (value != null) {
+                                employeeController.selectedPosition.value =
+                                    value;
+                                employeeController.apllyFilter();
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -158,7 +182,7 @@ class EmployeesView extends StatelessWidget {
                                           color: AppColors.primaryColor,
                                         ),
                                         Text(
-                                          data.category,
+                                          data.position,
                                           style: TextStyle(
                                             fontSize: 12.sp,
                                             fontWeight: FontWeight.w400,

@@ -1,81 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
+import 'package:hrm_app/features/payroll/data/patroll_dummy_data.dart';
 import 'package:hrm_app/features/payroll/models/payroll_model.dart';
+import 'package:hrm_app/services/payroll_services.dart';
 
 class PayrollController extends GetxController {
-  final List<PayrollModel> payrollList = [
-    PayrollModel(
-      id: "001",
-      dateFrom: DateTime(2026, 01, 01),
-      dateTo: DateTime(2026, 04, 31),
-      status: "Paid",
-      payment: 50000.0,
-    ),
-
-    PayrollModel(
-      id: "002",
-      dateFrom: DateTime(2026, 02, 01),
-      dateTo: DateTime(2026, 02, 28),
-      status: "Pending",
-      payment: 50000.0,
-    ),
-
-    PayrollModel(
-      id: "003",
-      dateFrom: DateTime(2026, 03, 01),
-      dateTo: DateTime(2026, 04, 31),
-      status: "Approved",
-      payment: 55000.0,
-    ),
-
-    PayrollModel(
-      id: "004",
-      dateFrom: DateTime(2026, 04, 01),
-      dateTo: DateTime(2026, 04, 30),
-      status: "Draft",
-      payment: 52000.0,
-    ),
-
-    PayrollModel(
-      id: "005",
-      dateFrom: DateTime(2026, 05, 01),
-      dateTo: DateTime(2026, 05, 31),
-      status: "Cancelled",
-      payment: 48000.0,
-    ),
+  final payrollList = <PayrollModel>[
+    ...PayrollDummyData.payroll.map((e) => PayrollModel.fromJson(e)),
   ].obs;
-  final RxList<String> statusList = <String>[
-    'Paid',
-    "Pending",
-    "Approved",
-    'Draft',
-    'Cancelled',
-  ].obs;
-  final selectedStatus = 'All States'.obs;
 
-  Color getStatusColor(String status) {
+  Color statusColors(String status) {
     switch (status) {
       case 'Paid':
         return Colors.green;
-
-      case 'Submitted':
-        return Colors.blue;
-
       case "Pending":
         return Colors.amber;
-
       case 'Draft':
-        return Colors.deepPurple;
-
+        return Colors.blue;
       case 'Cancelled':
         return Colors.red;
-
       default:
         return Colors.black54;
     }
   }
 
-  void changeStatus(String value) {
-    selectedStatus.value = value;
+  Future<void> payrollPdf(PayrollModel payroll) async {
+    final success = await PayrollServices().createPayrollPdf(payroll);
+
+    if (success) {
+      Get.snackbar('Success', 'Payslip downloaded successfully');
+    } else {
+      Get.snackbar('Error', 'Failed to download payslip');
+    }
   }
 }

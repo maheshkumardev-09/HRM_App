@@ -13,7 +13,7 @@ class AnnouncementModel {
     return AnnouncementModel(
       id: json['id'],
       title: json['title'],
-      date: json['date'],
+      date: DateTime.parse(json['date'].toString()),
     );
   }
 

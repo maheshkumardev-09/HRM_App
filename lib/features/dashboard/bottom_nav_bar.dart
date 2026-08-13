@@ -9,7 +9,7 @@ import 'package:hrm_app/features/payroll/views/payroll_view.dart';
 import 'package:hrm_app/features/sales/views/sales_view.dart';
 
 class BottomNavBar extends StatelessWidget {
-  final bottomNavController = Get.put(BottomNavController());
+  final _controller = Get.find<BottomNavController>();
   final List<Widget> viewList = [
     HomeView(),
     EmployeesView(),
@@ -22,7 +22,12 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() => viewList[bottomNavController.currentIndex.value]),
+      body: Obx(
+        () => IndexedStack(
+          index: _controller.currentIndex.value,
+          children: viewList,
+        ),
+      ),
       bottomNavigationBar: CustomNavBar(),
     );
   }

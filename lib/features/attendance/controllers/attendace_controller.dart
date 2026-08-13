@@ -44,8 +44,14 @@ class AttendanceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadRegions();
+
     loadData();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    loadRegions();
   }
 
   @override

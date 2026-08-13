@@ -51,7 +51,12 @@ class CustomDropdownField extends StatelessWidget {
         items: items.map((e) {
           return DropdownMenuItem(
             value: e,
-            child: Text(e, style: TextStyle(fontSize: 15.sp)),
+            child: Text(
+              e,
+              style: TextStyle(fontSize: 14.sp),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           );
         }).toList(),
         onChanged: onChanged,
