@@ -18,7 +18,7 @@ class SalesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(showBack: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(

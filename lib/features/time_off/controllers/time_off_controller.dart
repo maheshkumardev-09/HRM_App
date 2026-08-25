@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_app/features/auth/controllers/auth_controller.dart';
 import 'package:hrm_app/features/time_off/data/time_off_dummy_data.dart';
 import 'package:hrm_app/features/time_off/models/leave_balance_model.dart';
 import 'package:hrm_app/features/time_off/models/team_leave_model.dart';
 import 'package:hrm_app/features/time_off/models/time_off_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class TimeOffController extends GetxController {
   RxString selectedLeaveType = "".obs;
+  final isDaySelected = false.obs;
   Rx<DateTime?> startDate = Rx<DateTime?>(null);
   Rx<DateTime?> endDate = Rx<DateTime?>(null);
   final noteController = TextEditingController();
@@ -21,12 +24,6 @@ class TimeOffController extends GetxController {
   RxList<LeaveBalanceModel> balanceList = <LeaveBalanceModel>[].obs;
   RxList<TeamLeaveModel> teamLeaveList = <TeamLeaveModel>[].obs;
 
-  List<String> leaveTypes = [
-    "Annual Leave",
-    "Sick Leave",
-    "Casual Leave",
-    "Emergency Leave",
-  ];
   @override
   void onInit() {
     loadData();
@@ -78,6 +75,7 @@ class TimeOffController extends GetxController {
   void onDaySelected(DateTime selected, DateTime focused) {
     selectedDay.value = selected;
     focusedDay.value = focused;
+    isDaySelected.value = true;
   }
 
   Future<void> selectDate(bool isStartDate) async {
@@ -86,7 +84,7 @@ class TimeOffController extends GetxController {
 
       initialDate: DateTime.now(),
 
-      firstDate: DateTime(2026),
+      firstDate: DateTime.now(),
 
       lastDate: DateTime(2036),
     );
@@ -118,8 +116,16 @@ class TimeOffController extends GetxController {
       Get.snackbar("Error", "Please fill all fields");
       return;
     }
+    if (endDate.value!.isBefore(startDate.value!)) {
+      Get.snackbar("Error", "End date cannot be before start date");
+      return;
+    }
+    final auth = Get.find<AuthController>();
     final duration = endDate.value!.difference(startDate.value!).inDays + 1;
     TimeOffModel newLeave = TimeOffModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      employeeId: auth.currentUser.value?.id ?? '',
+      employeeName: auth.currentUser.value?.name ?? '',
       allocation: selectedLeaveType.value,
       status: "Pending",
       leaveType: selectedLeaveType.value,
@@ -131,26 +137,20 @@ class TimeOffController extends GetxController {
     );
     leaveList.add(newLeave);
     await saveData();
-    noteController.clear();
-    selectedLeaveType.value = "";
-    startDate.value = null;
-    endDate.value = null;
-    selectedFile.value = null;
+    clearfilds();
     Get.back();
     Get.snackbar("Success", "Leave Request Submitted");
   }
 
   Future<void> removeLeave(TimeOffModel leave) async {
-    leaveList.remove(leave);
+    leaveList.removeWhere((e) => e.id == leave.id);
     await saveData();
-    Get.snackbar("Deleted", "Expense removed successfully");
   }
 
   void showDeleteDialog(TimeOffModel leave) {
     Get.defaultDialog(
-      title: "Delete Expense",
-      middleText: "Are you sure you want to delete this expense?",
-
+      title: "Delete Leave Request",
+      middleText: "Are you sure you want to delete this leave request?",
       textCancel: "Cancel",
       textConfirm: "Delete",
 
@@ -163,5 +163,37 @@ class TimeOffController extends GetxController {
         Get.back(closeOverlays: true);
       },
     );
+  }
+
+  void clearfilds() {
+    noteController.clear();
+    selectedLeaveType.value = "";
+    startDate.value = null;
+    endDate.value = null;
+    selectedFile.value = null;
+  }
+
+  List<TeamLeaveModel> get selectedDAyleaves {
+    final today = DateTime.now();
+    final currentDate = DateTime(today.year, today.month, today.day);
+    if (selectedDay.value == null) {
+      return teamLeaveList.where((t) {
+        final leaveDate = DateTime(
+          t.leaveDate.year,
+          t.leaveDate.month,
+          t.leaveDate.day,
+        );
+        return !leaveDate.isBefore(currentDate);
+      }).toList();
+    }
+    return teamLeaveList.where((t) {
+      final leaveDate = DateTime(
+        t.leaveDate.year,
+        t.leaveDate.month,
+        t.leaveDate.day,
+      );
+      return !leaveDate.isBefore(currentDate) &&
+          isSameDay(t.leaveDate, selectedDay.value);
+    }).toList();
   }
 }

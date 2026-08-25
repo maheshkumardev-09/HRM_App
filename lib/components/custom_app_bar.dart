@@ -3,24 +3,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
+import 'package:hrm_app/routes/app_routes.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onMenuTap;
   final VoidCallback? onCalendarTap;
-  final VoidCallback? onNotificationTap;
-  // final bool hasNotification;
   final bool showBackButton;
   final bool showActions;
   final Color backgroundColor;
+
+  final bool showBack;
   const CustomAppBar({
     super.key,
     this.showBackButton = true,
     this.onMenuTap,
     this.onCalendarTap,
-    this.onNotificationTap,
-    // required this.hasNotification,
     this.showActions = true,
     this.backgroundColor = AppColors.whiteColor,
+    this.showBack = true,
   });
 
   @override
@@ -36,43 +36,45 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            showBackButton
-                ? Container(
-                    height: 40.h,
-                    width: 40.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      color: AppColors.containerBackColordark,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Image.asset(
-                        AppImages.backIcon,
-                        width: 22.w,
-                        height: 22.h,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                  )
-                : Container(
-                    height: 40.h,
-                    width: 40.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      color: AppColors.containerBackColordark,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        AppImages.menuIcon,
-                        width: 22.w,
-                        height: 22.h,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                  ),
+            showBack
+                ? showBackButton
+                      ? Container(
+                          height: 40.h,
+                          width: 40.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            color: AppColors.containerBackColordark,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Image.asset(
+                              AppImages.backIcon,
+                              width: 22.w,
+                              height: 22.h,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          height: 40.h,
+                          width: 40.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            color: AppColors.containerBackColordark,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Image.asset(
+                              AppImages.menuIcon,
+                              width: 22.w,
+                              height: 22.h,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        )
+                : Text(''),
             Row(
               children: [
                 Container(
@@ -101,7 +103,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     color: AppColors.containerBackColordark,
                   ),
                   child: GestureDetector(
-                    onTap: onNotificationTap,
+                    onTap: () {
+                      Get.toNamed(AppRoutes.notificationview);
+                    },
                     child: Image.asset(
                       AppImages.notificationIcon,
                       width: 22.w,

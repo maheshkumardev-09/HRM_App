@@ -10,6 +10,24 @@ class AuthController extends GetxController {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final Rx<UserMoel?> currentUser = Rx<UserMoel?>(null);
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadCurrentUser();
+  }
+
+  Future<void> _loadCurrentUser() async {
+    currentUser.value = await StorageService.getUser();
+  }
+
+  Future<void> ensureUserLoaded() async {
+    if (currentUser.value == null) {
+      await _loadCurrentUser();
+    }
+  }
+
   @override
   void onClose() {
     nameController.dispose();
@@ -29,6 +47,7 @@ class AuthController extends GetxController {
       if (user.email == emailController.text.trim() &&
           user.password == passwordController.text.trim()) {
         await StorageService.setLoggedIn(true);
+        currentUser.value = user;
         clearFields();
         Get.offAllNamed(AppRoutes.navbar);
       }
@@ -41,12 +60,14 @@ class AuthController extends GetxController {
     try {
       isLoading.value = true;
       UserMoel user = UserMoel(
+        id: '1',
         name: nameController.text.trim(),
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
       await StorageService.saveUser(user);
       await StorageService.setLoggedIn(true);
+      currentUser.value = user;
       clearFields();
       Get.offAllNamed(AppRoutes.navbar);
     } finally {
@@ -56,6 +77,7 @@ class AuthController extends GetxController {
 
   Future<void> logout() async {
     await StorageService.setLoggedIn(false);
+    currentUser.value = null;
     Get.offAllNamed(AppRoutes.loginview);
   }
 

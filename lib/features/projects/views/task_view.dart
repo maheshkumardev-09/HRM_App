@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hrm_app/components/custom_dropdown_field.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
@@ -12,53 +13,65 @@ import 'package:hrm_app/routes/app_routes.dart';
 class TaskView extends StatelessWidget {
   TaskView({super.key});
   final taskController = Get.find<TaskController>();
-  final searchControlle = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final String? projectId = Get.arguments;
+    final String? projectId = Get.arguments is String
+        ? Get.arguments as String
+        : null;
 
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomTitel(title: 'Tasks', ontap: () {}),
-              AppSpacing.vertical20,
+              AppSpacing.vertical30,
+              CustomTitel(title: 'Tasks'),
+              AppSpacing.vertical30,
               Container(
-                padding: EdgeInsets.all(8.w),
-                // height: 90.h,
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: Colors.grey.shade400),
+                  color: AppColors.containerBackColor,
+                  borderRadius: BorderRadius.circular(25.r),
+                  border: Border.all(color: AppColors.primaryColor),
                 ),
                 child: Column(
                   children: [
-                    ListTile(
-                      leading: Image.asset(
-                        'assets/icon/icon6.png',
-                        width: 50.w,
-                        height: 50.h,
-                      ),
-                      title: Text(
-                        'Total Tasks',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
+                    Row(
+                      children: [
+                        Image.asset(
+                          'assets/icon/icon6.png',
+                          width: 50.w,
+                          height: 50.h,
                         ),
-                      ),
-                      trailing: Text(
-                        taskController.taskList.length.toString(),
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor,
+                        AppSpacing.horizontal10,
+                        Expanded(
+                          child: Text(
+                            'Total Tasks',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                      ),
+                        Obx(
+                          () => Text(
+                            taskController
+                                .getTasks(projectId: projectId)
+                                .toList()
+                                .length
+                                .toString(),
+                            style: TextStyle(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    AppSpacing.vertical10,
+                    AppSpacing.vertical15,
                     Row(
                       children: [
                         Expanded(
@@ -73,29 +86,20 @@ class TaskView extends StatelessWidget {
                                 ),
                               ),
                               AppSpacing.vertical10,
-                              Container(
-                                padding: EdgeInsets.all(8.w),
-                                height: 50.h,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  border: Border.all(
-                                    color: Colors.grey.shade400,
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Newest',
-                                      style: TextStyle(fontSize: 12.sp),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Icon(Icons.keyboard_arrow_down),
-                                    ),
+                              Obx(
+                                () => CustomDropdownField(
+                                  value: taskController.sortBy.value,
+                                  items: [
+                                    'Newest',
+                                    'Oldest',
+                                    'Priority',
+                                    'Progress',
                                   ],
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      taskController.setSortBy(value);
+                                    }
+                                  },
                                 ),
                               ),
                             ],
@@ -107,36 +111,27 @@ class TaskView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Group Bay',
+                                'Group By',
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               AppSpacing.vertical10,
-                              Container(
-                                padding: EdgeInsets.all(8.w),
-                                height: 50.h,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  border: Border.all(
-                                    color: Colors.grey.shade400,
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Stage',
-                                      style: TextStyle(fontSize: 12.sp),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Icon(Icons.keyboard_arrow_down),
-                                    ),
+                              Obx(
+                                () => CustomDropdownField(
+                                  value: taskController.groupBy.value,
+                                  items: [
+                                    'Stage',
+                                    'Assignee',
+                                    'Priority',
+                                    'None',
                                   ],
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      taskController.setGroupBy(value);
+                                    }
+                                  },
                                 ),
                               ),
                             ],
@@ -144,51 +139,36 @@ class TaskView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    AppSpacing.vertical16,
+                    AppSpacing.vertical15,
+
                     CustomTextFiled(
                       label: 'Search',
-                      controller: searchControlle,
+                      controller: taskController.searchController,
                       prefixIcon: Icon(Icons.search),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          taskController.clearAllFilter();
+                        },
+                        child: Icon(Icons.remove),
+                      ),
+                      fillColor: AppColors.textfieldColor,
+                      showBorder: false,
+                      onChanged: (value) {
+                        taskController.updateSearch(value);
+                      },
                     ),
                   ],
                 ),
               ),
-              AppSpacing.vertical20,
+              AppSpacing.vertical30,
               Obx(() {
-                final filteredTasks = projectId != null
-                    ? taskController.getTasksByProject(projectId)
-                    : taskController.taskList;
-
-                if (filteredTasks.isEmpty) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 100.h),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.task_outlined,
-                            size: 60.sp,
-                            color: Colors.grey.shade400,
-                          ),
-                          SizedBox(height: 12.h),
-                          Text(
-                            'No tasks found for this project',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }
+                final tasks = taskController.getTasks(projectId: projectId);
                 return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: filteredTasks.length,
+                  itemCount: tasks.length,
                   itemBuilder: (context, index) {
-                    final data = filteredTasks[index];
+                    final data = tasks[index];
                     return GestureDetector(
                       onTap: () {
                         Get.toNamed(
@@ -199,11 +179,11 @@ class TaskView extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 10.h),
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(15.w),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(color: Colors.grey.shade400),
+                            color: AppColors.containerBackColor,
+                            borderRadius: BorderRadius.circular(25.r),
+                            border: Border.all(color: AppColors.borderColor),
                           ),
                           child: Column(
                             children: [
@@ -212,27 +192,28 @@ class TaskView extends StatelessWidget {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(15),
                                       color: AppColors.primaryColor,
                                     ),
                                     width: 50.w,
-                                    height: 40.h,
+                                    height: 50.h,
                                     child: Icon(
                                       Icons.calendar_month_outlined,
                                       size: 24.w,
                                       color: AppColors.whiteColor,
                                     ),
                                   ),
-                                  AppSpacing.horizontal10,
+                                  AppSpacing.horizontal15,
                                   Expanded(
                                     child: Column(
+                                      spacing: 15.h,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
                                             Text(
-                                              '#00${data.id}',
+                                              '#${data.id}',
                                               style: TextStyle(
                                                 fontSize: 16.sp,
                                                 fontWeight: FontWeight.w600,
@@ -258,7 +239,6 @@ class TaskView extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        AppSpacing.vertical8,
                                         Text(
                                           data.title,
                                           style: TextStyle(
@@ -266,6 +246,7 @@ class TaskView extends StatelessWidget {
                                             fontWeight: FontWeight.w600,
                                           ),
                                           maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ],
                                     ),
@@ -273,11 +254,11 @@ class TaskView extends StatelessWidget {
                                   // Spacer(),
                                   Container(
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 12.w,
-                                      vertical: 8.h,
+                                      horizontal: 8.w,
+                                      vertical: 4.h,
                                     ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(50),
                                       border: Border.all(
                                         color: AppColors.primaryColor,
                                       ),
@@ -294,9 +275,11 @@ class TaskView extends StatelessWidget {
                               ),
                               AppSpacing.vertical10,
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
+                                    spacing: 5.h,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -308,7 +291,7 @@ class TaskView extends StatelessWidget {
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                      AppSpacing.vertical8,
+
                                       Text(
                                         data.assignee,
                                         style: TextStyle(
@@ -318,29 +301,32 @@ class TaskView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Total Time',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    spacing: 5.h,
+                                    children: [
+                                      Text(
+                                        'Total Time',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        AppSpacing.vertical8,
-                                        Text(
-                                          data.totalTime,
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                      ),
+                                      Text(
+                                        data.totalTime,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w600,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    spacing: 5.h,
                                     children: [
                                       Text(
                                         'Time Spent',
@@ -350,7 +336,6 @@ class TaskView extends StatelessWidget {
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                      AppSpacing.vertical8,
                                       Text(
                                         data.timeSpent,
                                         style: TextStyle(
@@ -370,6 +355,7 @@ class TaskView extends StatelessWidget {
                   },
                 );
               }),
+              AppSpacing.vertical20,
             ],
           ),
         ),

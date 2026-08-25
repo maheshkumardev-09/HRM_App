@@ -19,7 +19,7 @@ class EmployeesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(showBack: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
@@ -72,6 +72,7 @@ class EmployeesView extends StatelessWidget {
                       label: 'Search',
                       fillColor: AppColors.textfieldColor,
                       showBorder: false,
+                      prefixIcon: Icon(Icons.search),
                       onChanged: (value) {
                         employeeController.searchText.value = value;
                         employeeController.apllyFilter();

@@ -7,6 +7,9 @@ class ExpenseModel {
   final String status;
   final String? note;
   final String expenseType;
+  final String? receiptPath;
+  final String employeeId;
+  final String employeeName;
 
   ExpenseModel({
     required this.amount,
@@ -17,18 +20,26 @@ class ExpenseModel {
     this.note,
     required this.expenseType,
     required this.id,
+    this.receiptPath,
+    required this.employeeId,
+    required this.employeeName,
   });
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
     return ExpenseModel(
-      amount: json["amount"] ?? '',
-      date: DateTime.parse(json["date"] ?? 0),
+      id: json["id"] ?? '',
+      amount: (json["amount"] as num?)?.toDouble() ?? 0.0,
+      date: json["date"] != null
+          ? DateTime.parse(json["date"])
+          : DateTime.now(),
       paidBy: json["paidBy"] ?? '',
       status: json["status"] ?? '',
       description: json["description"] ?? '',
       note: json["note"],
       expenseType: json["expenseType"] ?? '',
-      id: json["id"],
+      receiptPath: json["receiptPath"],
+      employeeId: json["employeeId"] ?? '',
+      employeeName: json["employeeName"] ?? '',
     );
   }
 
@@ -41,7 +52,10 @@ class ExpenseModel {
       "status": status,
       "description": description,
       "note": note,
-      'expenseType': expenseType,
+      "expenseType": expenseType,
+      "receiptPath": receiptPath,
+      "employeeId": employeeId,
+      "employeeName": employeeName,
     };
   }
 }

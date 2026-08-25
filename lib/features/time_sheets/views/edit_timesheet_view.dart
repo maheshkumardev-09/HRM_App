@@ -8,12 +8,13 @@ import 'package:hrm_app/components/custom_dropdown_field.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
-import 'package:hrm_app/features/time_sheets/controllers/time_sheet_controller.dart';
-import 'package:intl/intl.dart';
+import 'package:hrm_app/features/projects/controllers/project_controller.dart';
+import 'package:hrm_app/features/time_sheets/controllers/timesheet_controller.dart';
 
 class EditTimesheetView extends StatelessWidget {
   EditTimesheetView({super.key});
   final timesheetController = Get.find<TimeSheetController>();
+  final projectController = Get.find<ProjectController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,29 +22,27 @@ class EditTimesheetView extends StatelessWidget {
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
-          child: Obx(
-            () => Column(
+          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
+          child: Obx(() {
+            final taskNames = timesheetController.selectedProjectTasks
+                .map((task) => task.title)
+                .toSet()
+                .toList();
+            return Column(
               children: [
-                CustomTitel(title: 'Edit Timesheet', ontap: () {}),
+                CustomTitel(title: 'Edit Timesheet'),
                 AppSpacing.vertical30,
                 CustomContainerWithTitle(
                   titel: 'Date*',
                   widget: CustomTextFiled(
                     readOnly: true,
                     label: '',
-                    controller: TextEditingController(
-                      text: timesheetController.selectedDate.value == null
-                          ? ""
-                          : DateFormat(
-                              "dd-MM-yyyy",
-                            ).format(timesheetController.selectedDate.value!),
-                    ),
+                    controller: timesheetController.dateController,
                     suffixIcon: GestureDetector(
                       onTap: () {
                         timesheetController.pickDate(context);
                       },
-                      child: Icon(Icons.calendar_today_outlined),
+                      child: Icon(Icons.calendar_today_outlined, size: 24.w),
                     ),
                   ),
                 ),
@@ -54,9 +53,11 @@ class EditTimesheetView extends StatelessWidget {
                     value: timesheetController.selectedProject.value.isEmpty
                         ? null
                         : timesheetController.selectedProject.value,
-                    items: timesheetController.projects,
+                    items: projectController.projectList
+                        .map((project) => project.name)
+                        .toList(),
                     onChanged: (value) {
-                      timesheetController.selectedProject.value = value!;
+                      timesheetController.selectProject(value!);
                     },
                   ),
                 ),
@@ -67,7 +68,7 @@ class EditTimesheetView extends StatelessWidget {
                     value: timesheetController.selectedTask.value.isEmpty
                         ? null
                         : timesheetController.selectedTask.value,
-                    items: timesheetController.tasks,
+                    items: taskNames,
                     onChanged: (value) {
                       timesheetController.selectedTask.value = value!;
                     },
@@ -95,30 +96,36 @@ class EditTimesheetView extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomButton(
-                        title: 'Cancel',
-                        titleColor: Colors.black45,
-                        onTap: () {
-                          Get.back();
-                        },
-                        buttonColor: Colors.grey.shade300,
+                      child: SizedBox(
+                        height: 48.h,
+                        child: CustomButton(
+                          title: 'Cancel',
+                          titleColor: Colors.black45,
+                          onTap: () {
+                            Get.back();
+                          },
+                          buttonColor: Colors.grey.shade300,
+                        ),
                       ),
                     ),
                     AppSpacing.horizontal10,
                     Expanded(
-                      child: CustomButton(
-                        title: 'Save Changes',
-                        onTap: () {
-                          timesheetController.updateTimesheet();
-                        },
+                      child: SizedBox(
+                        height: 48.h,
+                        child: CustomButton(
+                          title: 'Save Changes',
+                          onTap: () {
+                            timesheetController.updateTimesheet();
+                          },
+                        ),
                       ),
                     ),
                   ],
                 ),
                 AppSpacing.vertical30,
               ],
-            ),
-          ),
+            );
+          }),
         ),
       ),
     );

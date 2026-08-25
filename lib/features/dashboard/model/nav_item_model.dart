@@ -1,7 +1,7 @@
 // nav_item_model.dart
 class NavItemModel {
-  final String selectedIcon;
   final String unselectedIcon;
+  final String selectedIcon;
 
-  NavItemModel({required this.selectedIcon, required this.unselectedIcon});
+  NavItemModel({required this.unselectedIcon, required this.selectedIcon});
 }

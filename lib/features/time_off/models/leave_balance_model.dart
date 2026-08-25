@@ -14,9 +14,9 @@ class LeaveBalanceModel {
   factory LeaveBalanceModel.fromJson(Map<String, dynamic> json) {
     return LeaveBalanceModel(
       leaveType: json['leaveType'],
-      totalDay: json['total'],
-      useDday: json['used'],
-      remaining: json['remaining'],
+      totalDay: json['total'] ?? 0,
+      useDday: json['used'] ?? 0,
+      remaining: json['remaining'] ?? 0,
     );
   }
 

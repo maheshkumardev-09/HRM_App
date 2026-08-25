@@ -8,7 +8,8 @@ import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/projects/controllers/project_controller.dart';
 import 'package:hrm_app/features/projects/controllers/task_controller.dart';
-import 'package:hrm_app/features/time_sheets/controllers/time_sheet_controller.dart';
+import 'package:hrm_app/features/time_sheets/controllers/timesheet_controller.dart';
+import 'package:intl/intl.dart';
 
 class TaskDetailsView extends StatelessWidget {
   TaskDetailsView({super.key});
@@ -24,22 +25,19 @@ class TaskDetailsView extends StatelessWidget {
       return const Scaffold(body: Center(child: Text('Task not found')));
     }
     final project = projectController.getProjectById(task.projectId);
-    final projectName = project?.name ?? 'Unknown Project';
-    final taskTimesheets = timesheetController.getEntriesByTask(task.id);
-
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
+              AppSpacing.vertical30,
               Row(
                 children: [
                   Text(
-                    '(#00${task.id})',
+                    '(#${task.id})',
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
@@ -73,14 +71,14 @@ class TaskDetailsView extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  AppSpacing.vertical8,
+                  AppSpacing.vertical15,
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 8.h,
+                      horizontal: 8.w,
+                      vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(50),
                       border: Border.all(color: AppColors.primaryColor),
                     ),
                     child: Text(
@@ -91,7 +89,7 @@ class TaskDetailsView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  AppSpacing.vertical20,
+                  AppSpacing.vertical15,
                   Text(
                     'Project',
                     style: TextStyle(
@@ -100,15 +98,15 @@ class TaskDetailsView extends StatelessWidget {
                       color: Colors.black54,
                     ),
                   ),
-                  AppSpacing.vertical8,
+                  AppSpacing.vertical10,
                   Text(
-                    projectName,
+                    project?.name ?? '',
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  AppSpacing.vertical10,
+                  AppSpacing.vertical15,
                   Text(
                     'Deadline',
                     style: TextStyle(
@@ -117,7 +115,7 @@ class TaskDetailsView extends StatelessWidget {
                       color: Colors.black54,
                     ),
                   ),
-                  AppSpacing.vertical8,
+                  AppSpacing.vertical10,
                   Text(
                     task.deadline,
                     style: TextStyle(
@@ -125,7 +123,7 @@ class TaskDetailsView extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  AppSpacing.vertical10,
+                  AppSpacing.vertical15,
                   Text(
                     'Allocated Time',
                     style: TextStyle(
@@ -134,7 +132,7 @@ class TaskDetailsView extends StatelessWidget {
                       color: Colors.black54,
                     ),
                   ),
-                  AppSpacing.vertical8,
+                  AppSpacing.vertical10,
                   Text(
                     task.totalTime,
                     style: TextStyle(
@@ -142,8 +140,7 @@ class TaskDetailsView extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
-                  AppSpacing.vertical10,
+                  AppSpacing.vertical15,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -156,7 +153,7 @@ class TaskDetailsView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${(task.progress * 100).toInt()}%',
+                        '${(task.progress).toInt()}%'.toString(),
                         style: TextStyle(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
@@ -164,33 +161,34 @@ class TaskDetailsView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  AppSpacing.vertical8,
+                  AppSpacing.vertical10,
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
-                      value: task.progress,
+                      value: task.progress / 100,
                       minHeight: 8.h,
-                      backgroundColor: Colors
-                          .grey
-                          .shade300, // baaki bar ka color (jo fill nahi hua)
-                      color: AppColors
-                          .primaryColor, // fill hone wale part ka color (purple)
+                      backgroundColor: Colors.grey.shade300,
+                      color: AppColors.primaryColor,
                     ),
                   ),
                 ],
               ),
               AppSpacing.vertical30,
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(15.r),
+                  color: AppColors.containerBackColordark,
+                  borderRadius: BorderRadius.circular(25.r),
                   border: Border.all(color: AppColors.primaryColor),
                 ),
                 child: Row(
                   children: [
-                    Image.asset(AppImages.personIcon),
-                    AppSpacing.horizontal10,
+                    Image.asset(
+                      AppImages.personIcon,
+                      width: 50.w,
+                      height: 50.h,
+                    ),
+                    AppSpacing.horizontal15,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -201,16 +199,16 @@ class TaskDetailsView extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        AppSpacing.vertical8,
+                        AppSpacing.vertical15,
                         Row(
                           children: [
                             Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 8.w,
-                                vertical: 8.h,
+                                vertical: 4.h,
                               ),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(50),
                                 border: Border.all(
                                   color: AppColors.primaryColor,
                                 ),
@@ -228,10 +226,10 @@ class TaskDetailsView extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 8.w,
-                                vertical: 8.h,
+                                vertical: 4.h,
                               ),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(50),
                                 border: Border.all(
                                   color: AppColors.primaryColor,
                                 ),
@@ -260,11 +258,12 @@ class TaskDetailsView extends StatelessWidget {
               ),
               AppSpacing.vertical20,
               Container(
-                padding: EdgeInsets.all(20.w),
+                width: double.infinity,
+                padding: EdgeInsets.all(15.w),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(15.r),
-                  border: Border.all(color: Colors.grey.shade300),
+                  color: AppColors.containerBackColor,
+                  borderRadius: BorderRadius.circular(25.r),
+                  border: Border.all(color: AppColors.borderColor),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,52 +281,46 @@ class TaskDetailsView extends StatelessWidget {
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
               AppSpacing.vertical20,
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: taskTimesheets.length,
-                itemBuilder: (context, index) {
-                  final data = taskTimesheets[index];
+              Obx(() {
+                final entries = timesheetController.getEntriesByTask(task.id);
+                if (entries.isEmpty) {
                   return Padding(
-                    padding: EdgeInsets.only(bottom: 10.h),
-                    child: Container(
-                      padding: EdgeInsets.all(8.0.w),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(15.r),
-                        border: Border.all(color: Colors.grey.shade300),
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    child: Center(
+                      child: Text(
+                        'No timesheet entries for this task',
+                        style: TextStyle(color: Colors.grey, fontSize: 13.sp),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    data.date,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  AppSpacing.vertical8,
-                                  Text(
-                                    'Date',
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: Column(
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: entries.length,
+                  itemBuilder: (context, index) {
+                    final data = entries[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      child: Container(
+                        padding: EdgeInsets.all(15.w),
+                        decoration: BoxDecoration(
+                          color: AppColors.containerBackColor,
+                          borderRadius: BorderRadius.circular(15.r),
+                          border: Border.all(color: AppColors.borderColor),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      data.employeeName,
+                                      DateFormat(
+                                        'dd-MM-yyyy',
+                                      ).format(data.date),
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
@@ -335,7 +328,7 @@ class TaskDetailsView extends StatelessWidget {
                                     ),
                                     AppSpacing.vertical8,
                                     Text(
-                                      'Employee',
+                                      'Date',
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
@@ -344,36 +337,62 @@ class TaskDetailsView extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsetsDirectional.symmetric(
-                                  vertical: 6,
-                                  horizontal: 12,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(15.r),
-                                  border: Border.all(
-                                    color: AppColors.primaryColor,
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        data.employeeName,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      AppSpacing.vertical8,
+                                      Text(
+                                        'Employee',
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                child: Text(
-                                  '${data.hoursSpent} Hours',
-                                  style: TextStyle(
-                                    color: AppColors.primaryColor,
+                                Container(
+                                  padding: EdgeInsetsDirectional.symmetric(
+                                    vertical: 6,
+                                    horizontal: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade100,
+                                    borderRadius: BorderRadius.circular(15.r),
+                                    border: Border.all(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '${data.hoursSpent} Hours',
+                                    style: TextStyle(
+                                      color: AppColors.primaryColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          AppSpacing.vertical10,
-                          Text(data.description, maxLines: 1),
-                        ],
+                              ],
+                            ),
+                            AppSpacing.vertical10,
+                            Text(
+                              data.description,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                );
+              }),
               AppSpacing.vertical30,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -395,7 +414,7 @@ class TaskDetailsView extends StatelessWidget {
                   ),
                 ],
               ),
-              AppSpacing.vertical10,
+              AppSpacing.vertical20,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -471,7 +490,6 @@ class TaskDetailsView extends StatelessWidget {
                 ],
               ),
               AppSpacing.vertical30,
-
               Obx(() {
                 final currentTask = taskController.getTaskById(task.id);
                 if (currentTask == null) return const SizedBox();

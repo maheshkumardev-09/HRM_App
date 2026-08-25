@@ -12,7 +12,6 @@ import 'package:hrm_app/routes/app_routes.dart';
 
 class ProjectsView extends StatelessWidget {
   ProjectsView({super.key});
-  final sortController = TextEditingController();
   final projectController = Get.find<ProjectController>();
   final taskController = Get.find<TaskController>();
   @override
@@ -20,17 +19,17 @@ class ProjectsView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: Column(
           children: [
-            CustomTitel(title: 'Projects', ontap: () {}),
-            AppSpacing.vertical20,
+            CustomTitel(title: 'Projects'),
+            AppSpacing.vertical30,
             Container(
               padding: EdgeInsets.all(20.w),
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: Colors.grey.shade400),
+                color: AppColors.containerBackColor,
+                borderRadius: BorderRadius.circular(25.r),
+                border: Border.all(color: AppColors.primaryColor),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +44,7 @@ class ProjectsView extends StatelessWidget {
                   AppSpacing.vertical10,
                   CustomDropdownField(
                     value: projectController.selectedSort.value,
-                    items: const ["Name", "Status", "Start Date"],
+                    items: ["Name", "Status", "Start Date"],
                     onChanged: (value) {
                       projectController.sortProjects(value!);
                     },
@@ -53,99 +52,99 @@ class ProjectsView extends StatelessWidget {
                 ],
               ),
             ),
-            AppSpacing.vertical20,
-            Obx(
-              () => Expanded(
-                child: ListView.builder(
-                  itemCount: projectController.projectList.length,
+            AppSpacing.vertical30,
+            Expanded(
+              child: Obx(() {
+                final projects = projectController.projectList;
+                return ListView.builder(
+                  itemCount: projects.length,
                   itemBuilder: (context, index) {
-                    final data = projectController.projectList[index];
-                    return Obx(() {
-                      final taskCount = taskController
-                          .getTasksByProject(data.id)
-                          .length;
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 10.h),
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.toNamed(AppRoutes.taskview, arguments: data.id);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10.w),
-                            decoration: BoxDecoration(
-                              color: AppColors.gary200Color,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.grey.shade400),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 40.h,
-                                  width: 50.w,
-                                  margin: EdgeInsets.only(top: 8.h),
-                                  padding: EdgeInsets.all(5.w),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
+                    final data = projects[index];
+                    final taskCount = taskController
+                        .getTasksByProject(data.id)
+                        .length;
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      child: GestureDetector(
+                        onTap: () {
+                          taskController.clearAllFilter();
+                          Get.toNamed(AppRoutes.taskview, arguments: data.id);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(15.w),
+                          decoration: BoxDecoration(
+                            color: AppColors.containerBackColor,
+                            borderRadius: BorderRadius.circular(25.r),
+                            border: Border.all(color: AppColors.borderColor),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 50.h,
+                                width: 50.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: AppColors.primaryColor,
+                                ),
+                                child: Image.asset(
+                                  'assets/icon/project.png',
+                                  width: 24.w,
+                                  height: 24.h,
+                                ),
+                              ),
+                              AppSpacing.horizontal15,
+                              Expanded(
+                                child: Column(
+                                  spacing: 5.h,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data.name,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      data.description,
+                                      style: TextStyle(
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w,
+                                  vertical: 4.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(
                                     color: AppColors.primaryColor,
                                   ),
-                                  child: Icon(
-                                    Icons.business_center_outlined,
-                                    size: 20.w,
-                                    color: AppColors.whiteColor,
+                                ),
+                                child: Text(
+                                  '$taskCount Tasks',
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.primaryColor,
                                   ),
                                 ),
-                                AppSpacing.horizontal10,
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        data.name,
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      AppSpacing.horizontal10,
-                                      Text(
-                                        data.description,
-                                        style: TextStyle(
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 8.h),
-                                  padding: EdgeInsets.all(5.w),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    '$taskCount Tasks',
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    });
+                      ),
+                    );
                   },
-                ),
-              ),
+                );
+              }),
             ),
           ],
         ),

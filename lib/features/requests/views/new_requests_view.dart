@@ -12,9 +12,7 @@ class NewRequestsView extends StatelessWidget {
       appBar: CustomAppBar(),
       body: Padding(
         padding: EdgeInsetsGeometry.symmetric(horizontal: 15.w, vertical: 20.h),
-        child: Column(
-          children: [CustomTitel(title: 'New requests', ontap: () {})],
-        ),
+        child: Column(children: [CustomTitel(title: 'New requests')]),
       ),
     );
   }

@@ -1,4 +1,5 @@
 class UserMoel {
+  final String id;
   final String name;
   final String? profileImage;
   final String email;
@@ -13,10 +14,11 @@ class UserMoel {
     this.designation,
     this.phoneNumber,
     required this.password,
+    required this.id,
   });
 
   Map<String, dynamic> toJson() {
-    return {"name": name, "email": email, "password": password};
+    return {"id": id, "name": name, "email": email, "password": password};
   }
 
   factory UserMoel.formjson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class UserMoel {
       name: json["name"],
       email: json["email"],
       password: json["password"],
+      id: json['id'],
     );
   }
 }

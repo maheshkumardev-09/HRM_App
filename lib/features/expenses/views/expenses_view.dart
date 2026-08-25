@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/components/custom_row_container.dart';
+import 'package:hrm_app/components/custom_button.dart';
+import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/constants/app_colors.dart';
@@ -19,37 +20,76 @@ class ExpensesView extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.all(20.w),
-        child: Obx(() {
-          return Column(
-            children: [
-              CustomTitel(title: 'My Expenses', ontap: () {}),
-              AppSpacing.vertical20,
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
+        child: Column(
+          children: [
+            CustomTitel(title: 'My Expenses'),
+            AppSpacing.vertical30,
+            Obx(
+              () => Container(
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: Colors.grey.shade400),
+                  color: AppColors.containerBackColor,
+                  borderRadius: BorderRadius.circular(25.r),
+                  border: Border.all(color: AppColors.primaryColor),
                 ),
-                child: CustomRowContainer(
-                  onTap1: () {},
-                  title: 'Date From',
-                  icon: Icons.calendar_today_outlined,
-                  onTap2: () {},
-                  title2: 'Date To',
-                  icon2: Icons.calendar_today_outlined,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFiled(
+                        label: expenseController.filterDateFrom.value == null
+                            ? 'Date From'
+                            : DateFormat(
+                                'dd-MM-yyyy',
+                              ).format(expenseController.filterDateFrom.value!),
+                        readOnly: true,
+                        onTap: () =>
+                            expenseController.pickFilterDateFrom(context),
+                        suffixIcon: Icon(
+                          Icons.calendar_today_outlined,
+                          size: 22.w,
+                        ),
+                      ),
+                    ),
+                    AppSpacing.horizontal10,
+                    Expanded(
+                      child: CustomTextFiled(
+                        label: expenseController.filterDateTo.value == null
+                            ? 'Date To'
+                            : DateFormat(
+                                'dd-MM-yyyy',
+                              ).format(expenseController.filterDateTo.value!),
+                        readOnly: true,
+                        onTap: () =>
+                            expenseController.pickFilterDateTo(context),
+                        suffixIcon: Icon(
+                          Icons.calendar_today_outlined,
+                          size: 22.w,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              AppSpacing.vertical20,
-
-              SizedBox(
-                height: 30.h,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () => expenseController.clearDateFilter(),
+                child: Icon(Icons.remove),
+              ),
+            ),
+            AppSpacing.vertical20,
+            Obx(
+              () => SizedBox(
+                height: 36.h,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: expenseController.statusList.length,
                   itemBuilder: (context, index) {
                     final status = expenseController.statusList[index];
+                    final isslected =
+                        status == expenseController.selectedStatus.value;
                     return GestureDetector(
                       onTap: () => expenseController.changeStatus(
                         expenseController.statusList[index],
@@ -58,17 +98,20 @@ class ExpensesView extends StatelessWidget {
                         margin: EdgeInsets.only(right: 8.w),
                         padding: EdgeInsets.symmetric(horizontal: 14.w),
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade400),
-                          color:
-                              status == expenseController.selectedStatus.value
-                              ? expenseController.getStatusColor(status)
-                              : Colors.grey.shade200,
+                          border: Border.all(color: AppColors.borderColor),
+                          color: isslected
+                              ? AppColors.primaryColor
+                              : Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Center(
                           child: Text(
                             expenseController.statusList[index],
-                            style: TextStyle(),
+                            style: TextStyle(
+                              color: isslected
+                                  ? Colors.white
+                                  : Colors.grey.shade500,
+                            ),
                           ),
                         ),
                       ),
@@ -76,9 +119,29 @@ class ExpensesView extends StatelessWidget {
                   },
                 ),
               ),
-              AppSpacing.vertical20,
-              Expanded(
-                child: ListView.builder(
+            ),
+            AppSpacing.vertical20,
+            Expanded(
+              child: Obx(() {
+                if (expenseController.filteredExpenses.isEmpty) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        Text('Not have expense list'),
+                        AppSpacing.vertical15,
+                        SizedBox(
+                          height: 48.h,
+                          width: 130.w,
+                          child: CustomButton(
+                            title: 'Clear filter',
+                            onTap: () => expenseController.clearDateFilter(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return ListView.builder(
                   itemCount: expenseController.filteredExpenses.length,
                   itemBuilder: (context, index) {
                     final data = expenseController.filteredExpenses[index];
@@ -88,11 +151,11 @@ class ExpensesView extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 10.h),
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(15),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(color: Colors.grey.shade400),
+                            color: AppColors.containerBackColor,
+                            borderRadius: BorderRadius.circular(25.r),
+                            border: Border.all(color: AppColors.borderColor),
                           ),
                           child: Column(
                             children: [
@@ -100,22 +163,17 @@ class ExpensesView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 10.w,
-                                      vertical: 8.h,
-                                    ),
+                                    width: 50.w,
+                                    height: 50.h,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       color: AppColors.primaryColor,
                                     ),
-
-                                    child: Icon(
-                                      Icons.camera_alt_outlined,
-                                      size: 24.w,
-                                      color: AppColors.whiteColor,
+                                    child: Image.asset(
+                                      "assets/icon/expanses.png",
                                     ),
                                   ),
-                                  AppSpacing.horizontal20,
+                                  AppSpacing.horizontal15,
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -128,7 +186,7 @@ class ExpensesView extends StatelessWidget {
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        AppSpacing.vertical8,
+                                        AppSpacing.vertical5,
                                         Text(
                                           data.description,
                                           style: TextStyle(
@@ -141,11 +199,11 @@ class ExpensesView extends StatelessWidget {
                                   ),
                                   Container(
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 16.w,
-                                      vertical: 8.h,
+                                      horizontal: 10.w,
+                                      vertical: 5.h,
                                     ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(50.r),
                                       color: expenseController.getStatusColor(
                                         data.status,
                                       ),
@@ -164,32 +222,36 @@ class ExpensesView extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        DateFormat(
-                                          'yyyy/MM/dd',
-                                        ).format(data.date),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          DateFormat(
+                                            'yyyy-MM-dd',
+                                          ).format(data.date),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
-                                      ),
-                                      AppSpacing.vertical8,
-                                      Text(
-                                        'Date',
-                                        style: TextStyle(
-                                          fontSize: 10.sp,
-                                          color: Colors.black54,
-                                          fontWeight: FontWeight.w400,
+                                        AppSpacing.vertical5,
+                                        Text(
+                                          'Date',
+                                          style: TextStyle(
+                                            fontSize: 10.sp,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                   Expanded(
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           data.paidBy,
@@ -198,7 +260,7 @@ class ExpensesView extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                           ),
                                         ),
-                                        AppSpacing.vertical8,
+                                        AppSpacing.vertical5,
                                         Text(
                                           'PaidBy',
                                           style: TextStyle(
@@ -216,9 +278,14 @@ class ExpensesView extends StatelessWidget {
                                       Get.toNamed(AppRoutes.editexpensesview);
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(8.w),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w,
+                                        vertical: 5.h,
+                                      ),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius: BorderRadius.circular(
+                                          50.r,
+                                        ),
                                         color: AppColors.primaryColor,
                                       ),
                                       child: Text(
@@ -238,21 +305,24 @@ class ExpensesView extends StatelessWidget {
                       ),
                     );
                   },
-                ),
-              ),
-              AppSpacing.vertical30,
-            ],
-          );
-        }),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          expenseController.clearForm();
-          Get.toNamed(AppRoutes.newexpensesview);
-        },
-        backgroundColor: AppColors.primaryColor,
-        shape: const CircleBorder(),
-        child: Icon(Icons.add, color: AppColors.whiteColor),
+      floatingActionButton: SizedBox(
+        width: 60.w,
+        height: 60.h,
+        child: FloatingActionButton(
+          onPressed: () {
+            expenseController.clearForm();
+            Get.toNamed(AppRoutes.newexpensesview);
+          },
+          backgroundColor: AppColors.primaryColor,
+          shape: const CircleBorder(),
+          child: Icon(Icons.add, color: AppColors.whiteColor),
+        ),
       ),
     );
   }

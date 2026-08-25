@@ -43,6 +43,7 @@ dependencies:
   country_state_city: ^0.1.6
   pdf: ^3.13.0
   better_download_saver: ^0.0.1
+  flutter_background_service: ^5.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

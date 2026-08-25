@@ -8,26 +8,38 @@ import 'package:hrm_app/features/home/views/home_view.dart';
 import 'package:hrm_app/features/payroll/views/payroll_view.dart';
 import 'package:hrm_app/features/sales/views/sales_view.dart';
 
-class BottomNavBar extends StatelessWidget {
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({super.key});
+
+  @override
+  State<BottomNavBar> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
   final _controller = Get.find<BottomNavController>();
-  final List<Widget> viewList = [
-    HomeView(),
-    EmployeesView(),
-    AttendanceView(),
-    PayrollView(),
-    SalesView(),
+  final List<Widget?> _cachedViews = List.filled(5, null);
+  final List<Widget Function()> viewBuilder = [
+    () => HomeView(),
+    () => EmployeesView(),
+    () => AttendanceView(),
+    () => PayrollView(),
+    () => SalesView(),
   ];
-  BottomNavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => IndexedStack(
-          index: _controller.currentIndex.value,
-          children: viewList,
-        ),
-      ),
+      body: Obx(() {
+        final index = _controller.currentIndex.value;
+        _cachedViews[index] ??= viewBuilder[index]();
+        return IndexedStack(
+          index: index,
+          children: List.generate(
+            viewBuilder.length,
+            (i) => _cachedViews[i] ?? const SizedBox(),
+          ),
+        );
+      }),
       bottomNavigationBar: CustomNavBar(),
     );
   }

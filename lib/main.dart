@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hrm_app/constants/app_colors.dart';
-import 'package:hrm_app/features/auth/binding/initial_binding.dart';
+import 'package:hrm_app/routes/binding/initial_binding.dart';
 import 'package:hrm_app/routes/app_pages.dart';
 import 'package:hrm_app/routes/app_routes.dart';
 import 'package:hrm_app/services/storage_service.dart';

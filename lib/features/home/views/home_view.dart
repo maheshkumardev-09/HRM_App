@@ -11,6 +11,7 @@ import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/attendance/controllers/attendace_controller.dart';
 import 'package:hrm_app/features/auth/controllers/auth_controller.dart';
 import 'package:hrm_app/features/home/controllers/home_controller.dart';
+import 'package:hrm_app/features/notifications/controllers/announcement_controller.dart';
 import 'package:hrm_app/features/time_off/controllers/time_off_controller.dart';
 import 'package:hrm_app/routes/app_routes.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +22,7 @@ class HomeView extends StatelessWidget {
   final auth = Get.find<AuthController>();
   final home = Get.find<HomeController>();
   final attendaceController = Get.find<AttendanceController>();
+  final announcementControler = Get.find<AnnouncementController>();
   final timeOffController = Get.find<TimeOffController>();
   @override
   Widget build(BuildContext context) {
@@ -30,8 +32,8 @@ class HomeView extends StatelessWidget {
       drawer: Drawer(child: Column(children: [Text('okdfm')])),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
-        child: Obx(
-          () => SingleChildScrollView(
+        child: Obx(() {
+          return SingleChildScrollView(
             child: Column(
               children: [
                 Row(
@@ -51,7 +53,7 @@ class HomeView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Welcome ${home.user.value?.name ?? "Gest"}',
+                            'Welcome ${auth.currentUser.value?.name ?? "Gest"}',
                             style: TextStyle(
                               fontSize: 24.sp,
                               fontWeight: FontWeight.w500,
@@ -140,17 +142,7 @@ class HomeView extends StatelessWidget {
                               ? 'Check Out'
                               : 'Check In',
 
-                          onTap: () {
-                            if (attendaceController
-                                    .currentAttendance
-                                    .value
-                                    .status ==
-                                'In Progress') {
-                              attendaceController.checkOut();
-                            } else {
-                              attendaceController.checkIn();
-                            }
-                          },
+                          onTap: () => attendaceController.handleButtonTap(),
                         ),
                       ),
                     ],
@@ -187,6 +179,8 @@ class HomeView extends StatelessWidget {
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             AppSpacing.vertical5,
                             Text(
@@ -227,59 +221,72 @@ class HomeView extends StatelessWidget {
                   },
                 ),
                 AppSpacing.vertical30,
-                CustomSectionHeader(title: 'Announcements'),
+                CustomSectionHeader(
+                  title: 'Announcements',
+                  onViewAllTap: () => Get.toNamed(AppRoutes.announcementview),
+                ),
                 AppSpacing.vertical20,
                 Column(
                   spacing: 10.h,
-                  children: home.announcements.take(2).map((announce) {
-                    return Container(
-                      padding: EdgeInsets.all(20.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.r),
-                        border: BoxBorder.all(color: AppColors.borderColor),
-                        color: AppColors.containerBackColor,
+                  children: announcementControler.latestTwo.map((announce) {
+                    return GestureDetector(
+                      onTap: () => Get.toNamed(
+                        AppRoutes.announcementdetailview,
+                        arguments: announce,
                       ),
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            AppImages.annunce,
-                            width: 40.w,
-                            height: 40.h,
-                            fit: BoxFit.cover,
-                          ),
-                          AppSpacing.horizontal15,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                announce.title,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
+                      child: Container(
+                        padding: EdgeInsets.all(20.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.r),
+                          border: BoxBorder.all(color: AppColors.borderColor),
+                          color: AppColors.containerBackColor,
+                        ),
+                        width: double.infinity,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              AppImages.annunce,
+                              width: 40.w,
+                              height: 40.h,
+                              fit: BoxFit.cover,
+                            ),
+                            AppSpacing.horizontal15,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  announce.title,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                              AppSpacing.vertical5,
-                              Text(
-                                DateFormat('MMM dd').format(announce.date),
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w300,
-                                  color: AppColors.textColor,
+                                AppSpacing.vertical5,
+                                Text(
+                                  DateFormat(
+                                    'MMM dd',
+                                  ).format(announce.dateTime),
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.textColor,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }).toList(),
                 ),
               ],
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

@@ -11,24 +11,24 @@ class CustomNavBar extends StatelessWidget {
 
   final List<NavItemModel> navicons = [
     NavItemModel(
-      selectedIcon: 'assets/icon/home.png',
-      unselectedIcon: 'assets/icon/home1.png',
+      unselectedIcon: 'assets/icon/home.png',
+      selectedIcon: 'assets/icon/home1.png',
     ),
     NavItemModel(
-      selectedIcon: 'assets/icon/users.png',
-      unselectedIcon: 'assets/icon/users1.png',
+      unselectedIcon: 'assets/icon/users.png',
+      selectedIcon: 'assets/icon/users1.png',
     ),
     NavItemModel(
-      selectedIcon: 'assets/icon/notes-check.png',
-      unselectedIcon: 'assets/icon/notes-check1.png',
+      unselectedIcon: 'assets/icon/notes-check.png',
+      selectedIcon: 'assets/icon/notes-check1.png',
     ),
     NavItemModel(
-      selectedIcon: 'assets/icon/bill.png',
-      unselectedIcon: 'assets/icon/bill1.png',
+      unselectedIcon: 'assets/icon/bill.png',
+      selectedIcon: 'assets/icon/bill1.png',
     ),
     NavItemModel(
-      selectedIcon: 'assets/icon/barchart.png',
-      unselectedIcon: 'assets/icon/barchart1.png',
+      unselectedIcon: 'assets/icon/barchart.png',
+      selectedIcon: 'assets/icon/barchart1.png',
     ),
   ];
 
@@ -60,16 +60,14 @@ class CustomNavBar extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsetsGeometry.symmetric(horizontal: 5.w),
                 child: GestureDetector(
-                  onTap: () {
-                    bottomNavController.currentIndex(index);
-                  },
+                  onTap: () => bottomNavController.currentIndex(index),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         isSelectedItem
-                            ? item.unselectedIcon
-                            : item.selectedIcon,
+                            ? item.selectedIcon
+                            : item.unselectedIcon,
                         color: AppColors.primaryColor,
                         width: 24.w,
                         height: 24.h,

@@ -19,13 +19,13 @@ class NewExpensesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(onNotificationTap: () {}),
+      appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomTitel(title: 'Submit Expense', ontap: () {}),
+              CustomTitel(title: 'Submit Expense'),
               AppSpacing.vertical30,
               CustomContainerWithTitle(
                 titel: 'Paid By*',
@@ -75,7 +75,7 @@ class NewExpensesView extends StatelessWidget {
                   ),
                 ),
               ),
-              AppSpacing.vertical20,
+              AppSpacing.vertical15,
               CustomContainerWithTitle(
                 titel: 'Description*',
                 widget: CustomTextFiled(
@@ -83,7 +83,7 @@ class NewExpensesView extends StatelessWidget {
                   controller: expenseController.descriptionController,
                 ),
               ),
-              AppSpacing.vertical20,
+              AppSpacing.vertical15,
               CustomContainerWithTitle(
                 titel: 'EXpexses Type*',
                 widget: Obx(
@@ -99,7 +99,7 @@ class NewExpensesView extends StatelessWidget {
                   ),
                 ),
               ),
-              AppSpacing.vertical20,
+              AppSpacing.vertical15,
 
               CustomContainerWithTitle(
                 titel: 'Amount*',
@@ -109,7 +109,7 @@ class NewExpensesView extends StatelessWidget {
                   controller: expenseController.amountController,
                 ),
               ),
-              AppSpacing.vertical20,
+              AppSpacing.vertical15,
               CustomContainerWithTitle(
                 titel: 'Upload Receipts',
                 widget: GestureDetector(
@@ -118,10 +118,11 @@ class NewExpensesView extends StatelessWidget {
                   },
                   child: Container(
                     width: double.infinity,
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(12.r),
+                      color: AppColors.whiteColor,
+                      border: Border.all(color: AppColors.borderColor),
+                      borderRadius: BorderRadius.circular(15.r),
                     ),
                     child: Obx(
                       () => expenseController.selectedFile.value == null
@@ -172,7 +173,7 @@ class NewExpensesView extends StatelessWidget {
                   ),
                 ),
               ),
-              AppSpacing.vertical20,
+              AppSpacing.vertical15,
               CustomContainerWithTitle(
                 titel: 'Notes',
                 widget: TextField(
@@ -181,7 +182,7 @@ class NewExpensesView extends StatelessWidget {
                   maxLines: 4,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Colors.grey.shade100,
+                    fillColor: AppColors.whiteColor,
                     hint: Text(
                       'Add any aditional Note',
                       style: TextStyle(
@@ -189,8 +190,14 @@ class NewExpensesView extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                    contentPadding: EdgeInsets.all(15.w),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.r),
+                      borderSide: BorderSide(color: AppColors.primaryColor),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.r),
+                      borderSide: BorderSide(color: AppColors.borderColor),
                     ),
                   ),
                 ),
@@ -199,20 +206,26 @@ class NewExpensesView extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: CustomButton(
-                      title: 'Cancel',
-                      titleColor: Colors.black,
-                      onTap: () => Get.back(),
-                      buttonColor: Colors.grey.shade300,
+                    child: SizedBox(
+                      height: 48.h,
+                      child: CustomButton(
+                        title: 'Cancel',
+                        titleColor: Colors.black,
+                        onTap: () => Get.back(),
+                        buttonColor: Colors.grey.shade300,
+                      ),
                     ),
                   ),
                   AppSpacing.horizontal10,
                   Expanded(
-                    child: CustomButton(
-                      title: 'Crate Lead',
-                      onTap: () {
-                        expenseController.addNewExpenses();
-                      },
+                    child: SizedBox(
+                      height: 48.h,
+                      child: CustomButton(
+                        title: 'Submit Expense',
+                        onTap: () {
+                          expenseController.addNewExpenses();
+                        },
+                      ),
                     ),
                   ),
                 ],

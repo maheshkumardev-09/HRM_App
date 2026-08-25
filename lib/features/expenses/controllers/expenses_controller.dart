@@ -4,11 +4,14 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/constants/app_colors.dart';
+import 'package:hrm_app/features/auth/controllers/auth_controller.dart';
 import 'package:hrm_app/features/expenses/data/expanse_dummy_data.dart';
 import 'package:hrm_app/features/expenses/models/expense_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExpensesController extends GetxController {
+  Rx<DateTime?> filterDateFrom = Rx<DateTime?>(null);
+  Rx<DateTime?> filterDateTo = Rx<DateTime?>(null);
   RxList<ExpenseModel> expenses = <ExpenseModel>[].obs;
   ExpenseModel? editingExpense;
   final descriptionController = TextEditingController();
@@ -55,24 +58,12 @@ class ExpensesController extends GetxController {
 
   void startEdit(ExpenseModel expense) {
     editingExpense = expense;
-
     descriptionController.text = expense.description;
-
     amountController.text = expense.amount.toString();
-
     selectedExpenseType.value = expense.expenseType;
-  }
-
-  void clearForm() {
-    editingExpense = null;
-    descriptionController.clear();
-    amountController.clear();
-    selectedExpenseType.value = "";
-    isPaidByEmployee.value = false;
-    isPaidByCompany.value = false;
-    noteController.clear();
-    selectedFile.value = null;
-    selectedDate.value = null;
+    isPaidByCompany.value = expense.paidBy == 'Company';
+    isPaidByEmployee.value = expense.paidBy == 'Employee';
+    noteController.text = expense.note ?? '';
   }
 
   Future<void> loadData() async {
@@ -90,21 +81,28 @@ class ExpensesController extends GetxController {
   }
 
   Future<void> addNewExpenses() async {
+    final auth = Get.find<AuthController>();
+    final amount = double.tryParse(amountController.text.trim());
     if (selectedExpenseType.value.isEmpty ||
-        amountController.text.trim().isEmpty ||
+        amount == null ||
+        amount <= 0 ||
         descriptionController.text.trim().isEmpty ||
         (!isPaidByCompany.value && !isPaidByEmployee.value)) {
       Get.snackbar("Error", "Please fill all fields");
       return;
     }
     final newExpen = ExpenseModel(
-      amount: double.tryParse(amountController.text) ?? 00,
+      amount: amount,
       date: DateTime.now(),
       paidBy: isPaidByCompany.value ? 'Company' : 'Employee',
       status: 'Draft',
       description: descriptionController.text,
       expenseType: selectedExpenseType.value,
       id: DateTime.now().millisecondsSinceEpoch.toString(),
+      note: noteController.text.trim(),
+      receiptPath: selectedFile.value?.path,
+      employeeId: auth.currentUser.value?.id ?? '',
+      employeeName: auth.currentUser.value?.name ?? '',
     );
     isLoading.value = true;
     expenses.add(newExpen);
@@ -116,6 +114,7 @@ class ExpensesController extends GetxController {
   }
 
   Future<void> updateExpense() async {
+    final amount = double.tryParse(amountController.text.trim());
     if (editingExpense == null) {
       Get.snackbar("Error", "Expense not found");
       return;
@@ -125,14 +124,22 @@ class ExpensesController extends GetxController {
       Get.snackbar("Error", "Expense not found");
       return;
     }
+    if (amount == null || amount <= 0) {
+      Get.snackbar("Error", "Please enter a valid amount");
+      return;
+    }
     expenses[index] = ExpenseModel(
       id: editingExpense!.id,
-      amount: double.tryParse(amountController.text) ?? 0,
+      amount: amount,
       date: editingExpense!.date,
       paidBy: isPaidByCompany.value ? "Company" : "Employee",
       status: editingExpense!.status,
       description: descriptionController.text,
       expenseType: selectedExpenseType.value,
+      receiptPath: selectedFile.value?.path ?? editingExpense!.receiptPath,
+      employeeId: editingExpense!.employeeId,
+      employeeName: editingExpense!.employeeName,
+      note: noteController.text.trim(),
     );
     await saved();
     expenses.refresh();
@@ -155,14 +162,6 @@ class ExpensesController extends GetxController {
 
   void changeStatus(String value) {
     selectedStatus.value = value;
-  }
-
-  List<ExpenseModel> get filteredExpenses {
-    if (selectedStatus.value == "All States") {
-      return expenses;
-    }
-
-    return expenses.where((e) => e.status == selectedStatus.value).toList();
   }
 
   Color getStatusColor(String status) {
@@ -205,12 +204,84 @@ class ExpensesController extends GetxController {
   }
 
   Future<void> pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ["pdf", "png", "jpg", "jpeg"],
     );
-    if (result != null) {
-      selectedFile.value = File(result.files.single.path!);
+    if (result == null) return;
+    final path = result.files.single.path;
+    if (path == null) {
+      Get.snackbar('Error', 'Unable to select file');
+      return;
+    }
+    selectedFile.value = File(path);
+  }
+
+  Future<void> pickFilterDateFrom(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+      initialDate: DateTime.now(),
+    );
+    if (picked != null) filterDateFrom.value = picked;
+  }
+
+  Future<void> pickFilterDateTo(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+      initialDate: DateTime.now(),
+    );
+    if (picked != null) {
+      if (filterDateFrom.value != null &&
+          picked.isBefore(filterDateFrom.value!)) {
+        Get.snackbar("Error", "To date cannot be before From date");
+        return;
+      }
+      filterDateTo.value = picked;
+    }
+  }
+
+  List<ExpenseModel> get filteredExpenses {
+    var list = expenses.toList();
+    if (selectedStatus.value != "All States") {
+      list = list.where((e) => e.status == selectedStatus.value).toList();
+    }
+    if (filterDateFrom.value != null) {
+      list = list
+          .where((e) => !e.date.isBefore(filterDateFrom.value!))
+          .toList();
+    }
+    if (filterDateTo.value != null) {
+      list = list.where((e) => !e.date.isAfter(filterDateTo.value!)).toList();
+    }
+    return list;
+  }
+
+  void clearDateFilter() {
+    filterDateFrom.value = null;
+    filterDateTo.value = null;
+    selectedStatus.value = 'All States';
+  }
+
+  void removeReceipt() {
+    selectedFile.value = null;
+    if (editingExpense != null) {
+      editingExpense = ExpenseModel(
+        id: editingExpense!.id,
+        amount: editingExpense!.amount,
+        date: editingExpense!.date,
+        paidBy: editingExpense!.paidBy,
+        status: editingExpense!.status,
+        description: editingExpense!.description,
+        expenseType: editingExpense!.expenseType,
+        note: editingExpense!.note,
+        receiptPath: null, // <-- receipt clear ho gaya
+        employeeId: editingExpense!.employeeId,
+        employeeName: editingExpense!.employeeName,
+      );
     }
   }
 
@@ -231,5 +302,17 @@ class ExpensesController extends GetxController {
         Get.back();
       },
     );
+  }
+
+  void clearForm() {
+    editingExpense = null;
+    descriptionController.clear();
+    amountController.clear();
+    selectedExpenseType.value = "";
+    isPaidByEmployee.value = false;
+    isPaidByCompany.value = false;
+    noteController.clear();
+    selectedFile.value = null;
+    selectedDate.value = null;
   }
 }

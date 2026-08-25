@@ -32,7 +32,7 @@ class EmployProfileView extends StatelessWidget {
           child: Column(
             children: [
               AppSpacing.vertical30,
-              CustomTitel(title: 'Employee Profile', ontap: () {}),
+              CustomTitel(title: 'Employee Profile'),
               AppSpacing.vertical30,
               Container(
                 width: 152.w,

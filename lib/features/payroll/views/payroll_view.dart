@@ -16,7 +16,7 @@ class PayrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(showBack: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
@@ -24,7 +24,7 @@ class PayrollView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppSpacing.vertical30,
-              CustomTitel(title: 'Payroll', ontap: () {}),
+              CustomTitel(title: 'Payroll'),
               AppSpacing.vertical30,
               Obx(() {
                 final lastPayroll = payrollController.payrollList.last;
@@ -159,13 +159,14 @@ class PayrollView extends StatelessWidget {
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
               AppSpacing.vertical20,
-              Obx(
-                () => ListView.builder(
-                  itemCount: payrollController.payrollList.length - 1,
+              Obx(() {
+                final list = payrollController.payrollList.reversed.toList();
+                return ListView.builder(
+                  itemCount: list.length - 1,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    final data = payrollController.payrollList[index];
+                    final data = list[index];
                     return Padding(
                       padding: EdgeInsets.only(bottom: 10.h),
                       child: Container(
@@ -300,8 +301,8 @@ class PayrollView extends StatelessWidget {
                       ),
                     );
                   },
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),

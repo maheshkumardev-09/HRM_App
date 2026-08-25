@@ -1,199 +1,113 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_app/features/auth/controllers/auth_controller.dart';
+import 'package:hrm_app/features/projects/data/projects_dummy_data.dart';
 import 'package:hrm_app/features/projects/models/message_mode.dart';
 import 'package:hrm_app/features/projects/models/task_model.dart';
 
 class TaskController extends GetxController {
   final messageController = TextEditingController();
+  final searchController = TextEditingController();
+  final RxString sortBy = 'Newest'.obs;
+  final RxString groupBy = 'Stage'.obs;
+  final RxString searchQuery = ''.obs;
 
   final RxList<TaskModel> taskList = <TaskModel>[
-    // Project 1 (Aman Al Bilad) — 3 tasks
-    TaskModel(
-      id: "1",
-      title: "Work of Electrical Wiring",
-      taskType: "Material Sourcing",
-      assignee: "M. Ahmad",
-      totalTime: "12:00:00",
-      timeSpent: "07:10:35",
-      priority: 3,
-      projectId: "1",
-      deadline: "04/25/2026 04:00:00 PM",
-      progress: 0.6,
-      phone: "+966 55 325 1721",
-      email: "mahmad812@gmail.com",
-      description: [
-        "Installed and configured electrical wiring systems as per project requirements",
-        "Conducted wiring for lighting, switches, and power outlets",
-      ],
-      timeRemaining: "04:49:25",
-      messages: [
-        MessageModel(
-          senderName: "M.Ahmad",
-          message: "Timesheet updated, thanks",
-          sentAt: "Yesterday at 1:35 PM",
-        ),
-      ],
-    ),
-    TaskModel(
-      id: "2",
-      title: "Plumbing Check",
-      taskType: "Inspection",
-      assignee: "Ali Khan",
-      totalTime: "08:00:00",
-      timeSpent: "03:00:00",
-      priority: 2,
-      projectId: "1",
-      deadline: "04/18/2026 03:00:00 PM",
-      progress: 0.4,
-      phone: "+92 311 234 5678",
-      email: "alikhan@company.com",
-      description: [
-        "Check plumbing lines in Building A",
-        "Fix any leaks found",
-      ],
-      timeRemaining: "05:00:00",
-      messages: [
-        MessageModel(
-          senderName: "Ali Khan",
-          message: "Inspection done, report attached",
-          sentAt: "2 days ago at 11:00 AM",
-        ),
-      ],
-    ),
-    TaskModel(
-      id: "3",
-      title: "Paint Work",
-      taskType: "Finishing",
-      assignee: "Ahmed Raza",
-      totalTime: "10:00:00",
-      timeSpent: "02:00:00",
-      priority: 1,
-      projectId: "1",
-      deadline: "04/20/2026 05:00:00 PM",
-      progress: 0.2,
-      phone: "+92 322 345 6789",
-      email: "ahmedraza@company.com",
-      description: ["Paint interior walls of Building A"],
-      timeRemaining: "08:00:00",
-      messages: [],
-    ),
-    // Project 2 (XYZ Construction) — 2 tasks
-    TaskModel(
-      id: "4",
-      title: "Office Network Setup",
-      taskType: "Equipment Installation",
-      assignee: "M. Ahmad",
-      totalTime: "08:00:00",
-      timeSpent: "03:20:15",
-      priority: 3,
-      projectId: "2",
-      deadline: "04/10/2026 02:00:00 PM",
-      progress: 0.4,
-      phone: "+966 55 325 1721",
-      email: "mahmad812@gmail.com",
-      description: [
-        "Set up new network switches",
-        "Configure office Wi-Fi access points",
-      ],
-      timeRemaining: "04:39:45",
-      messages: [
-        MessageModel(
-          senderName: "M.Ahmad",
-          message: "Switches installed, testing Wi-Fi next",
-          sentAt: "3 days ago at 4:15 PM",
-        ),
-      ],
-    ),
-    TaskModel(
-      id: "5",
-      title: "Server Maintenance",
-      taskType: "System Checking",
-      assignee: "Ahmed Raza",
-      totalTime: "06:00:00",
-      timeSpent: "04:10:00",
-      priority: 2,
-      projectId: "2",
-      deadline: "04/08/2026 01:00:00 PM",
-      progress: 0.7,
-      phone: "+92 322 345 6789",
-      email: "ahmedraza@company.com",
-      description: [
-        "Run scheduled backup checks",
-        "Update server security patches",
-      ],
-      timeRemaining: "01:50:00",
-      messages: [],
-    ),
-    // Project 3 (Prime Stats) — 1 task
-    TaskModel(
-      id: "6",
-      title: "Data Entry",
-      taskType: "Documentation",
-      assignee: "Sara Ali",
-      totalTime: "05:00:00",
-      timeSpent: "02:30:00",
-      priority: 1,
-      projectId: "3",
-      deadline: "04/12/2026 12:00:00 PM",
-      progress: 0.5,
-      phone: "+92 333 111 2223",
-      email: "sara@company.com",
-      description: ["Enter monthly financial data into system"],
-      timeRemaining: "02:30:00",
-      messages: [
-        MessageModel(
-          senderName: "Sara Ali",
-          message: "Half of the data entered so far",
-          sentAt: "Today at 9:00 AM",
-        ),
-      ],
-    ),
-
-    TaskModel(
-      id: "7",
-      title: "Wiring Inspection",
-      taskType: "Inspection",
-      assignee: "M. Ahmad",
-      totalTime: "07:00:00",
-      timeSpent: "05:00:00",
-      priority: 2,
-      projectId: "5",
-      deadline: "04/22/2026 03:00:00 PM",
-      progress: 0.65,
-      phone: "+966 55 325 1721",
-      email: "mahmad812@gmail.com",
-      description: ["Inspect wiring across all floors"],
-      timeRemaining: "02:00:00",
-      messages: [],
-    ),
-
-    TaskModel(
-      id: "8",
-      title: "Final Handover",
-      taskType: "Documentation",
-      assignee: "Ali Khan",
-      totalTime: "04:00:00",
-      timeSpent: "04:00:00",
-      priority: 1,
-      projectId: "6",
-      deadline: "04/05/2026 10:00:00 AM",
-      progress: 1.0,
-      phone: "+92 311 234 5678",
-      email: "alikhan@company.com",
-      description: ["Complete handover documentation for client"],
-      timeRemaining: "00:00:00",
-      messages: [
-        MessageModel(
-          senderName: "Ali Khan",
-          message: "Handover complete, client signed off",
-          sentAt: "Yesterday at 6:00 PM",
-        ),
-      ],
-    ),
+    ...ProjectsDummyData.tasks.map((e) => TaskModel.fromJson(e)),
   ].obs;
 
+  List<TaskModel> getTasks({String? projectId}) {
+    var list = taskList.toList();
+    if (projectId != null) {
+      list = list.where((task) => task.projectId == projectId).toList();
+    }
+    if (searchQuery.value.isNotEmpty) {
+      final query = searchQuery.value.toLowerCase();
+      list = list
+          .where((task) => task.title.toLowerCase().contains(query))
+          .toList();
+    }
+    sortTasks(list);
+    return list;
+  }
+
   List<TaskModel> getTasksByProject(String projectId) {
-    return taskList.where((task) => task.projectId == projectId).toList();
+    return getTasks(projectId: projectId);
+  }
+
+  List<TaskModel> get myTasks {
+    final auth = Get.find<AuthController>();
+    final currentUserName = auth.currentUser.value?.name ?? '';
+    final list = taskList
+        .where((task) => task.assignee == currentUserName)
+        .toList();
+    sortTasks(list);
+    return list;
+  }
+
+  void updateSearch(String value) {
+    searchQuery.value = value.trim();
+  }
+
+  void clearAllFilter() {
+    searchController.clear();
+    searchQuery.value = '';
+    sortBy.value = 'Newest';
+    groupBy.value = 'Stage';
+  }
+
+  void setSortBy(String value) {
+    sortBy.value = value;
+  }
+
+  void sortTasks(List<TaskModel> tasks) {
+    switch (sortBy.value) {
+      case 'Newest':
+        tasks.sort((a, b) => b.deadline.compareTo(a.deadline));
+        break;
+
+      case 'Oldest':
+        tasks.sort((a, b) => a.deadline.compareTo(b.deadline));
+        break;
+
+      case 'Priority':
+        tasks.sort((a, b) => b.priority.compareTo(a.priority));
+        break;
+
+      case 'Progress':
+        tasks.sort((a, b) => b.progress.compareTo(a.progress));
+        break;
+    }
+  }
+
+  void setGroupBy(String value) {
+    groupBy.value = value;
+  }
+
+  Map<String, List<TaskModel>> groupTasks(List<TaskModel> tasks) {
+    final Map<String, List<TaskModel>> grouped = {};
+    for (final task in tasks) {
+      String key;
+      switch (groupBy.value) {
+        case 'Stage':
+          key = task.taskType;
+          break;
+        case 'Assignee':
+          key = task.assignee;
+          break;
+        case 'Priority':
+          key = 'Priority ${task.priority}';
+          break;
+        case 'None':
+          key = 'All Tasks';
+          break;
+        default:
+          key = 'All Tasks';
+      }
+      grouped.putIfAbsent(key, () => []);
+      grouped[key]!.add(task);
+    }
+    return grouped;
   }
 
   TaskModel? getTaskById(String id) {
@@ -201,16 +115,14 @@ class TaskController extends GetxController {
   }
 
   void sendMessage(String taskId, String messageText) {
-    if (messageText.trim().isEmpty) return;
-
+    final message = messageText.trim();
+    if (message.isEmpty) return;
     final index = taskList.indexWhere((task) => task.id == taskId);
     if (index == -1) return;
-
     final oldTask = taskList[index];
-
     final newMessage = MessageModel(
       senderName: 'You',
-      message: messageText,
+      message: message,
       sentAt: 'Just now',
     );
 
@@ -231,8 +143,7 @@ class TaskController extends GetxController {
       timeRemaining: oldTask.timeRemaining,
       messages: [...oldTask.messages, newMessage],
     );
-
     taskList[index] = updatedTask;
     taskList.refresh();
-  } // ✅ sendMessage yahan khatam hota hai — sahi jagah
+  }
 }

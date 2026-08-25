@@ -58,7 +58,7 @@ class CustomTextFiled extends StatelessWidget {
         fillColor: fillColor ?? AppColors.whiteColor,
         suffixIconColor: Colors.grey,
         prefixIconColor: Colors.grey,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.h),
         constraints: BoxConstraints(minHeight: 56.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.r),

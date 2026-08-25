@@ -3,6 +3,9 @@ abstract class AppRoutes {
   static const signupview = '/signupview';
   static const navbar = '/navbar';
   static const homeview = '/home';
+  static const notificationview = '/notification';
+  static const announcementview = '/announcementsview';
+  static const announcementdetailview = '/announcementdetailview';
   static const actions = '/actions';
   static const attendanceview = '/attendance';
   static const empolyeesview = '/employees';

@@ -22,6 +22,7 @@ class CustomDropdownField extends StatelessWidget {
       height: 48.h,
       child: DropdownButtonFormField<String>(
         isExpanded: true,
+
         icon: Icon(Icons.keyboard_arrow_down, size: 22, color: Colors.grey),
         initialValue: items.contains(value) ? value : null,
         decoration: InputDecoration(
@@ -32,12 +33,16 @@ class CustomDropdownField extends StatelessWidget {
               color: Colors.grey,
               fontWeight: FontWeight.w400,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           contentPadding: EdgeInsets.symmetric(
             horizontal: 15.w,
             vertical: 16.h,
           ),
-
+          constraints: BoxConstraints(minHeight: 56.h),
+          fillColor: AppColors.whiteColor,
+          filled: true,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.r)),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.r),

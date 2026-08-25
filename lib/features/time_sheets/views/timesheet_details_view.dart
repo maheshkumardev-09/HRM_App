@@ -8,35 +8,35 @@ import 'package:hrm_app/components/custom_titel.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_image.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
-import 'package:hrm_app/features/time_sheets/models/time_sheet_model.dart';
+import 'package:hrm_app/features/time_sheets/models/timesheet_model.dart';
+import 'package:intl/intl.dart';
 
 class TimesheetDetailsView extends StatelessWidget {
   TimesheetDetailsView({super.key});
   final TimesheetModel timesheet = Get.arguments;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomTitel(title: timesheet.taskTitle, ontap: () {}),
+              CustomTitel(title: timesheet.employeeId),
               AppSpacing.vertical30,
               Container(
-                padding: EdgeInsets.all(15.w),
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(25.r),
+                  color: AppColors.containerBackColor,
                   border: Border.all(color: AppColors.primaryColor),
                 ),
                 child: Container(
-                  padding: EdgeInsets.all(10.w),
+                  padding: EdgeInsets.all(20.w),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.r),
-                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(25.r),
+                    color: AppColors.containerBackColordark,
                   ),
                   child: Column(
                     children: [
@@ -48,7 +48,7 @@ class TimesheetDetailsView extends StatelessWidget {
                             height: 50.h,
                             fit: BoxFit.contain,
                           ),
-                          AppSpacing.horizontal12,
+                          AppSpacing.horizontal15,
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +57,7 @@ class TimesheetDetailsView extends StatelessWidget {
                                   'Project',
                                   style: TextStyle(fontSize: 14.sp),
                                 ),
-                                AppSpacing.vertical8,
+                                AppSpacing.vertical10,
                                 Text(
                                   timesheet.projectName,
                                   style: TextStyle(
@@ -90,17 +90,18 @@ class TimesheetDetailsView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      AppSpacing.vertical8,
+                      AppSpacing.vertical15,
                       Row(
                         children: [
                           Expanded(
                             child: Container(
-                              padding: EdgeInsets.all(6.w),
+                              padding: EdgeInsets.all(10.w),
                               decoration: BoxDecoration(
                                 color: AppColors.whiteColor,
-                                borderRadius: BorderRadius.circular(12.r),
+                                borderRadius: BorderRadius.circular(15.r),
                               ),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.av_timer, size: 20),
                                   AppSpacing.horizontal8,
@@ -115,24 +116,27 @@ class TimesheetDetailsView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          AppSpacing.horizontal2,
+                          AppSpacing.horizontal10,
                           Expanded(
                             child: Container(
-                              padding: EdgeInsets.all(6.w),
+                              padding: EdgeInsets.all(10.w),
                               decoration: BoxDecoration(
                                 color: AppColors.whiteColor,
-                                borderRadius: BorderRadius.circular(12.r),
+                                borderRadius: BorderRadius.circular(15.r),
                               ),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(Icons.calendar_today_outlined, size: 20),
                                   AppSpacing.horizontal8,
                                   Text(
-                                    'Date: ${timesheet.date}',
+                                    'Date:${DateFormat('yyyy-MM-dd').format(timesheet.date)}',
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -148,10 +152,10 @@ class TimesheetDetailsView extends StatelessWidget {
               CustomContainerWithTitle(
                 titel: 'Description',
                 widget: Container(
-                  padding: EdgeInsets.all(10.w),
+                  padding: EdgeInsets.all(15.w),
                   decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(12.r),
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(15.r),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

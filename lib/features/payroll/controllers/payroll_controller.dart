@@ -6,6 +6,7 @@ import 'package:hrm_app/features/payroll/models/payroll_model.dart';
 import 'package:hrm_app/services/payroll_services.dart';
 
 class PayrollController extends GetxController {
+  final Set<String> slipDonwloaded = {};
   final payrollList = <PayrollModel>[
     ...PayrollDummyData.payroll.map((e) => PayrollModel.fromJson(e)),
   ].obs;
@@ -16,19 +17,18 @@ class PayrollController extends GetxController {
         return Colors.green;
       case "Pending":
         return Colors.amber;
-      case 'Draft':
-        return Colors.blue;
-      case 'Cancelled':
-        return Colors.red;
       default:
         return Colors.black54;
     }
   }
 
   Future<void> payrollPdf(PayrollModel payroll) async {
+    if (slipDonwloaded.contains(payroll.id)) {
+      return;
+    }
     final success = await PayrollServices().createPayrollPdf(payroll);
-
     if (success) {
+      slipDonwloaded.add(payroll.id);
       Get.snackbar('Success', 'Payslip downloaded successfully');
     } else {
       Get.snackbar('Error', 'Failed to download payslip');

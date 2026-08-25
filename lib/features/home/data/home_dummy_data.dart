@@ -26,7 +26,7 @@ class HomeDummyData {
     QuickActionModel(
       title: 'View Payslip',
       icon: 'assets/icon/icon5.png',
-      route: '/payroll',
+      route: AppRoutes.payrollview,
     ),
     QuickActionModel(
       title: 'My Tasks',

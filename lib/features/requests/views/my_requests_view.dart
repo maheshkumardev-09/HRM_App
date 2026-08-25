@@ -19,7 +19,7 @@ class MyRequestsView extends StatelessWidget {
         padding: EdgeInsetsGeometry.symmetric(horizontal: 15.w, vertical: 20.h),
         child: Column(
           children: [
-            CustomTitel(title: 'My Requests', ontap: () {}),
+            CustomTitel(title: 'My Requests'),
             AppSpacing.vertical30,
             Container(
               padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 8.w),

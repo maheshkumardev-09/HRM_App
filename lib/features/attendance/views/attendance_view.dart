@@ -18,7 +18,7 @@ class AttendanceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(showBack: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: SingleChildScrollView(
@@ -26,7 +26,7 @@ class AttendanceView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppSpacing.vertical30,
-              CustomTitel(title: 'Attendace', ontap: () {}),
+              CustomTitel(title: 'Attendace'),
               AppSpacing.vertical30,
               Obx(
                 () => Container(
@@ -49,8 +49,12 @@ class AttendanceView extends StatelessWidget {
                               .toList(),
                           onChanged: (selectedName) {
                             final region = attendaceController.regions
-                                .firstWhere((r) => r.name == selectedName);
-                            attendaceController.setRegion(region);
+                                .firstWhereOrNull(
+                                  (r) => r.name == selectedName,
+                                );
+                            if (region != null) {
+                              attendaceController.setRegion(region);
+                            }
                           },
                         ),
                       ),
@@ -66,8 +70,12 @@ class AttendanceView extends StatelessWidget {
                           onChanged: (selectedName) {
                             if (selectedName == null) return;
                             final subRegion = attendaceController.subRegions
-                                .firstWhere((r) => r.name == selectedName);
-                            attendaceController.setSubRegion(subRegion);
+                                .firstWhereOrNull(
+                                  (r) => r.name == selectedName,
+                                );
+                            if (subRegion != null) {
+                              attendaceController.setSubRegion(subRegion);
+                            }
                           },
                         ),
                       ),
@@ -90,12 +98,14 @@ class AttendanceView extends StatelessWidget {
                     spacing: 20.h,
                     children: [
                       Text(
-                        attendaceController.workingTime,
+                        '${attendaceController.seconds.value ~/ 3600} Hours '
+                        '${(attendaceController.seconds.value % 3600) ~/ 60} minutes since check-in',
                         style: TextStyle(
                           fontSize: 13.sp,
                           color: AppColors.textColor,
                         ),
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -106,7 +116,9 @@ class AttendanceView extends StatelessWidget {
                           ),
                           AppSpacing.horizontal10,
                           Text(
-                            attendaceController.workingTime,
+                            DateFormat(
+                              'h:mm:ss a',
+                            ).format(attendaceController.currentTime.value),
                             style: TextStyle(
                               fontSize: 24.sp,
                               fontWeight: FontWeight.bold,
@@ -172,13 +184,9 @@ class AttendanceView extends StatelessWidget {
                         height: 48.h,
                         width: double.infinity,
                         child: CustomButton(
-                          title: data.status == 'In Progress'
-                              ? 'Check Out'
-                              : 'Check In',
+                          title: attendaceController.buttonLabel,
                           onTap: () {
-                            data.status == 'In Progress'
-                                ? attendaceController.checkOut()
-                                : attendaceController.checkIn();
+                            attendaceController.handleButtonTap();
                           },
                         ),
                       ),
@@ -192,13 +200,15 @@ class AttendanceView extends StatelessWidget {
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               AppSpacing.vertical20,
-              Obx(
-                () => ListView.builder(
+              Obx(() {
+                final list = attendaceController.attendancelist.reversed
+                    .toList();
+                return ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: attendaceController.attendancelist.length,
+                  itemCount: list.length,
                   itemBuilder: (context, index) {
-                    final history = attendaceController.attendancelist[index];
+                    final history = list[index];
                     return Padding(
                       padding: EdgeInsets.only(bottom: 10.h),
                       child: Container(
@@ -315,8 +325,8 @@ class AttendanceView extends StatelessWidget {
                       ),
                     );
                   },
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),
