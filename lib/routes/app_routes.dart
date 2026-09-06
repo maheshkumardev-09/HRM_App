@@ -27,7 +27,9 @@ abstract class AppRoutes {
   static const timeoffview = '/timeoff';
   static const newleaverequestview = '/newrequest';
   static const teamcalendarview = '/teamcalender';
-  static const myrequestsview = '/myrequests';
+  static const requestsview = '/myrequests';
   static const newrequestsview = '/newrequests';
   static const requestdetailsview = '/requestdetails';
+  static const letterauthview = '/letterauth';
+  static const salaryincreaseview = '/salaryincrease';
 }

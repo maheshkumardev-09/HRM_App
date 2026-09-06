@@ -19,9 +19,11 @@ import 'package:hrm_app/features/payroll/views/payroll_view.dart';
 import 'package:hrm_app/features/projects/views/projects_views.dart';
 import 'package:hrm_app/features/projects/views/task_details_view.dart';
 import 'package:hrm_app/features/projects/views/task_view.dart';
-import 'package:hrm_app/features/requests/views/my_requests_view.dart';
+import 'package:hrm_app/features/requests/views/letter_auth_request_view.dart';
+import 'package:hrm_app/features/requests/views/requests_view.dart';
 import 'package:hrm_app/features/requests/views/request_details_view.dart';
-import 'package:hrm_app/features/requests/views/new_requests_view.dart';
+import 'package:hrm_app/features/requests/views/new_request_view.dart';
+import 'package:hrm_app/features/requests/views/salary_increase_view.dart';
 import 'package:hrm_app/features/sales/controllers/quotation_controller.dart';
 import 'package:hrm_app/features/sales/controllers/sales_controller.dart';
 import 'package:hrm_app/features/sales/views/quotation_detail_view.dart';
@@ -69,7 +71,11 @@ class AppPages {
     GetPage(name: '/newtimesheet', page: () => NewTimesheetView()),
     GetPage(name: '/timesheetdetail', page: () => TimesheetDetailsView()),
     GetPage(name: '/edittimesheet', page: () => EditTimesheetView()),
-    GetPage(name: '/payroll', page: () => PayrollView()),
+    GetPage(
+      name: '/payroll',
+      page: () => PayrollView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => PayrollController())),
+    ),
     GetPage(
       name: '/newquotation',
       page: () => NewQuotationView(),
@@ -88,8 +94,10 @@ class AppPages {
     GetPage(name: '/timeoff', page: () => TimeOffView()),
     GetPage(name: '/newrequest', page: () => NewRequestLeaveView()),
     GetPage(name: '/teamcalender', page: () => TeamCalendarView()),
-    GetPage(name: '/myrequests', page: () => MyRequestsView()),
-    GetPage(name: '/newrequests', page: () => NewRequestsView()),
+    GetPage(name: '/myrequests', page: () => RequestsView()),
+    GetPage(name: '/newrequests', page: () => NewRequestView()),
     GetPage(name: '/requestdetails', page: () => RequestDetailsView()),
+    GetPage(name: '/letterauth', page: () => LetterAuthRequest()),
+    GetPage(name: '/salaryincrease', page: () => SalaryIncreaseView()),
   ];
 }

@@ -1,11 +1,11 @@
-class RequestType {
+class RequestTypeModel {
   final String title;
   final String icon;
-  final String goToView;
+  final String route;
 
-  RequestType({
+  RequestTypeModel({
     required this.title,
     required this.icon,
-    required this.goToView,
+    required this.route,
   });
 }

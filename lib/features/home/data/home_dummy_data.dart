@@ -66,7 +66,7 @@ class HomeDummyData {
     QuickActionModel(
       title: 'Requests',
       icon: 'assets/icon/icon4.png',
-      route: AppRoutes.myrequestsview,
+      route: AppRoutes.requestsview,
     ),
     QuickActionModel(
       title: 'Violatioins',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hrm_app/components/attachment_upload_box.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_card_tow_title.dart';
 import 'package:hrm_app/components/custom_container_with_title.dart';
@@ -220,68 +221,10 @@ class NewRequestLeaveView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical15,
-              CustomContainerWithTitle(
-                titel: 'Attachments*',
-                widget: GestureDetector(
-                  onTap: () {
-                    timeOffController.pickFile();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(20.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.r),
-                      border: Border.all(color: AppColors.borderColor),
-                      color: AppColors.whiteColor,
-                    ),
-                    child: Obx(
-                      () => timeOffController.selectedFile.value == null
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.green.shade100,
-                                  ),
-                                  child: Icon(
-                                    Icons.file_upload_outlined,
-                                    color: AppColors.primaryColor,
-                                    size: 24.w,
-                                  ),
-                                ),
-                                Text(
-                                  'Drop file here and cilck to upload',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black45,
-                                  ),
-                                ),
-                                AppSpacing.vertical8,
-                                Text(
-                                  'PDF,PNG,JPG up to 10MB',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black45,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Text(
-                              timeOffController.selectedFile.value!.path
-                                  .split("/")
-                                  .last,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                    ),
-                  ),
-                ),
+              AttachmentUploadBox(
+                title: 'Attachments*',
+                onTap: () => timeOffController.pickFile(),
+                selectedFile: timeOffController.selectedFile.value,
               ),
               AppSpacing.vertical30,
               Row(

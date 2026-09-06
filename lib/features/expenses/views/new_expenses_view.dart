@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hrm_app/components/attachment_upload_box.dart';
 import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_container_with_title.dart';
 import 'package:hrm_app/components/custom_dropdown_field.dart';
@@ -110,68 +111,10 @@ class NewExpensesView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical15,
-              CustomContainerWithTitle(
-                titel: 'Upload Receipts',
-                widget: GestureDetector(
-                  onTap: () {
-                    expenseController.pickFile();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
-                      border: Border.all(color: AppColors.borderColor),
-                      borderRadius: BorderRadius.circular(15.r),
-                    ),
-                    child: Obx(
-                      () => expenseController.selectedFile.value == null
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.green.shade100,
-                                  ),
-                                  child: Icon(
-                                    Icons.file_upload_outlined,
-                                    color: AppColors.primaryColor,
-                                    size: 24.w,
-                                  ),
-                                ),
-                                Text(
-                                  'Drop file here and cilck to upload',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black45,
-                                  ),
-                                ),
-                                AppSpacing.vertical8,
-                                Text(
-                                  'PDF,PNG,JPG up to 10MB',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black45,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Text(
-                              expenseController.selectedFile.value!.path
-                                  .split("/")
-                                  .last,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                    ),
-                  ),
-                ),
+              AttachmentUploadBox(
+                title: 'Upload Receipts',
+                onTap: () => expenseController.pickFile(),
+                selectedFile: expenseController.selectedFile.value,
               ),
               AppSpacing.vertical15,
               CustomContainerWithTitle(
