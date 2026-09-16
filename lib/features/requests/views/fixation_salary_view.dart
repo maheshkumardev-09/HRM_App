@@ -1,59 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hrm_app/components/attachment_upload_box.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
 import 'package:hrm_app/components/custom_container_with_title.dart';
-import 'package:hrm_app/features/requests/widgets/custom_request_titel_.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/requests/controllers/requests_controller.dart';
+import 'package:hrm_app/features/requests/widgets/custom_request_titel_.dart';
 import 'package:hrm_app/features/requests/widgets/row_button.dart';
 
-class LetterAuthRequest extends StatelessWidget {
-  LetterAuthRequest({super.key});
+class FixationSalaryView extends StatelessWidget {
+  FixationSalaryView({super.key});
   final requestController = Get.find<RequestsController>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
-        child: SingleChildScrollView(
+      appBar: CustomAppBar(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 30.h),
           child: Column(
             children: [
-              CustomRequestTitel(subTitle: 'Letter Authorization Request'),
+              CustomRequestTitel(subTitle: 'Fixation Salary REquest'),
               AppSpacing.vertical30,
               CustomContainerWithTitle(
                 titel: 'Subject/Name',
                 widget: CustomTextFiled(
-                  label: 'Request Purpose',
+                  label: 'Request purpose',
                   controller: requestController.subjectController,
                 ),
               ),
               AppSpacing.vertical15,
-              AttachmentUploadBox(
-                title: 'Upload Attachment',
-                onTap: () {
-                  requestController.pickFile();
-                },
-                selectedFile: requestController.selectedFile.value,
-              ),
-              AppSpacing.vertical15,
               CustomContainerWithTitle(
-                titel: 'Description',
+                titel: 'Salary Fixation Notes',
                 widget: CustomTextFiled(
-                  label: 'Enter details here....',
+                  label: 'Expalin Salary Adjustments',
                   maxLines: 5,
                   controller: requestController.descriptionController,
                 ),
               ),
-              AppSpacing.vertical60,
-              RowButton(),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsetsGeometry.symmetric(horizontal: 22.w, vertical: 15.h),
+        child: RowButton(extraFields: {}),
       ),
     );
   }

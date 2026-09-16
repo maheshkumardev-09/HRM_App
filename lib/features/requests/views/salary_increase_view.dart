@@ -3,13 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/components/attachment_upload_box.dart';
 import 'package:hrm_app/components/custom_app_bar.dart';
-import 'package:hrm_app/components/custom_button.dart';
 import 'package:hrm_app/components/custom_container_with_title.dart';
-import 'package:hrm_app/components/custom_request_titel_.dart';
+import 'package:hrm_app/features/requests/widgets/custom_request_titel_.dart';
 import 'package:hrm_app/components/custom_text_filed.dart';
-import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/constants/app_spacing.dart';
 import 'package:hrm_app/features/requests/controllers/requests_controller.dart';
+import 'package:hrm_app/features/requests/widgets/row_button.dart';
 
 class SalaryIncreaseView extends StatelessWidget {
   SalaryIncreaseView({super.key});
@@ -58,36 +57,7 @@ class SalaryIncreaseView extends StatelessWidget {
                 ),
               ),
               AppSpacing.vertical60,
-              Row(
-                spacing: 10.w,
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 48.h,
-                      child: CustomButton(
-                        title: 'Cancel',
-                        onTap: () {
-                          requestController.clearForm();
-                          Get.back();
-                        },
-                        titleColor: Colors.black54,
-                        buttonColor: AppColors.gary200Color,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 48.h,
-                      child: CustomButton(
-                        title: 'Submit request',
-                        onTap: () {
-                          requestController.submitRequest();
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              RowButton(),
             ],
           ),
         ),

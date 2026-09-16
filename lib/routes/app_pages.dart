@@ -19,11 +19,31 @@ import 'package:hrm_app/features/payroll/views/payroll_view.dart';
 import 'package:hrm_app/features/projects/views/projects_views.dart';
 import 'package:hrm_app/features/projects/views/task_details_view.dart';
 import 'package:hrm_app/features/projects/views/task_view.dart';
+import 'package:hrm_app/features/requests/views/apply_for_another_view.dart';
+import 'package:hrm_app/features/requests/views/benefit_disbursement_view.dart';
+import 'package:hrm_app/features/requests/views/business_visit_view.dart';
+import 'package:hrm_app/features/requests/views/exit_and_return_visa_application_view.dart';
+import 'package:hrm_app/features/requests/views/fixation_salary_view.dart';
+import 'package:hrm_app/features/requests/views/griveance_view.dart';
+import 'package:hrm_app/features/requests/views/job_requisition_view.dart';
 import 'package:hrm_app/features/requests/views/letter_auth_request_view.dart';
+import 'package:hrm_app/features/requests/views/loan_view.dart';
+import 'package:hrm_app/features/requests/views/out_off_office_view.dart';
+import 'package:hrm_app/features/requests/views/p_r_view.dart';
+import 'package:hrm_app/features/requests/views/passport_update_view.dart';
+import 'package:hrm_app/features/requests/views/purchase_request_view.dart';
+import 'package:hrm_app/features/requests/views/request_to_change_a_rest_day_view.dart';
+import 'package:hrm_app/features/requests/views/request_to_family_vist_auth_view.dart';
 import 'package:hrm_app/features/requests/views/requests_view.dart';
 import 'package:hrm_app/features/requests/views/request_details_view.dart';
 import 'package:hrm_app/features/requests/views/new_request_view.dart';
+import 'package:hrm_app/features/requests/views/resignation_view.dart';
+import 'package:hrm_app/features/requests/views/return_to_work_from_home_view.dart';
 import 'package:hrm_app/features/requests/views/salary_increase_view.dart';
+import 'package:hrm_app/features/requests/views/salary_letter_view.dart';
+import 'package:hrm_app/features/requests/views/training_course_view.dart';
+import 'package:hrm_app/features/requests/views/travel_ticket_view.dart';
+import 'package:hrm_app/features/requests/views/work_shift_change_view.dart';
 import 'package:hrm_app/features/sales/controllers/quotation_controller.dart';
 import 'package:hrm_app/features/sales/controllers/sales_controller.dart';
 import 'package:hrm_app/features/sales/views/quotation_detail_view.dart';
@@ -99,5 +119,40 @@ class AppPages {
     GetPage(name: '/requestdetails', page: () => RequestDetailsView()),
     GetPage(name: '/letterauth', page: () => LetterAuthRequest()),
     GetPage(name: '/salaryincrease', page: () => SalaryIncreaseView()),
+    GetPage(name: '/salaryletter', page: () => SalaryLetterView()),
+    GetPage(name: '/workshiftchange', page: () => WorkShiftChangeView()),
+    GetPage(name: '/traveticket', page: () => TravelTicketView()),
+    GetPage(name: '/purchaserequest', page: () => PurchaseRequestView()),
+    GetPage(name: '/loan', page: () => LoanView()),
+    GetPage(
+      name: '/benefitdisbursement',
+      page: () => BenefitDisbursementView(),
+    ),
+    GetPage(name: '/outoffoffice', page: () => OutOffOfficeView()),
+    GetPage(name: '/trainingcourse', page: () => TrainingCourseView()),
+    GetPage(name: '/resignation', page: () => ResignationView()),
+    GetPage(name: '/griveance', page: () => GriveanceView()),
+    GetPage(name: '/jobrequisition', page: () => JobRequisitionView()),
+    GetPage(name: '/fixationsalary', page: () => FixationSalaryView()),
+    GetPage(
+      name: '/requestTofamilyvistAuth',
+      page: () => RequestToFamilyVistAuthView(),
+    ),
+    GetPage(
+      name: '/requesttochangearestday',
+      page: () => RequestToChangeARestDayView(),
+    ),
+    GetPage(name: '/applyforanother', page: () => ApplyForAnotherView()),
+    GetPage(
+      name: '/returntoworkfromhome',
+      page: () => ReturnToWorkFromHomeView(),
+    ),
+    GetPage(name: '/businessvisit', page: () => BusinessVisitView()),
+    GetPage(name: '/passportupdate', page: () => PassportUpdateView()),
+    GetPage(
+      name: '/exitandreturnvisaapplication',
+      page: () => ExitAndReturnVisaApplicationView(),
+    ),
+    GetPage(name: '/pr', page: () => PRView()),
   ];
 }

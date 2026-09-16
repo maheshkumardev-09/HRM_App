@@ -32,4 +32,25 @@ abstract class AppRoutes {
   static const requestdetailsview = '/requestdetails';
   static const letterauthview = '/letterauth';
   static const salaryincreaseview = '/salaryincrease';
+  static const salaryletterview = '/salaryletter';
+  static const workshiftchangeview = '/workshiftchange';
+  static const traveticketview = '/traveticket';
+  static const purchaserequestView = '/purchaserequest';
+  static const loanview = '/loan';
+  static const benefitdisbursementview = '/benefitdisbursement';
+  static const outoffofficeview = '/outoffoffice';
+  static const trainingcourseview = '/trainingcourse';
+  static const resignationview = '/resignation';
+  static const griveanceview = '/griveance';
+  static const jobrequisitionview = '/jobrequisition';
+  static const fixationsalaryview = '/fixationsalary';
+  static const requesttochangearestdayview = '/requesttochangearestday';
+  static const requestTofamilyvistAuthview = '/requestTofamilyvistAuth';
+  static const applyforanotherview = '/applyforanother';
+  static const returntoworkfromhomeview = '/returntoworkfromhome';
+  static const businessvisitview = '/businessvisit';
+  static const passportupdateview = '/passportupdate';
+  static const exitandreturnvisaapplicationview =
+      '/exitandreturnvisaapplication';
+  static const prview = '/pr';
 }
