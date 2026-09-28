@@ -57,7 +57,7 @@ class TravelTicketView extends StatelessWidget {
                     label: requestController.travelDate.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestController.travelDate.value!),
                     suffixIcon: Icon(Icons.calendar_today_outlined),
                     readOnly: true,
@@ -127,7 +127,7 @@ class TravelTicketView extends StatelessWidget {
                     label: requestController.returnDate.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestController.returnDate.value!),
                     suffixIcon: Icon(Icons.calendar_today_outlined),
                     readOnly: true,

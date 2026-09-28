@@ -67,7 +67,7 @@ class PurchaseRequestView extends StatelessWidget {
                     label: requestController.purchaseDate.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestController.purchaseDate.value!),
                     readOnly: true,
                     onTap: () => requestController.pickPurchaseDate(context),

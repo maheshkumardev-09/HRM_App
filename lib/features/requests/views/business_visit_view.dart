@@ -39,7 +39,7 @@ class BusinessVisitView extends StatelessWidget {
                     label: requestController.orderDate.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestController.orderDate.value!),
                     suffixIcon: Icon(Icons.calendar_today_outlined),
                     readOnly: true,
@@ -68,7 +68,7 @@ class BusinessVisitView extends StatelessWidget {
             extraFields: {
               'Order Date': requestController.orderDate.value != null
                   ? DateFormat(
-                      'dd/MM/YYYY',
+                      'dd/MM/yyyy',
                     ).format(requestController.orderDate.value!)
                   : '',
             },

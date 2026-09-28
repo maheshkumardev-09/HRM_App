@@ -40,7 +40,7 @@ class ResignationView extends StatelessWidget {
                     label: requestController.lastWorkingDay.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestController.lastWorkingDay.value!),
                     readOnly: true,
                     onTap: () => requestController.pickLastWorkingDay(context),

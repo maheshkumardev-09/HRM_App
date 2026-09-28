@@ -6,7 +6,7 @@ import 'package:hrm_app/constants/app_colors.dart';
 import 'package:hrm_app/routes/binding/initial_binding.dart';
 import 'package:hrm_app/routes/app_pages.dart';
 import 'package:hrm_app/routes/app_routes.dart';
-import 'package:hrm_app/services/storage_service.dart';
+import 'package:hrm_app/routes/services/storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

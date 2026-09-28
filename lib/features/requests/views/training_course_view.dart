@@ -74,7 +74,7 @@ class TrainingCourseView extends StatelessWidget {
                           label:
                               requestController.trainingFromDate.value == null
                               ? 'dd/mm/yyyy'
-                              : DateFormat('dd/MM/YYYY').format(
+                              : DateFormat('dd/MM/yyyy').format(
                                   requestController.trainingFromDate.value!,
                                 ),
                           readOnly: true,
@@ -95,7 +95,7 @@ class TrainingCourseView extends StatelessWidget {
                         () => CustomTextFiled(
                           label: requestController.trainingToDate.value == null
                               ? 'dd/mm/yyyy'
-                              : DateFormat('dd/MM/YYYY').format(
+                              : DateFormat('dd/MM/yyyy').format(
                                   requestController.trainingToDate.value!,
                                 ),
                           readOnly: true,

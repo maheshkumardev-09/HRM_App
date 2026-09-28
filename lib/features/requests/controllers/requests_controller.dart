@@ -14,161 +14,28 @@ import 'package:hrm_app/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RequestsController extends GetxController {
-  // ==================== COMMON (used by ALL forms) ====================
+  // ════════════════════════════════════════════════════════════════
+  // COMMON — used by ALL 22 forms
+  // ════════════════════════════════════════════════════════════════
   final List<RequestTypeModel> requestTypes = RequestTypeDummyData.types;
   final RxString searchQuery = ''.obs;
   final searchController = TextEditingController();
+
   final RxString selectedRequestType = ''.obs;
   final subjectController = TextEditingController();
   final descriptionController = TextEditingController();
   Rx<File?> selectedFile = Rx<File?>(null);
   RxBool isLoading = false.obs;
+
   RxList<RequestModel> requestList = <RequestModel>[].obs;
 
   // Filters for "My Requests" list
   Rx<DateTime?> filterDateFrom = Rx<DateTime?>(null);
   Rx<DateTime?> filterDateTo = Rx<DateTime?>(null);
 
-  // ==================== LETTER AUTHENTICATION REQUEST ====================
-  // Uses only common fields: subjectController, descriptionController, selectedFile
-
-  // ==================== SALARY INCREASE REQUEST ====================
-  Rx<DateTime?> proposedIncrementDate = Rx<DateTime?>(null);
-  // ==================== SALARY LETTER REQUEST ====================
-  RxBool includeArabicVersion = false.obs;
-  RxBool includeEnglishVersion = false.obs;
-  final directedToArabicController = TextEditingController();
-  final directedToEnglishController = TextEditingController();
-
-  // ==================== WORK SHIFT CHANGE REQUEST ====================
-  Rx<DateTime?> shiftDate = Rx<DateTime?>(null);
-  Rx<TimeOfDay?> shiftStartTime = Rx<TimeOfDay?>(null);
-  RxString selectedShift = ''.obs;
-  List<String> shiftOptions = ['Morning Shift', 'Evening Shift', 'Night Shift'];
-
-  // ==================== TRAVEL TICKET REQUEST ====================
-  final departureController = TextEditingController();
-  final arrivalController = TextEditingController();
-  Rx<DateTime?> travelDate = Rx<DateTime?>(null);
-  Rx<TimeOfDay?> departureTime = Rx<TimeOfDay?>(null);
-  RxBool isRoundTrip = false.obs;
-  Rx<DateTime?> returnDate = Rx<DateTime?>(null);
-  Rx<TimeOfDay?> returnTime = Rx<TimeOfDay?>(null);
-  RxBool isBusinessTrip = false.obs;
-
-  // ==================== PURCHASE REQUEST ====================
-  RxString selectedProduct = ''.obs;
-  List<String> productOptions = [
-    'Laptop',
-    'Office Chair',
-    'Printer',
-    'Stationery',
-  ];
-  final quantityController = TextEditingController();
-  Rx<DateTime?> purchaseDate = Rx<DateTime?>(null);
-  final purchaseAmountController = TextEditingController();
-
-  // ==================== LOAN REQUEST ====================
-  Rx<DateTime?> loanStartDate = Rx<DateTime?>(null);
-  final loanAmountController = TextEditingController();
-  final loanMonthsController = TextEditingController();
-
-  // ==================== BENEFIT DISBURSEMENT REQUEST ====================
-  RxString selectedBenefitType = ''.obs;
-  List<String> benefitTypeOptions = [
-    'Medical',
-    'Housing',
-    'Transport',
-    'Education',
-  ];
-
-  // ==================== OUT OF OFFICE REQUEST ====================
-  Rx<DateTime?> oooDate = Rx<DateTime?>(null);
-  Rx<TimeOfDay?> fromTime = Rx<TimeOfDay?>(null);
-  Rx<TimeOfDay?> toTime = Rx<TimeOfDay?>(null);
-
-  // ==================== TRAINING COURSE REQUEST ====================
-  final courseTitleController = TextEditingController();
-  final justificationController = TextEditingController();
-  RxList<Country> trainingCountries = <Country>[].obs;
-  Rx<Country?> selectedTrainingCountry = Rx<Country?>(null);
-  Rx<DateTime?> trainingFromDate = Rx<DateTime?>(null);
-  Rx<DateTime?> trainingToDate = Rx<DateTime?>(null);
-
-  // ==================== RESIGNATION REQUEST ====================
-  Rx<DateTime?> lastWorkingDay = Rx<DateTime?>(null);
-  RxString selectedTerminationType = ''.obs;
-  List<String> terminationTypeOptions = [
-    'Resignation',
-    'Retirement',
-    'Contract End',
-    'Termination',
-  ];
-  final reasonController = TextEditingController();
-  // ==================== GRIEVANCE REQUEST ====================
-  RxString selectedDepartment = ''.obs;
-  List<String> departmentOptions = [
-    'HR',
-    'Finance',
-    'IT',
-    'Operations',
-    'Sales',
-  ];
-  final grievanceSubjectController = TextEditingController();
-  // ==================== JOB REQUISITION REQUEST ====================
-  RxString selectedJobTitle = ''.obs;
-  List<String> jobTitleOptions = [
-    'Software Engineer',
-    'HR Manager',
-    'Accountant',
-    'Sales Executive',
-  ];
-
-  RxString selectedEducationLevel = ''.obs;
-  List<String> educationLevelOptions = [
-    'High School',
-    'Bachelor',
-    'Master',
-    'PhD',
-  ];
-
-  RxString selectedMinExperience = ''.obs;
-  List<String> experienceOptions = ['0', '1', '2', '3', '5+'];
-  // ==================== REQUEST TO CHANGE A REST DAY ====================
-  Rx<DateTime?> restDayToReplace = Rx<DateTime?>(null);
-  Rx<DateTime?> workdayToAssign = Rx<DateTime?>(null);
-  final workShiftController = TextEditingController();
-  // ==================== FAMILY VISIT AUTHENTICATION REQUEST ====================
-  Rx<DateTime?> applicationSubmissionDate = Rx<DateTime?>(null);
-  // ==================== RETURN TO WORK FROM VACATION REQUEST ====================
-  Rx<DateTime?> returnToWorkDate = Rx<DateTime?>(null);
-  // ==================== BUSINESS VISIT REQUEST ====================
-  Rx<DateTime?> orderDate = Rx<DateTime?>(null);
-  // ==================== PASSPORT UPDATE REQUEST ====================
-  Rx<File?> newPassportFile = Rx<File?>(null);
-  Rx<DateTime?> passportOrderDate = Rx<DateTime?>(null);
-  final requestNoteController = TextEditingController();
-  // ==================== EXIT AND RETURN VISA APPLICATION ====================
-  Rx<DateTime?> visaOrderDate = Rx<DateTime?>(
-    null,
-  ); // naya naam, passportOrderDate/orderDate se clash na ho
-  RxString selectedVisaType = ''.obs;
-  List<String> visaTypeOptions = [
-    'Single Exit',
-    'Multiple Exit',
-    'Return Visa',
-  ];
-  // ==================== PR REQUEST ====================
-  RxString selectedPRProduct = ''.obs;
-  List<String> prProductOptions = [
-    'Laptop',
-    'Office Chair',
-    'Printer',
-    'Stationery',
-    'Software License',
-  ];
-  final prQuantityController = TextEditingController();
-  // ==================== LIFECYCLE ====================
+  // ════════════════════════════════════════════════════════════════
+  // LIFECYCLE
+  // ════════════════════════════════════════════════════════════════
   @override
   void onInit() {
     super.onInit();
@@ -192,10 +59,16 @@ class RequestsController extends GetxController {
     courseTitleController.dispose();
     justificationController.dispose();
     reasonController.dispose();
+    grievanceSubjectController.dispose();
+    workShiftController.dispose();
+    requestNoteController.dispose();
+    prQuantityController.dispose();
     super.onClose();
   }
 
-  // ==================== REQUEST TYPES (GRID + SEARCH) ====================
+  // ════════════════════════════════════════════════════════════════
+  // REQUEST TYPES — grid + search + selection
+  // ════════════════════════════════════════════════════════════════
   List<RequestTypeModel> get filteredRequestTypes {
     if (searchQuery.value.trim().isEmpty) return requestTypes;
     final query = searchQuery.value.trim().toLowerCase();
@@ -212,7 +85,9 @@ class RequestsController extends GetxController {
     selectedRequestType.value = title;
   }
 
-  // ==================== LOAD / SAVE ====================
+  // ════════════════════════════════════════════════════════════════
+  // LOAD / SAVE — SharedPreferences persistence
+  // ════════════════════════════════════════════════════════════════
   Future<void> loadData() async {
     isLoading.value = true;
     final prefs = await SharedPreferences.getInstance();
@@ -234,7 +109,9 @@ class RequestsController extends GetxController {
     await prefs.setString('requestsList', jsonEncode(data));
   }
 
-  // ==================== FILE PICKER (shared by all forms) ====================
+  // ════════════════════════════════════════════════════════════════
+  // FILE PICKER — shared "attachment" field used by most forms
+  // ════════════════════════════════════════════════════════════════
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -245,7 +122,9 @@ class RequestsController extends GetxController {
     }
   }
 
-  // ==================== SUBMIT (shared by all forms) ====================
+  // ════════════════════════════════════════════════════════════════
+  // SUBMIT — shared by all forms
+  // ════════════════════════════════════════════════════════════════
   Future<void> submitRequest({
     Map<String, String> extraFields = const {},
   }) async {
@@ -276,7 +155,9 @@ class RequestsController extends GetxController {
     Get.snackbar('Success', 'Request submitted successfully');
   }
 
-  // ==================== FILTER (My Requests list) ====================
+  // ════════════════════════════════════════════════════════════════
+  // FILTER — "My Requests" list (date range)
+  // ════════════════════════════════════════════════════════════════
   Future<void> pickFilterDateFrom(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -342,7 +223,9 @@ class RequestsController extends GetxController {
 
   Future<void> removeRequest(RequestModel request) async {
     requestList.removeWhere((e) => e.id == request.id);
+
     await saveData();
+
     Get.snackbar("Deleted", "Request removed successfully");
   }
 
@@ -352,17 +235,28 @@ class RequestsController extends GetxController {
       middleText: "Are you sure you want to delete this request?",
       textCancel: "Cancel",
       textConfirm: "Delete",
-      onCancel: () {
-        Get.back();
-      },
+
+      onCancel: () {},
+
       onConfirm: () async {
-        await removeRequest(request);
         Get.back();
+        
+
+        await removeRequest(request);
       },
     );
   }
 
-  // ==================== SALARY INCREASE — date picker ====================
+  // ════════════════════════════════════════════════════════════════
+  // 1. LETTER AUTHENTICATION REQUEST
+  // Uses only common fields: subjectController, descriptionController, selectedFile
+  // ════════════════════════════════════════════════════════════════
+
+  // ════════════════════════════════════════════════════════════════
+  // 2. SALARY INCREASE REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> proposedIncrementDate = Rx<DateTime?>(null);
+
   Future<void> pickProposedIncrementDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -370,21 +264,32 @@ class RequestsController extends GetxController {
       lastDate: DateTime(2030),
       initialDate: DateTime.now(),
     );
-    if (picked != null) {
-      proposedIncrementDate.value = picked;
-    }
+    if (picked != null) proposedIncrementDate.value = picked;
   }
 
-  // ==================== WORK SHIFT CHANGE — pickers ====================
+  // ════════════════════════════════════════════════════════════════
+  // 3. SALARY LETTER REQUEST
+  // ════════════════════════════════════════════════════════════════
+  RxBool includeArabicVersion = false.obs;
+  RxBool includeEnglishVersion = false.obs;
+  final directedToArabicController = TextEditingController();
+  final directedToEnglishController = TextEditingController();
+
+  // ════════════════════════════════════════════════════════════════
+  // 4. WORK SHIFT CHANGE REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> shiftDate = Rx<DateTime?>(null);
+  Rx<TimeOfDay?> shiftStartTime = Rx<TimeOfDay?>(null);
+  RxString selectedShift = ''.obs;
+  List<String> shiftOptions = ['Morning Shift', 'Evening Shift', 'Night Shift'];
+
   Future<void> pickShiftDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime(2030),
     );
-    if (picked != null) {
-      shiftDate.value = picked;
-    }
+    if (picked != null) shiftDate.value = picked;
   }
 
   Future<void> pickShiftStartTime(BuildContext context) async {
@@ -392,15 +297,24 @@ class RequestsController extends GetxController {
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (picked != null) {
-      shiftStartTime.value = picked;
-    }
+    if (picked != null) shiftStartTime.value = picked;
   }
 
-  // ==================== TRAVEL TICKET — pickers ====================
-  // NOTE: previously these used `() => value = picked` by mistake, which
-  // defines a function but never calls it, so the value never updated.
-  // Fixed to direct assignment below.
+  // ════════════════════════════════════════════════════════════════
+  // 5. TRAVEL TICKET REQUEST
+  // NOTE: pickers below previously used `() => value = picked` by mistake,
+  // which defines a function but never calls it, so the value never
+  // updated. Fixed to direct assignment.
+  // ════════════════════════════════════════════════════════════════
+  final departureController = TextEditingController();
+  final arrivalController = TextEditingController();
+  Rx<DateTime?> travelDate = Rx<DateTime?>(null);
+  Rx<TimeOfDay?> departureTime = Rx<TimeOfDay?>(null);
+  RxBool isRoundTrip = false.obs;
+  Rx<DateTime?> returnDate = Rx<DateTime?>(null);
+  Rx<TimeOfDay?> returnTime = Rx<TimeOfDay?>(null);
+  RxBool isBusinessTrip = false.obs;
+
   Future<void> pickTravelDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -435,7 +349,20 @@ class RequestsController extends GetxController {
     if (picked != null) returnTime.value = picked;
   }
 
-  // ==================== PURCHASE REQUEST — picker ====================
+  // ════════════════════════════════════════════════════════════════
+  // 6. PURCHASE REQUEST
+  // ════════════════════════════════════════════════════════════════
+  RxString selectedProduct = ''.obs;
+  List<String> productOptions = [
+    'Laptop',
+    'Office Chair',
+    'Printer',
+    'Stationery',
+  ];
+  final quantityController = TextEditingController();
+  Rx<DateTime?> purchaseDate = Rx<DateTime?>(null);
+  final purchaseAmountController = TextEditingController();
+
   Future<void> pickPurchaseDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -445,7 +372,13 @@ class RequestsController extends GetxController {
     if (picked != null) purchaseDate.value = picked;
   }
 
-  // ==================== LOAN REQUEST — picker ====================
+  // ════════════════════════════════════════════════════════════════
+  // 7. LOAN REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> loanStartDate = Rx<DateTime?>(null);
+  final loanAmountController = TextEditingController();
+  final loanMonthsController = TextEditingController();
+
   Future<void> pickLoanStartDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -455,7 +388,24 @@ class RequestsController extends GetxController {
     if (picked != null) loanStartDate.value = picked;
   }
 
-  // ==================== OUT OF OFFICE — pickers ====================
+  // ════════════════════════════════════════════════════════════════
+  // 8. BENEFIT DISBURSEMENT REQUEST
+  // ════════════════════════════════════════════════════════════════
+  RxString selectedBenefitType = ''.obs;
+  List<String> benefitTypeOptions = [
+    'Medical',
+    'Housing',
+    'Transport',
+    'Education',
+  ];
+
+  // ════════════════════════════════════════════════════════════════
+  // 9. OUT OF OFFICE REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> oooDate = Rx<DateTime?>(null);
+  Rx<TimeOfDay?> fromTime = Rx<TimeOfDay?>(null);
+  Rx<TimeOfDay?> toTime = Rx<TimeOfDay?>(null);
+
   Future<void> pickOooDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -481,7 +431,24 @@ class RequestsController extends GetxController {
     if (picked != null) toTime.value = picked;
   }
 
-  // ==================== TRAINING COURSE — pickers + country ====================
+  // ════════════════════════════════════════════════════════════════
+  // 10. TRAINING COURSE REQUEST
+  // ════════════════════════════════════════════════════════════════
+  final courseTitleController = TextEditingController();
+  final justificationController = TextEditingController();
+  RxList<Country> trainingCountries = <Country>[].obs;
+  Rx<Country?> selectedTrainingCountry = Rx<Country?>(null);
+  Rx<DateTime?> trainingFromDate = Rx<DateTime?>(null);
+  Rx<DateTime?> trainingToDate = Rx<DateTime?>(null);
+
+  Future<void> loadTrainingCountries() async {
+    trainingCountries.value = await getAllCountries();
+  }
+
+  void selectTrainingCountry(Country country) {
+    selectedTrainingCountry.value = country;
+  }
+
   Future<void> pickTrainingFromDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -500,15 +467,19 @@ class RequestsController extends GetxController {
     if (picked != null) trainingToDate.value = picked;
   }
 
-  Future<void> loadTrainingCountries() async {
-    trainingCountries.value = await getAllCountries();
-  }
+  // ════════════════════════════════════════════════════════════════
+  // 11. RESIGNATION REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> lastWorkingDay = Rx<DateTime?>(null);
+  RxString selectedTerminationType = ''.obs;
+  List<String> terminationTypeOptions = [
+    'Resignation',
+    'Retirement',
+    'Contract End',
+    'Termination',
+  ];
+  final reasonController = TextEditingController();
 
-  void selectTrainingCountry(Country country) {
-    selectedTrainingCountry.value = country;
-  }
-
-  // ==================== RESIGNATION — picker ====================
   Future<void> pickLastWorkingDay(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -517,7 +488,51 @@ class RequestsController extends GetxController {
     );
     if (picked != null) lastWorkingDay.value = picked;
   }
-  // ========== Request to change a rest day ===========
+
+  // ════════════════════════════════════════════════════════════════
+  // 12. GRIEVANCE REQUEST
+  // ════════════════════════════════════════════════════════════════
+  RxString selectedDepartment = ''.obs;
+  List<String> departmentOptions = [
+    'HR',
+    'Finance',
+    'IT',
+    'Operations',
+    'Sales',
+  ];
+  final grievanceSubjectController = TextEditingController();
+
+  // ════════════════════════════════════════════════════════════════
+  // 13. JOB REQUISITION REQUEST
+  // ════════════════════════════════════════════════════════════════
+  RxString selectedJobTitle = ''.obs;
+  List<String> jobTitleOptions = [
+    'Software Engineer',
+    'HR Manager',
+    'Accountant',
+    'Sales Executive',
+  ];
+  RxString selectedEducationLevel = ''.obs;
+  List<String> educationLevelOptions = [
+    'High School',
+    'Bachelor',
+    'Master',
+    'PhD',
+  ];
+  RxString selectedMinExperience = ''.obs;
+  List<String> experienceOptions = ['0', '1', '2', '3', '5+'];
+
+  // ════════════════════════════════════════════════════════════════
+  // 14. FIXATION SALARY REQUEST
+  // Uses only common fields: subjectController, descriptionController
+  // ════════════════════════════════════════════════════════════════
+
+  // ════════════════════════════════════════════════════════════════
+  // 15. REQUEST TO CHANGE A REST DAY
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> restDayToReplace = Rx<DateTime?>(null);
+  Rx<DateTime?> workdayToAssign = Rx<DateTime?>(null);
+  final workShiftController = TextEditingController();
 
   Future<void> pickRestDayToReplace(BuildContext context) async {
     final picked = await showDatePicker(
@@ -537,7 +552,11 @@ class RequestsController extends GetxController {
     if (picked != null) workdayToAssign.value = picked;
   }
 
-  // ==================== FAMILY VISIT AUTHENTICATION REQUEST ====================
+  // ════════════════════════════════════════════════════════════════
+  // 16. FAMILY VISIT AUTHENTICATION REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> applicationSubmissionDate = Rx<DateTime?>(null);
+
   Future<void> pickApplicationSubmissionDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -547,7 +566,16 @@ class RequestsController extends GetxController {
     if (picked != null) applicationSubmissionDate.value = picked;
   }
 
-  // ==================== RETURN TO WORK FROM VACATION REQUEST ====================
+  // ════════════════════════════════════════════════════════════════
+  // 17. APPLY FOR ANOTHER APPLICATION
+  // Uses only common fields: subjectController, descriptionController, selectedFile
+  // ════════════════════════════════════════════════════════════════
+
+  // ════════════════════════════════════════════════════════════════
+  // 18. RETURN TO WORK FROM VACATION REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> returnToWorkDate = Rx<DateTime?>(null);
+
   Future<void> pickReturnToWorkDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -557,7 +585,11 @@ class RequestsController extends GetxController {
     if (picked != null) returnToWorkDate.value = picked;
   }
 
-  // ==================== BUSINESS VISIT REQUEST ====================
+  // ════════════════════════════════════════════════════════════════
+  // 19. BUSINESS VISIT REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> orderDate = Rx<DateTime?>(null);
+
   Future<void> pickOrderDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -566,7 +598,13 @@ class RequestsController extends GetxController {
     );
     if (picked != null) orderDate.value = picked;
   }
-  // ==================== PASSPORT UPDATE REQUEST ====================
+
+  // ════════════════════════════════════════════════════════════════
+  // 20. PASSPORT UPDATE REQUEST
+  // ════════════════════════════════════════════════════════════════
+  Rx<File?> newPassportFile = Rx<File?>(null);
+  Rx<DateTime?> passportOrderDate = Rx<DateTime?>(null);
+  final requestNoteController = TextEditingController();
 
   Future<void> pickNewPassportFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -584,10 +622,20 @@ class RequestsController extends GetxController {
       firstDate: DateTime.now(),
       lastDate: DateTime(2030),
     );
-    if (picked != null) orderDate.value = picked;
+    if (picked != null) passportOrderDate.value = picked;
   }
 
-  // ==================== EXIT AND RETURN VISA APPLICATION ====================
+  // ════════════════════════════════════════════════════════════════
+  // 21. EXIT AND RETURN VISA APPLICATION
+  // ════════════════════════════════════════════════════════════════
+  Rx<DateTime?> visaOrderDate = Rx<DateTime?>(null);
+  RxString selectedVisaType = ''.obs;
+  List<String> visaTypeOptions = [
+    'Single Exit',
+    'Multiple Exit',
+    'Return Visa',
+  ];
+
   Future<void> pickVisaOrderDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
@@ -597,25 +645,44 @@ class RequestsController extends GetxController {
     if (picked != null) visaOrderDate.value = picked;
   }
 
-  // ==================== CLEAR FORM (resets EVERY form's fields) ====================
+  // ════════════════════════════════════════════════════════════════
+  // 22. PR REQUEST
+  // ════════════════════════════════════════════════════════════════
+  RxString selectedPRProduct = ''.obs;
+  List<String> prProductOptions = [
+    'Laptop',
+    'Office Chair',
+    'Printer',
+    'Stationery',
+    'Software License',
+  ];
+  final prQuantityController = TextEditingController();
+
+  // ════════════════════════════════════════════════════════════════
+  // CLEAR FORM — resets EVERY form's fields, called after successful submit
+  // ════════════════════════════════════════════════════════════════
   void clearForm() {
     // Common
     selectedRequestType.value = '';
     subjectController.clear();
     descriptionController.clear();
     selectedFile.value = null;
-    // Salary Increase
+
+    // 2. Salary Increase
     proposedIncrementDate.value = null;
-    // Salary Letter
+
+    // 3. Salary Letter
     includeArabicVersion.value = false;
     includeEnglishVersion.value = false;
     directedToArabicController.clear();
     directedToEnglishController.clear();
-    // Work Shift Change
+
+    // 4. Work Shift Change
     shiftDate.value = null;
     shiftStartTime.value = null;
     selectedShift.value = '';
-    // Travel Ticket
+
+    // 5. Travel Ticket
     departureController.clear();
     arrivalController.clear();
     travelDate.value = null;
@@ -625,56 +692,69 @@ class RequestsController extends GetxController {
     returnTime.value = null;
     isBusinessTrip.value = false;
 
-    // Purchase Request
+    // 6. Purchase Request
     selectedProduct.value = '';
     quantityController.clear();
     purchaseDate.value = null;
     purchaseAmountController.clear();
-    // Loan Request
+
+    // 7. Loan Request
     loanStartDate.value = null;
     loanAmountController.clear();
     loanMonthsController.clear();
-    // Benefit Disbursement
+
+    // 8. Benefit Disbursement
     selectedBenefitType.value = '';
-    // Out of Office
+
+    // 9. Out of Office
     oooDate.value = null;
     fromTime.value = null;
     toTime.value = null;
-    // Training Course
+
+    // 10. Training Course
     courseTitleController.clear();
     justificationController.clear();
     selectedTrainingCountry.value = null;
     trainingFromDate.value = null;
     trainingToDate.value = null;
-    // Resignation
+
+    // 11. Resignation
     lastWorkingDay.value = null;
     selectedTerminationType.value = '';
     reasonController.clear();
-    // Griveance
+
+    // 12. Grievance
     selectedDepartment.value = '';
     grievanceSubjectController.clear();
-    // job requisition
+
+    // 13. Job Requisition
     selectedJobTitle.value = '';
     selectedEducationLevel.value = '';
     selectedMinExperience.value = '';
-    //request to change a rest day
+
+    // 15. Request to Change a Rest Day
     restDayToReplace.value = null;
     workdayToAssign.value = null;
     workShiftController.clear();
-    //  FAMILY VISIT AUTHENTICATION REQUEST
+
+    // 16. Family Visit Authentication
     applicationSubmissionDate.value = null;
-    // RETURN TO WORK FROM VACATION REQUES
+
+    // 18. Return to Work from Vacation
     returnToWorkDate.value = null;
-    // BUSINESS VISIT REQUES
+
+    // 19. Business Visit
     orderDate.value = null;
-    // PASSPORT UPDATE REQUEST
+
+    // 20. Passport Update
     newPassportFile.value = null;
     requestNoteController.clear();
-    purchaseDate.value = null;
-    // EXIT AND RETURN VISA APPLICATION
+    passportOrderDate.value = null;
+
+    // 21. Exit and Return Visa Application
     visaOrderDate.value = null;
     selectedVisaType.value = '';
-    // PR REQUEST
+    // 22. PR Request
     selectedPRProduct.value = '';
     prQuantityController.clear();
   }

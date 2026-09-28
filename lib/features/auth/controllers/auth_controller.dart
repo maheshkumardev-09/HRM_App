@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_app/features/auth/models/user_moel.dart';
 import 'package:hrm_app/routes/app_routes.dart';
-import 'package:hrm_app/services/storage_service.dart';
+import 'package:hrm_app/routes/services/storage_service.dart';
 
 class AuthController extends GetxController {
   RxBool isLoading = false.obs;

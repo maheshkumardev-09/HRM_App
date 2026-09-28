@@ -38,7 +38,7 @@ class OutOffOfficeView extends StatelessWidget {
                     label: requestController.oooDate.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestController.oooDate.value!),
                     suffixIcon: Icon(Icons.calendar_today_outlined, size: 20.w),
                     readOnly: true,

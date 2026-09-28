@@ -53,4 +53,9 @@ abstract class AppRoutes {
   static const exitandreturnvisaapplicationview =
       '/exitandreturnvisaapplication';
   static const prview = '/pr';
+  static const violationsview = '/violations';
+  static const violationdetailsview = '/violationdetails';
+  static const decisionsview = '/decisions';
+  static const decisiondetailsview = '/decisiondetails';
+  static const crmview = '/crm';
 }

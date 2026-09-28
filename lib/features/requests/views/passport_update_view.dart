@@ -57,7 +57,7 @@ class PassportUpdateView extends StatelessWidget {
                     label: requestController.passportOrderDate.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestController.passportOrderDate.value!),
                     readOnly: true,
                     onTap: () =>

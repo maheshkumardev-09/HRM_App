@@ -2,8 +2,12 @@ import 'package:get/get.dart';
 import 'package:hrm_app/features/attendance/controllers/attendace_controller.dart';
 import 'package:hrm_app/features/auth/views/log_in_view.dart';
 import 'package:hrm_app/features/auth/views/sign_up_view.dart';
+import 'package:hrm_app/features/crm/views/crm_view.dart';
 import 'package:hrm_app/features/dashboard/bottom_nav_bar.dart';
 import 'package:hrm_app/features/dashboard/bottom_nav_controller.dart';
+import 'package:hrm_app/features/decisions/controllers/decisions_controller.dart';
+import 'package:hrm_app/features/decisions/views/decision_details_view.dart';
+import 'package:hrm_app/features/decisions/views/decisions_view.dart';
 import 'package:hrm_app/features/employees/controllers/employees_controller.dart';
 import 'package:hrm_app/features/employees/views/employee_profile_view.dart';
 import 'package:hrm_app/features/expenses/views/edit_expenses_view.dart';
@@ -56,6 +60,9 @@ import 'package:hrm_app/features/time_sheets/views/new_timesheet_view.dart';
 import 'package:hrm_app/features/time_sheets/views/timesheet_view.dart';
 import 'package:hrm_app/features/time_sheets/views/timesheet_details_view.dart';
 import 'package:hrm_app/features/time_sheets/views/edit_timesheet_view.dart';
+import 'package:hrm_app/features/violations/controllers/violations_controller.dart';
+import 'package:hrm_app/features/violations/views/violation_details_view.dart';
+import 'package:hrm_app/features/violations/views/violations_view.dart';
 
 class AppPages {
   static final page = [
@@ -154,5 +161,30 @@ class AppPages {
       page: () => ExitAndReturnVisaApplicationView(),
     ),
     GetPage(name: '/pr', page: () => PRView()),
+    GetPage(
+      name: '/violations',
+      page: () => ViolationsView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => ViolationsController());
+      }),
+    ),
+    GetPage(
+      name: '/violationdetails',
+      page: () => ViolationDetailsView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => ViolationsController());
+      }),
+    ),
+    GetPage(
+      name: '/decisions',
+      page: () => DecisionsView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => DecisionsController())),
+    ),
+    GetPage(
+      name: '/decisiondetails',
+      page: () => DecisionDetailsView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => DecisionsController())),
+    ),
+    GetPage(name: '/crm', page: () => CRMView()),
   ];
 }

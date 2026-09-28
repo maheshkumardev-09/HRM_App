@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hrm_app/routes/app_routes.dart';
-import 'package:hrm_app/services/storage_service.dart';
+import 'package:hrm_app/routes/services/storage_service.dart';
 
 class SplashController extends GetxController {
   @override

@@ -39,7 +39,7 @@ class ReturnToWorkFromHomeView extends StatelessWidget {
                     label: requestcontroller.returnToWorkDate.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestcontroller.returnToWorkDate.value!),
                     suffixIcon: Icon(Icons.calendar_today_outlined),
                     readOnly: true,

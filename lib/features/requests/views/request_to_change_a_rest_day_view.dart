@@ -39,7 +39,7 @@ class RequestToChangeARestDayView extends StatelessWidget {
                     label: requestcontroller.restDayToReplace.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestcontroller.restDayToReplace.value!),
                     readOnly: true,
                     onTap: () =>
@@ -56,7 +56,7 @@ class RequestToChangeARestDayView extends StatelessWidget {
                     label: requestcontroller.workdayToAssign.value == null
                         ? 'dd/mm/yyyy'
                         : DateFormat(
-                            'dd/MM/YYYY',
+                            'dd/MM/yyyy',
                           ).format(requestcontroller.workdayToAssign.value!),
                     readOnly: true,
                     onTap: () => requestcontroller.pickWorkdayToAssign(context),

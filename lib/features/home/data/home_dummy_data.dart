@@ -61,7 +61,7 @@ class HomeDummyData {
     QuickActionModel(
       title: 'Weekly Schedule',
       icon: 'assets/icon/icon12.png',
-      route: '/survey',
+      route: AppRoutes.crmview,
     ),
     QuickActionModel(
       title: 'Requests',
@@ -70,18 +70,18 @@ class HomeDummyData {
     ),
     QuickActionModel(
       title: 'Violatioins',
-      icon: 'assets/icon/icon14.png',
-      route: '/attendance',
+      icon: 'assets/icon/violations_icon.png',
+      route: AppRoutes.violationsview,
     ),
     QuickActionModel(
       title: 'Decisions',
       icon: 'assets/icon/icon15.png',
-      route: '/leave/apply',
+      route: AppRoutes.decisionsview,
     ),
     QuickActionModel(
       title: 'CRM',
       icon: 'assets/icon/icon16.png',
-      route: '/expense/add',
+      route: AppRoutes.crmview,
     ),
     QuickActionModel(
       title: 'Survey',

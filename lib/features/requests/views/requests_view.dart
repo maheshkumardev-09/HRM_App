@@ -105,6 +105,8 @@ class RequestsView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final data = list[index];
                     return GestureDetector(
+                      onDoubleTap: () =>
+                          requestsController.showDeleteDialog(data),
                       onTap: () => Get.toNamed(
                         AppRoutes.requestdetailsview,
                         arguments: data,
