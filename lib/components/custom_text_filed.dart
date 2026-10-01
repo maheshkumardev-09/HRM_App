@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hrm_app/constants/app_colors.dart';
 
@@ -18,6 +19,8 @@ class CustomTextFiled extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final int maxLines;
+  final List<TextInputFormatter>? inputFormatters;
+
   const CustomTextFiled({
     super.key,
     required this.label,
@@ -35,6 +38,7 @@ class CustomTextFiled extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.maxLines = 1,
+    this.inputFormatters,
   });
 
   @override
@@ -43,6 +47,7 @@ class CustomTextFiled extends StatelessWidget {
       controller: controller,
       obscureText: hidepassword,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       validator: validator,
       style: TextStyle(fontSize: 14.sp),
       onChanged: onChanged,

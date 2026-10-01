@@ -2,7 +2,11 @@ import 'package:get/get.dart';
 import 'package:hrm_app/features/attendance/controllers/attendace_controller.dart';
 import 'package:hrm_app/features/auth/views/log_in_view.dart';
 import 'package:hrm_app/features/auth/views/sign_up_view.dart';
-import 'package:hrm_app/features/crm/views/crm_view.dart';
+import 'package:hrm_app/features/crm/controllers/crm_controller.dart';
+import 'package:hrm_app/features/crm/views/add_crm_view.dart';
+import 'package:hrm_app/features/crm/views/crm_lead_details_view.dart';
+import 'package:hrm_app/features/crm/views/crm_lead_view.dart';
+import 'package:hrm_app/features/crm/views/edit_crm_lead_view.dart';
 import 'package:hrm_app/features/dashboard/bottom_nav_bar.dart';
 import 'package:hrm_app/features/dashboard/bottom_nav_controller.dart';
 import 'package:hrm_app/features/decisions/controllers/decisions_controller.dart';
@@ -185,6 +189,25 @@ class AppPages {
       page: () => DecisionDetailsView(),
       binding: BindingsBuilder(() => Get.lazyPut(() => DecisionsController())),
     ),
-    GetPage(name: '/crm', page: () => CRMView()),
+    GetPage(
+      name: '/crm',
+      page: () => CRMLeadView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => CrmController())),
+    ),
+    GetPage(
+      name: '/addcrm',
+      page: () => AddCRMView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => CrmController())),
+    ),
+    GetPage(
+      name: '/crmLeaddetails',
+      page: () => CrmLeadDetailsView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => CrmController())),
+    ),
+    GetPage(
+      name: '/editcrmlead',
+      page: () => EditCrmLeadView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => CrmController())),
+    ),
   ];
 }
