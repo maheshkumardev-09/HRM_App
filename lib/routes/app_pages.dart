@@ -12,6 +12,8 @@ import 'package:hrm_app/features/dashboard/bottom_nav_controller.dart';
 import 'package:hrm_app/features/decisions/controllers/decisions_controller.dart';
 import 'package:hrm_app/features/decisions/views/decision_details_view.dart';
 import 'package:hrm_app/features/decisions/views/decisions_view.dart';
+import 'package:hrm_app/features/documents/documents_conteroller.dart';
+import 'package:hrm_app/features/documents/documents_view.dart';
 import 'package:hrm_app/features/employees/controllers/employees_controller.dart';
 import 'package:hrm_app/features/employees/views/employee_profile_view.dart';
 import 'package:hrm_app/features/expenses/views/edit_expenses_view.dart';
@@ -24,6 +26,8 @@ import 'package:hrm_app/features/notifications/views/announcements_view.dart';
 import 'package:hrm_app/features/notifications/views/notifications_view.dart';
 import 'package:hrm_app/features/payroll/controllers/payroll_controller.dart';
 import 'package:hrm_app/features/payroll/views/payroll_view.dart';
+import 'package:hrm_app/features/policies/policies_view.dart';
+import 'package:hrm_app/features/policies/policise_controller.dart';
 import 'package:hrm_app/features/projects/views/projects_views.dart';
 import 'package:hrm_app/features/projects/views/task_details_view.dart';
 import 'package:hrm_app/features/projects/views/task_view.dart';
@@ -208,6 +212,16 @@ class AppPages {
       name: '/editcrmlead',
       page: () => EditCrmLeadView(),
       binding: BindingsBuilder(() => Get.lazyPut(() => CrmController())),
+    ),
+    GetPage(
+      name: '/policies',
+      page: () => PoliciesView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => PoliciesController())),
+    ),
+    GetPage(
+      name: '/documents',
+      page: () => DocumentsView(),
+      binding: BindingsBuilder(() => Get.lazyPut(() => DocumentsController())),
     ),
   ];
 }

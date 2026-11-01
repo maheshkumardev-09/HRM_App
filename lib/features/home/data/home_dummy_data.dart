@@ -91,12 +91,12 @@ class HomeDummyData {
     QuickActionModel(
       title: 'Policies',
       icon: 'assets/icon/icon18.png',
-      route: '/payroll',
+      route: AppRoutes.policiesview,
     ),
     QuickActionModel(
       title: 'Decumants',
       icon: 'assets/icon/icon19.png',
-      route: '/task',
+      route: AppRoutes.documentsview,
     ),
     QuickActionModel(
       title: 'Addresses',

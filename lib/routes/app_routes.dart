@@ -61,4 +61,6 @@ abstract class AppRoutes {
   static const addcrmview = '/addcrm';
   static const crmLeaddetailsview = '/crmLeaddetails';
   static const editcrmleadview = '/editcrmlead';
+  static const policiesview = '/policies';
+  static const documentsview = '/documents';
 }
